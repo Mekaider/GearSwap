@@ -26,9 +26,36 @@ function file_unload()
     send_command('unbind ~5')
     send_command('unbind ~6')
     send_command('unbind ~b')
+
+    if file_unload_custom then
+        file_unload_custom()
+    end
 end
 
 local mage_jobs = S{'WHM','BLM','RDM','PLD','DRK','BRD','NIN','SMN','BLU','SCH','GEO','RUN'}
+
+blue_magic_emnity_spells = S{'Blank Gaze', 'Geist Wall', 'Jettatura', 'Soporific', 'Sheep Song'}
+blue_magic_healing_spells = S{'Wild Carrot', 'Healing Breeze', 'Magic Fruit'}
+
+na_spells = S{'Blindna', 'Cursna', 'Paralyna', 'Poisona', 'Silena', 'Stona', 'Viruna'}
+bar_element_spells = S{'Barfire', 'Barblizzard', 'Baraero', 'Barstone', 'Barthunder', 'Barwater',
+    'Barfira', 'Barblizzara', 'Baraera', 'Barstonra', 'Barthundra', 'Barwatera'}
+bar_status_spells = S{'Baramnesia', 'Barvirus', 'Barparalyze', 'Barsilence', 'Barpetrify', 'Barpoison', 'Barblind', 'Barsleep',
+    'Baramnesra', 'Barvira', 'Barparalyzra', 'Barsilencera', 'Barpetra', 'Barpoisonra', 'Barblindra', 'Barsleepra'}
+
+elemental_weaponskills = S{'Gust Slash', 'Cyclone', 'Energy Steal', 'Energy Drain', 'Aeolian Edge',
+	'Burning Blade', 'Red Lotus Blade', 'Shining Blade', 'Seraph Blade', 'Sanguine Blade',
+    'Frostbite', 'Freezebite', 'Herculean Slash',
+    'Cloudsplitter', 'Primal Rend',
+    'Dark Harvest', 'Shadow of Death', 'Infernal Scythe',
+    'Thunder Thrust', 'Raiden Thrust',
+    'Blade: Teki', 'Blade: To', 'Blade: Chi', 'Blade: Ei', 'Blade: Yu',
+    'Tachi: Goten', 'Tachi: Kagero', 'Tachi: Jinpu', 'Tachi: Koki',
+    'Shining Strike', 'Seraph Strike', 'Flash Nova',
+    'Rock Crusher', 'Earth Crusher', 'Starburst', 'Sunburst', 'Cataclysm', 'Vidohunir', 'Garland of Bliss', 'Omniscience',
+    'Flaming Arrow', 
+    'Hot Shot', 'Wildfire', 'Trueflight', 'Leaden Salute'
+}
 
 state = {}
 
@@ -41,12 +68,13 @@ state.Moving = M(false, 'Player is moving')
 state.Stance = M{['Description']='Stance', 'Normal', 'OneHand', 'TwoHand', 'DualWield'}
 
 -- Weapon Modes
-state.WeaponMode = {}
-state.WeaponMode = M{['description']='Weapon Specific Mode'}
+state.WeaponMode = M{['description']='Weapon Mode'}
+state.ShieldMode = M{['description']='Shield Mode', 'off'} -- only used for Paladin so far
+state.WeaponLock = M(false)
 
 -- Melee Modes
-state.MeleeMode = M{['description']='Melee Mode', 'TP', 'Hybrid', 'Acc', 'PDL'}
-state.MeleeMode:options('TP','Hybrid','Acc','PDL')
+state.MeleeMode = M{['description']='Melee Mode', 'TP', 'DT', 'Acc', 'PDL'}
+state.MeleeMode:options('TP','DT','Acc','PDL')
 state.MeleeMode:set('TP')
 
 state.CustomMeleeGroups = L{}
@@ -70,7 +98,7 @@ sets.idle.Sublimation = {}
 
 -- Engaged sets
 sets.engaged = {}
-sets.engaged.Hybrid = {}
+sets.engaged.DT = {}
 sets.engaged.Acc = {}
 sets.engaged.PDL = {}
 sets.engaged.OneHand = {}
@@ -95,12 +123,24 @@ sets.precast.RangedAttack.FlurryII = {}
 sets.midcast = {}
 sets.midcast.FastCast = sets.precast.FastCast
 sets.midcast.RangedAttack = {}
+sets.midcast.BoostStat = {}
+sets.midcast.BarElement = {}
+sets.midcast.BarStatus = {}
 
 -- Job ability sets
 sets.JA = {}
 
 -- Weaponskill sets
 sets.WS = {}
+
+sets.Obi = {}
+
+sets.buff = {}
+
+sets.naked = {main=empty,sub=empty,range=empty,ammo=empty,
+    head=empty,neck=empty,ear1=empty,ear2=empty,
+    body=empty,hands=empty,ring1=empty,ring2=empty,
+    back=empty,waist=empty,legs=empty,feet=empty}
 
 -- Ammunition
 ammo = {}
@@ -112,7 +152,7 @@ function precast(spell)
     update_melee_groups()
 
     equipSet = {}
-    local message = 'empty'
+    local message = ''
 
     if spell.type == 'WeaponSkill' then
         equipSet = select_weaponskill_set(spell)
@@ -124,24 +164,119 @@ function precast(spell)
             equipSet = equipSet[spell.english]
             message = 'JA set: '..spell.english
         end
+    elseif spell.action_type == 'Magic' then
+        equipSet = sets.precast.FastCast
+        message = 'Fast Cast precast set'
+
+        if equipSet[spell.english] then -- check for set for this specific spell
+            equipSet = equipSet[spell.english]
+            message = spell.english..' precast set'
+        elseif (spell.english:startswith('Cure') or spell.english:contains('Cura')) and equipSet.Cure then -- todo: Cure 1 hits the condition above, not sure how much I care
+            equipSet = equipSet.Cure
+            message = 'Cure precast set'
+        elseif spell.skill and equipSet[spell.skill] then -- check for set for this magic skill e.g. 'Healing Magic'
+            equipSet = equipSet[spell.skill]
+            message = spell.skill..' precast set'
+        end
     -- elseif spell.type == 'CorsairRoll' then 
     -- elseif spell.type == 'CorsairShot' then
     -- elseif spell.type == 'Ninjutsu' then
-    -- elseif spell.type == 'White Magic' then
-    -- elseif spell.type == 'Black Magic' then
-    -- elseif spell.type == 'SummonerPact' then
     -- elseif spell.type == 'SummonerPact' then
     -- elseif spell.type == 'Waltz' then
+    -- ranged?
     end
 
-    log(message)
+    if equipSet[state.MagicMode.value] then
+        equipSet = equipSet[state.MagicMode.value]
+        message = message..' ('..state.MagicMode.value..')'
+    end
+
+    -- enforce WeaponMode, even over gear sets, if WeaponLock is true
+    if state.WeaponLock.value then
+        equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
+    end
+
+    if precast_custom then
+        equipSet = set_combine(equipSet, precast_custom(spell))
+    end
+
+    if message ~= '' then
+        log(message)
+    end
     equip(equipSet)
 end
 
-function midcast(spell) end
+function midcast(spell) 
+    equipSet = sets.midcast
+    local message = 'No midcast set'
+
+    -- if spell.action_type == 'Magic' then
+    --     equipSet = sets.precast.FastCast
+    --     message = 'Fast Cast midcast set'
+    -- end
+
+    if equipSet[spell.english] then -- check for set for this specific spell
+        equipSet = equipSet[spell.english]
+        message = spell.english..' set'
+    end
+
+    if spell.type == 'WhiteMagic' then 
+        if (spell.english:startswith('Cure') or spell.english:contains('Cura')) and equipSet.Cure then
+            equipSet = equipSet.Cure
+            message = 'Cure set'
+            
+            if (buffactive['Afflatus Solace'] and equipSet['Afflatus Solace']) and not spell.english:contains('ga') then
+                equipSet = equipSet['Afflatus Solace']
+                message = message..' (Afflatus Solace)'
+            end
+        elseif spell.english:contains('Protect') and equipSet.Protect then
+            equipSet = equipSet.Protect
+            message = 'Protect set'
+        elseif na_spells:contains(spell.english) and equipSet.NaSpell then
+            equipSet = equipSet.NaSpell
+            message = 'Status removal set'
+        elseif spell.english:startswith('Boost-') and equipSet.BoostStat then
+            equipSet = equipSet.BoostStat
+            message = 'Boost stat set'
+        elseif bar_element_spells:contains(spell.english) and equipSet.BarElement then
+            equipSet = equipSet.BarElement
+            message = 'BarElement set'
+        elseif bar_status_spells:contains(spell.english) and equipSet.BarStatus then
+            equipSet = equipSet.BarStatus
+            message = 'BarStatus set'
+        elseif spell.english:contains('Regen') and equipSet.Regen then
+            equipSet = equipSet.Regen
+            message = 'Regen set'
+        elseif spell.skill and equipSet[spell.skill] then -- check for set for this magic skill e.g. 'Healing Magic'
+            equipSet = equipSet[spell.skill]
+            message = spell.skill..' set'
+        end
+    end
+
+    if equipSet[state.MagicMode.value] then
+        equipSet = equipSet[state.MagicMode.value]
+        message = message..' ('..state.MagicMode.value..')'
+    end
+
+    -- enforce WeaponMode, even over gear sets, if WeaponLock is true
+    if state.WeaponLock.value then
+        equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
+    end
+    
+    if message ~= '' then
+        log(message)
+    end
+
+    equipSet = elemental_check(spell, equipSet)
+    
+    if midcast_custom then
+        equipSet = set_combine(equipSet, midcast_custom(spell))
+    end
+    equip(equipSet)
+end
 
 function aftercast(spell)
-    if pet_midaction() then
+    if player.main_job == 'SMN' and pet_midaction() then
         return
     else
         equip(select_set())
@@ -165,13 +300,23 @@ function select_idle_set()
     end
 
     if state.Moving.value == true then
-        equipSet = set_combine(equipSet, sets.idle.Moving)
-        message = 'sets.idle.Moving'
+        equipSet = set_combine(equipSet, sets.Moving)
+        message = 'sets.Moving'
+    end
+
+    if buffactive['Sublimation: Activated'] and sets.buff['Sublimation: Activated'] then
+        equipSet = set_combine(equipSet, sets.buff['Sublimation: Activated'])
     end
 
     -- Combine the main/sub defined in weaponmode, unless it's set to unlocked
     if state.WeaponMode.value ~= 'Unlocked' then
         equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
+        -- equipSet = set_combine(equipSet, {main="", sub="", ranged="", ammo=""})
+    else
+        -- PLD specific handling for multiple shield options
+        if state.ShieldMode.value ~= 'off' then
+            equipSet = set_combine(equipSet, {sub=state.ShieldMode.value})
+        end
     end
 
     log(message)
@@ -214,6 +359,19 @@ function select_melee_set()
         end
     end
 
+    -- Combine the main/sub defined in weaponmode, unless it's set to unlocked
+    if state.WeaponMode.value ~= 'Unlocked' then
+        equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
+        -- equipSet = set_combine(equipSet, {main="", sub="", ranged="", ammo=""})
+    else
+        -- todo: probably something about default shield, e.g. COR, RNG
+
+        -- PLD specific handling for multiple shield options
+        if state.ShieldMode.value then
+            equipSet = set_combine(equipSet, {sub=state.ShieldMode.value})
+        end
+    end
+
     log(message)
     display_box_update()
     return equipSet
@@ -249,6 +407,7 @@ function select_weaponskill_set(spell)
         end
     end
 
+    log(message)
     return equipSet
 end
 
@@ -268,56 +427,16 @@ end
 
 function self_command(cmd) 
     local commandArgs = cmd
+    log('self command: '..commandArgs)
+    -- todo: improve (specifically that it's slicing based on spaces and sometimes I want a space, 
+    -- e.g. gs c set WeaponMode Shining One)
     if #commandArgs:split(' ') >1 then
         commandArgs = T(commandArgs:split(' '))
 
         if commandArgs[1] == 'cycle' then
-            if commandArgs[2]:lower() == 'weaponmode' then
-                local state_var = get_state(commandArgs[2])
-                if state_var then
-                    local old_value = state_var.value
-                    state.WeaponMode:cycle()
-                    local new_value = state.WeaponMode.value
-                    if state_change then
-                        state_change(commandArgs[2], new_value, old_value)
-                    end
-                end
-
-                equip(sets.weapons[state.WeaponMode.value])
-            elseif commandArgs[2]:lower() == 'meleemode' then
-                local state_var = get_state(commandArgs[2])
-                if state_var then
-                    local old_value = state_var.value
-                    state.MeleeMode:cycle()
-                    local new_value = state.MeleeMode.value
-                    if state_change then
-                        state_change(commandArgs[2], new_value, old_value)
-                    end
-                end
-            end
+            handle_cycle(commandArgs) 
         elseif commandArgs[1] == 'set' then
-            if commandArgs[2]:lower() == 'weaponmode' then
-                local state_var = get_state(commandArgs[2])
-                if state_var then
-                    local old_value = state_var.value
-                    state.WeaponMode:set(commandArgs[3])
-                    local new_value = state.WeaponMode.value
-                    if state_change then
-                        state_change(commandArgs[2], new_value, old_value)
-                    end
-                end
-            end
-                equip(sets.weapons[state.WeaponMode.value])
-            elseif commandArgs[2]:lower() == 'meleemode' then
-                local state_var = get_state(commandArgs[2])
-                if state_var then
-                    local old_value = state_var.value
-                state.MeleeMode:set(commandArgs[3])
-                local new_value = state.MeleeMode.value
-                if state_change then
-                    state_change(commandArgs[2], new_value, old_value)
-                end
-            end
+            handle_set(commandArgs)
         end
     elseif commandArgs == 'update' then
         equip(select_set())
@@ -335,9 +454,31 @@ function self_command(cmd)
     display_box_update()
 end
 
-function handle_cycle() end -- todo
+function handle_cycle(commandArgs) 
+    local state_var = get_state(commandArgs[2])
 
-function handle_set() end -- todo
+    if state_var then
+        local old_value = state_var.current
+        state_var:cycle()
+        local new_value = state_var.current
+        state_change(commandArgs[2], new_value, old_value)
+    else
+        add_to_chat(123,'self_command: Set: Unknown field ['..commandArgs[2]..']')
+    end
+end
+
+function handle_set(commandArgs) 
+    local state_var = get_state(commandArgs[2])
+
+    if state_var then
+        local old_value = state_var.current
+        state_var:set(commandArgs[3])
+        local new_value = state_var.current
+        state_change(commandArgs[2], new_value, old_value)
+    else
+        add_to_chat(123,'self_command: Set: Unknown field ['..commandArgs[2]..']')
+    end
+end
 
 function log(msg)
     if state.DebugMode.value then
@@ -374,11 +515,12 @@ function check_stance()
 
     if main ~= 'empty' and not S{1,4,6,7,8,10,12}:contains(main.skill) and (sub == 'empty' or not sub.skill) then
         state.Stance:set('OneHand')
-    elseif main ~= 'empty' and S{1,4,6,7,8,10,12}:contains(main.skill) then
+    elseif main ~= 'empty' and S{4,6,7,8,10,12}:contains(main.skill) then
         state.Stance:set('TwoHand')
     elseif sub ~= 'empty' and sub.skill and not S{0,30}:contains(sub.skill) then
         state.Stance:set('DualWield')
     end
+    -- log('stance: '..state.Stance.value)
 end
 
 function display_box_update()
@@ -387,7 +529,7 @@ function display_box_update()
 
     melee_mode_value = state.MeleeMode.value
 
-    if player.status == 'Engaged' and state.Stance.value ~= "Normal" then
+    if player.status == 'Engaged' and state.Stance.value ~= "Normal" and sets.engaged[state.Stance.value] then
         melee_mode_value = state.MeleeMode.value..' ('..state.Stance.value..')'
     end
 
@@ -399,7 +541,16 @@ function display_box_update()
         end
     end
     
-    dialog[#dialog+1] = {description='Weapon', value = state.WeaponMode.value}
+    if state.WeaponLock.value then
+        dialog[#dialog+1] = {description='Weapon(L)', value = state.WeaponMode.value}
+    else
+        dialog[#dialog+1] = {description='Weapon', value = state.WeaponMode.value}
+    end
+
+    if player.main_job == 'PLD' then
+        dialog[#dialog+1] = {description='Shield', value=state.ShieldMode.value}
+    end
+
     dialog[#dialog+1] = {description='Mode', value = melee_mode_value}
 
     if mage_jobs:contains(player.main_job) then
@@ -458,13 +609,13 @@ windower.raw_register_event('prerender',function()
             if movement and not moving then
                 moving = true
                 state.Moving:set(true)
-                if player.status == 'Idle' then
+                if player.status ~= 'Engaged' then
                     send_command('gs c update')
                 end
             elseif not movement and moving then
                 moving = false
                 state.Moving:set(false)
-                if player.status == 'Idle' then
+                if player.status ~= 'Engaged' then
                     send_command('gs c update')
                 end
             end
@@ -526,9 +677,82 @@ function update_melee_groups()
         state.CustomMeleeGroups:append('Footwork')
     end
 
+    -- perhaps refactor this to stop producing Sub job groups and instead just produce the DW tier, e.g. DualWield4
     if player.sub_job == 'DNC' then
         state.CustomMeleeGroups:append('SubDNC')
     elseif player.sub_job == 'NIN' then
         state.CustomMeleeGroups:append('SubNIN')
     end
 end
+
+function elemental_check(spell, equipSet)
+    -- todo: refactor so it doesn't run in both precast and midcast?
+    -- maybe break out weaponskill into it's own check, it's the only one that runs in precast
+    if spell.type == 'WeaponSkill' then
+        if elemental_weaponskills:contains(spell.name) then
+            -- if day or weather
+            if (spell.element == world.day_element or spell.element == world.weather_element) and sets.Obi then
+                equipSet = set_combine(equipSet, sets.Obi)
+            end
+        end
+    elseif spell.action_type == 'Magic' then
+        if spell.english:startswith('Cure') or spell.english:contains('Cura') then
+            if (spell.element == world.day_element or spell.element == world.weather_element) and sets.Obi then
+                equipSet = set_combine(equipSet, sets.Obi)
+            end
+        end
+        -- todo: elemental magic, divine magic(?), blue magic, etc.
+        -- todo: Orpheus Sash check
+    end
+
+    return equipSet
+end
+
+function buff_change(name,gain,buff_details)
+    log('buff change: '..name..' '..tostring(gain))
+
+    if sets.buff[name] then
+        log('buff set found: '..name)
+        if gain then
+            equip(sets.buff[name])
+        else
+            send_command('gs c update')
+        end
+    end
+
+    if buff_change_custom then
+        buff_change_custom()
+    end
+end
+
+-- todo list
+-- town set
+-- full precast and midcast for all types of spells
+    -- magic
+    -- Non-standard JAs, Phantom Roll, Dancer JAs, etc.
+    -- Ranged Attacks
+-- default shield if not DualWield, e.g. for COR, RNG
+-- add pet sets
+
+
+--[[ 
+weapon mode logic
+
+WeaponMode sets will be used like:
+
+    precast and midcast:
+        any weapons defined in sets will be used, _unless_ state.WeaponLock is true, 
+        in which case the active weapons will be used instead (essentially preventing weapon changes)
+
+    aftercast (engaged and idle):
+        the current weaponset will be used; any weapons defined in sets will be ignored
+
+    Special WeaponMode: 'Unlocked'
+        When WeaponMode is set to Unlocked, the include will not change weapons, but weapons defined in sets will work as expected 
+
+    -- enforce WeaponMode, even over gear sets, if WeaponLock is true
+    if state.WeaponLock.value then
+        equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
+    end
+
+--]]
