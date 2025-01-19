@@ -1,7 +1,7 @@
 include('Modes')
 
 send_command('bind f9 gs c cycle WeaponMode')
--- ~F9 is defined in job files, Gun, Shield, CastingMode, etc.
+-- ~F9 is defined in job files, Gun, Shield, etc.
 send_command('bind f10 gs c cycle MeleeMode')
 -- send_command('bind f11 gs c cycle CastingMode')
 send_command('bind f12 gs c update')
@@ -520,7 +520,7 @@ function check_stance()
     elseif sub ~= 'empty' and sub.skill and not S{0,30}:contains(sub.skill) then
         state.Stance:set('DualWield')
     end
-    -- log('stance: '..state.Stance.value)
+    log('stance: '..state.Stance.value)
 end
 
 function display_box_update()
@@ -647,18 +647,16 @@ end
 -- see Mekaider/WAR.lua for an example
 function state_change(state, new_state_value, old_state_value)
     log('state change: '..state..': '..new_state_value)
+    send_command('gs c update')
     if state == 'WeaponMode' then
-        check_stance() 
-        send_command('wait 0.7; gs c update')
-        display_box_update()
-    else
-        send_command('gs c update')
+        send_command('wait 0.8; gs c update')
     end
-
+    
     if state_change_custom then
         state_change_custom(state, new_state_value, old_state_value)
     end
-
+    
+    display_box_update()
     -- coroutine.schedule(display_box_update, 1)
 end
 
