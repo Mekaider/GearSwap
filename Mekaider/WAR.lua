@@ -8,7 +8,7 @@ state.WeaponMode:options('Naegling', 'Club', 'Chango', 'Shining One', 'Montante'
 state.WeaponMode:set('Naegling')
 send_command('wait 2; xb bar sword')
 
-state.MeleeMode:options('TP', 'Hybrid', 'PDL')
+state.MeleeMode:options('TP', 'DT', 'PDL')
 state.MeleeMode:set('TP')
 
 function get_sets() 
@@ -43,7 +43,7 @@ function get_sets()
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     }
 
-    sets.idle.Moving = set_combine(sets.idle, {right_ring="Shneddick Ring"})
+    sets.Moving = set_combine(sets.idle, {right_ring="Shneddick Ring"})
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Engaged Sets ------------------------------------------
@@ -65,7 +65,7 @@ function get_sets()
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     } -- 28% DA traits +5% merits = 33% starting DA + 65% gear = 98% DA
 
-    sets.engaged.Hybrid = set_combine(sets.engaged, {
+    sets.engaged.DT = set_combine(sets.engaged, {
         head="Sakpata's Helm",
         body="Sakpata's Plate",
         hands="Sakpata's Gauntlets",
@@ -91,7 +91,7 @@ function get_sets()
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     }
 
-    sets.engaged.OneHand.Hybrid = set_combine(sets.engaged.OneHand, {
+    sets.engaged.OneHand.DT = set_combine(sets.engaged.OneHand, {
         head="Sakpata's Helm",
         body="Sakpata's Plate",
         hands="Sakpata's Gauntlets",
@@ -105,7 +105,7 @@ function get_sets()
         body="Boii Lorica +3",
     })
 
-    sets.engaged.TwoHand.Hybrid = set_combine(sets.engaged.TwoHand, {
+    sets.engaged.TwoHand.DT = set_combine(sets.engaged.TwoHand, {
         head="Sakpata's Helm",
         body="Sakpata's Plate",
         hands="Sakpata's Gauntlets",
@@ -170,18 +170,32 @@ function get_sets()
         head="Agoge Mask +3",
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands="Boii Mufflers +3",
-        legs={ name="Nyame Flanchard", augments={'Path: B',}},
+        legs="Boii Cuisses +3",
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
-        right_ring="Regal Ring",
+        right_ring="Ephramad's ring",
         back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
-    -- sets.WS['Upheaval'].PDL = {}
+    sets.WS['Upheaval'].PDL = {
+        ammo="Knobkierrie",
+        head="Sakpata's Helm",
+        body={ name="Sakpata's Plate", augments={'Path: A',}},
+        hands="Boii Mufflers +3",
+        legs="Boii Cuisses +3",
+        feet={ name="Nyame Sollerets", augments={'Path: B',}},
+        neck={ name="War. Beads +2", augments={'Path: A',}},
+        waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+        left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        right_ear="Thrud Earring",
+        left_ring="Niqmaddu Ring",
+        right_ring="Ephramad's ring",
+        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+    }
 
     sets.WS['King\'s Justice'] = sets.WS['Upheaval']
 
@@ -223,7 +237,7 @@ function get_sets()
         body="Sakpata's Plate",
         legs="Boii Cuisses +3",
         left_ring="Epaminondas's Ring",
-        right_ring="Sroda Ring",
+        right_ring="Ephramad's ring",
     })
 
     -- sets.WS['Savage Blade'].PDL['Mighty Strikes'] = {}
