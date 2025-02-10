@@ -1,12 +1,13 @@
 -- Load and initialize the include file.
 include('Mekaider-Include')
 
-lockstyleset = 12
-send_command('wait 5; input /lockstyleset '..lockstyleset)
+lockstyle_set = 15
+set_lockstyle(lockstyle_set)
 
 state.WeaponMode:options('Naegling', 'Club', 'Chango', 'Shining One', 'Montante', 'Unlocked')
+-- state.WeaponMode:options('Naegling', 'Chango')
 state.WeaponMode:set('Naegling')
-send_command('wait 2; xb bar sword')
+send_command('input /macro book 1; wait 1; input /macro set 1')
 
 state.MeleeMode:options('TP', 'DT', 'PDL')
 state.MeleeMode:set('TP')
@@ -28,7 +29,7 @@ function get_sets()
     ------------------------------------------------------------------------------------------------
 
     sets.idle = {
-        ammo="Staunch Tathlum",
+        ammo="Staunch Tathlum +1",
         head="Sakpata's Helm",
         body="Sakpata's Plate",
         hands="Sakpata's Gauntlets",
@@ -43,7 +44,7 @@ function get_sets()
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     }
 
-    sets.Moving = set_combine(sets.idle, {right_ring="Shneddick Ring"})
+    sets.Moving = {right_ring="Shneddick Ring"}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Engaged Sets ------------------------------------------
@@ -181,6 +182,10 @@ function get_sets()
         back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
+    sets.WS['Upheaval']['Mighty Strikes'] = set_combine(sets.WS['Upheaval'], {
+        feet="Boii Calligae +3", 
+    })
+
     sets.WS['Upheaval'].PDL = {
         ammo="Knobkierrie",
         head="Sakpata's Helm",
@@ -196,6 +201,10 @@ function get_sets()
         right_ring="Ephramad's ring",
         back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
+
+    sets.WS['Upheaval'].PDL['Mighty Strikes'] = set_combine(sets.WS['Upheaval'].PDL, {
+        feet="Boii Calligae +3", 
+    })
 
     sets.WS['King\'s Justice'] = sets.WS['Upheaval']
 
@@ -233,6 +242,10 @@ function get_sets()
         back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
+    sets.WS['Savage Blade']['Mighty Strikes'] = set_combine(sets.WS['Savage Blade'], {
+        feet="Boii Calligae +3", 
+    })
+
     sets.WS['Savage Blade'].PDL = set_combine(sets.WS['Savage Blade'], {
         body="Sakpata's Plate",
         legs="Boii Cuisses +3",
@@ -240,7 +253,9 @@ function get_sets()
         right_ring="Ephramad's ring",
     })
 
-    -- sets.WS['Savage Blade'].PDL['Mighty Strikes'] = {}
+    sets.WS['Savage Blade'].PDL['Mighty Strikes'] = set_combine(sets.WS['Savage Blade'].PDL, {
+        feet="Boii Calligae +3",
+    })
 
     sets.WS['Judgment'] = sets.WS['Savage Blade']
     sets.WS['Judgment'].PDL = sets.WS['Savage Blade'].PDL
@@ -269,7 +284,7 @@ function get_sets()
         body="Hjarrandi Breast.",
         hands="Boii Mufflers +3",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
-        feet="Boii Calligae +2",
+        feet="Boii Calligae +3",
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
@@ -309,15 +324,19 @@ end
 function state_change_custom(state, new_state_value, old_state_value) 
     if state == 'WeaponMode' then 
         if new_state_value == 'Naegling' then
-            send_command('xb bar sword')
+            send_command('input /macro set 1')
         elseif new_state_value == 'Club' then
-            send_command('xb bar club')
-        elseif new_state_value == 'Shining One' then
-            send_command('xb bar polearm')
+            send_command('input /macro set 2')
         elseif new_state_value == 'Chango' then
-            send_command('xb bar greataxe')
+            send_command('input /macro set 3')
+        elseif new_state_value == 'Shining One' then
+            send_command('input /macro set 4')
         elseif new_state_value == 'Montante' then
-            send_command('xb bar greatsword')
+            send_command('input /macro set 5')
         end
     end
 end
+
+-- for testing
+-- buffactive = {}
+-- buffactive['Mighty Strikes'] = '1'
