@@ -432,8 +432,6 @@ function select_melee_set()
         end
     end
 
-
-
     log(message)
     display_box_update()
     return equipSet
@@ -497,8 +495,7 @@ end
 function self_command(cmd) 
     local commandArgs = cmd
     log('self command: '..commandArgs)
-    -- todo: improve (specifically that it's slicing based on spaces and sometimes I want a space, 
-    -- e.g. gs c set WeaponMode Shining One)
+
     if #commandArgs:split(' ') >1 then
         commandArgs = T(commandArgs:split(' '))
 
@@ -636,7 +633,7 @@ function display_box_update()
 
     lines = T{}
     for k, v in next, dialog do
-        lines:insert(v.description ..string.format('[%s]', tostring(v.value)):lpad(' ',width-string.len(tostring(v.description))))
+        lines:insert(v.description..':' ..string.format('%s', tostring(v.value)):lpad(' ',width-string.len(tostring(v.description))))
     end
     gs_status:text(lines:concat('\n'))
 end
@@ -656,7 +653,7 @@ Display_Box = {
         y=1000
     },
     bg={
-        visible=true,
+        visible=false,
         red=0,
         green=0,
         blue=0,
@@ -669,40 +666,86 @@ if state.Display.value then
     gs_status:show()
 end
 
-coroutine.schedule(display_box_update, 0.1)
+-- hides display during zone change
+windower.raw_register_event('incoming chunk', function(id)
+    -- 0x0B is the packet ID for zone initiation
+    if id == 0x0B then
+        if gs_status then
+            gs_status:hide()
+        end
+    elseif id == 0x0A then
+        if gs_status then
+            gs_status:show()
+        end
+    end
+end)
 
--- Automatically combine movement speed set into idle set when moving
+-- hides display during cutscene
+windower.raw_register_event('status change', function(new_status_id)
+    -- Status ID 4 is in a cutscene
+    if new_status_id == 4 then
+        if gs_status then
+            gs_status:hide()
+        end
+    else
+        if state.Display.value and gs_status then
+            gs_status:show()
+        end
+    end
+end)
+
+-- coroutine.schedule(display_box_update, 0.1)
+
+-- Locals for movement detection
+local movement_threshold = 0.1  -- How far player must move to count as "moving"
+local check_frequency = 15      -- How often to check position (in frames)
+
+-- Initialize movement tracking
 mov = {counter=0}
 if player and player.index and windower.ffxi.get_mob_by_index(player.index) then
     mov.x = windower.ffxi.get_mob_by_index(player.index).x
     mov.y = windower.ffxi.get_mob_by_index(player.index).y
     mov.z = windower.ffxi.get_mob_by_index(player.index).z
 end
+
 windower.raw_register_event('prerender',function()
-    mov.counter = mov.counter + 1;
-    if mov.counter>15 then
+    -- Increment counter each frame
+    mov.counter = mov.counter + 1
+    
+    -- Only check position every check_frequency frames
+    if mov.counter > check_frequency then
         local pl = windower.ffxi.get_mob_by_index(player.index)
+        
+        -- Make sure we have both current and previous positions
         if pl and pl.x and mov.x then
-            local movement = math.sqrt( (pl.x-mov.x)^2 + (pl.y-mov.y)^2 + (pl.z-mov.z)^2 ) > 0.1
-            if movement and not moving then
-                moving = true
-                state.Moving:set(true)
-                if player.status ~= 'Engaged' and not midaction() then
-                    send_command('gs c update')
-                end
-            elseif not movement and moving then
-                moving = false
-                state.Moving:set(false)
+            -- Calculate 3D distance moved since last check
+            local distance = math.sqrt(
+                (pl.x-mov.x)^2 + 
+                (pl.y-mov.y)^2 + 
+                (pl.z-mov.z)^2
+            )
+            
+            -- Determine if player is moving based on distance threshold
+            local is_moving = distance > movement_threshold
+            
+            -- Only update state if movement status has changed
+            if is_moving ~= state.Moving.value then
+                state.Moving:set(is_moving)
+                -- Update gear if needed
                 if player.status ~= 'Engaged' and not midaction() then
                     send_command('gs c update')
                 end
             end
         end
+        
+        -- Store current position for next check
         if pl and pl.x then
             mov.x = pl.x
             mov.y = pl.y
             mov.z = pl.z
         end
+        
+        -- Reset counter
         mov.counter = 0
     end
 end)
@@ -882,25 +925,28 @@ function sub_job_change(new, old)
     end
 end
 
+-- Update Flurry state based on action
 windower.raw_register_event('action',
     function(act)
-        --check if you are a target of spell
-        local actionTargets = act.targets
-        playerId = windower.ffxi.get_player().id
-        isTarget = false
-        for _, target in ipairs(actionTargets) do
-            if playerId == target.id then
-                isTarget = true
+        if ranged_jobs:contains(player.main_job) then
+            --check if you are a target of spell
+            local actionTargets = act.targets
+            playerId = windower.ffxi.get_player().id
+            isTarget = false
+            for _, target in ipairs(actionTargets) do
+                if playerId == target.id then
+                    isTarget = true
+                end
             end
-        end
-        if isTarget == true then
-            if act.category == 4 then
-                local param = act.param
-                if param == 845 and flurry ~= 2 then
-                    state.Flurry = 1
-                elseif param == 846 then
-                    state.Flurry = 2
-              end
+            if isTarget == true then
+                if act.category == 4 then
+                    local param = act.param
+                    if param == 845 and flurry ~= 2 then
+                        state.Flurry = 1
+                    elseif param == 846 then
+                        state.Flurry = 2
+                    end
+                end
             end
         end
     end)
