@@ -1,13 +1,14 @@
 -- Load and initialize the include file.
 include('Mekaider-Include')
+send_command('gs c update')
 
 lockstyle_set = 15
-set_lockstyle(lockstyle_set)
+-- set_lockstyle(lockstyle_set)
 
 state.WeaponMode:options('Naegling', 'Club', 'Chango', 'Shining One', 'Montante', 'Unlocked')
 -- state.WeaponMode:options('Naegling', 'Chango')
 state.WeaponMode:set('Naegling')
-send_command('input /macro book 1; wait 1; input /macro set 1')
+send_command('xb bar Sword')
 
 state.MeleeMode:options('TP', 'DT', 'PDL')
 state.MeleeMode:set('TP')
@@ -144,7 +145,7 @@ function get_sets()
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
         right_ring="Regal Ring",
-        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
     sets.WS['Fell Cleave'] = {
@@ -158,17 +159,16 @@ function get_sets()
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
         right_ear="Thrud Earring",
-        left_ring="Epaminondas's Ring",
+        left_ring="Cornelia's ring",
         right_ring="Regal Ring",
-        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
     sets.WS['Steel Cyclone'] = sets.WS['Fell Cleave']
 
     sets.WS['Upheaval'] = {
-        sub="Utu Grip",
         ammo="Knobkierrie",
-        head="Agoge Mask +3",
+        head={ name="Agoge Mask +3", augments={'Enhances "Savagery" effect',}},
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands="Boii Mufflers +3",
         legs="Boii Cuisses +3",
@@ -178,8 +178,8 @@ function get_sets()
         left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
-        right_ring="Ephramad's ring",
-        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+        right_ring="Cornelia's Ring",
+        back={ name="Cichol's Mantle", augments={'VIT+20','Accuracy+20 Attack+20','VIT+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
     sets.WS['Upheaval']['Mighty Strikes'] = set_combine(sets.WS['Upheaval'], {
@@ -198,15 +198,17 @@ function get_sets()
         left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
-        right_ring="Ephramad's ring",
-        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+        right_ring="Cornelia's ring",
+        back={ name="Cichol's Mantle", augments={'VIT+20','Accuracy+20 Attack+20','VIT+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
     sets.WS['Upheaval'].PDL['Mighty Strikes'] = set_combine(sets.WS['Upheaval'].PDL, {
         feet="Boii Calligae +3", 
     })
 
-    sets.WS['King\'s Justice'] = sets.WS['Upheaval']
+    sets.WS['King\'s Justice'] = set_combine(sets.WS['Upheaval'], {
+        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+    })
 
     sets.WS['Resolution'] = {
         ammo={ name="Coiste Bodhar", augments={'Path: A',}},
@@ -237,10 +239,11 @@ function get_sets()
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
         right_ear="Thrud Earring",
-        left_ring="Niqmaddu Ring",
-        right_ring="Epaminondas's Ring",
-        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+        left_ring="Cornelia's ring",
+        right_ring="Regal Ring",
+        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
+
 
     sets.WS['Savage Blade']['Mighty Strikes'] = set_combine(sets.WS['Savage Blade'], {
         feet="Boii Calligae +3", 
@@ -249,8 +252,8 @@ function get_sets()
     sets.WS['Savage Blade'].PDL = set_combine(sets.WS['Savage Blade'], {
         body="Sakpata's Plate",
         legs="Boii Cuisses +3",
-        left_ring="Epaminondas's Ring",
-        right_ring="Ephramad's ring",
+        left_ring="Cornelia's ring",
+        right_ring="Sroda ring",
     })
 
     sets.WS['Savage Blade'].PDL['Mighty Strikes'] = set_combine(sets.WS['Savage Blade'].PDL, {
@@ -273,7 +276,7 @@ function get_sets()
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
         right_ring="Regal Ring",
-        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
     -- sets.WS['Impulse Drive'].PDL = {}
@@ -291,7 +294,7 @@ function get_sets()
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
         right_ring="Regal Ring",
-        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
     -- sets.WS['Impulse Drive']['Shining One'].PDL = {}
@@ -324,15 +327,15 @@ end
 function state_change_custom(state, new_state_value, old_state_value) 
     if state == 'WeaponMode' then 
         if new_state_value == 'Naegling' then
-            send_command('input /macro set 1')
+            send_command('xb bar Sword')
         elseif new_state_value == 'Club' then
-            send_command('input /macro set 2')
+            send_command('xb bar Club')
         elseif new_state_value == 'Chango' then
-            send_command('input /macro set 3')
+            send_command('xb bar GreatAxe')
         elseif new_state_value == 'Shining One' then
-            send_command('input /macro set 4')
+            send_command('xb bar Polearm')
         elseif new_state_value == 'Montante' then
-            send_command('input /macro set 5')
+            send_command('xb bar GreatSword')
         end
     end
 end

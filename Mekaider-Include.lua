@@ -37,6 +37,12 @@ bar_element_spells = S{'Barfire','Barblizzard','Baraero','Barstone','Barthunder'
 bar_status_spells = S{'Baramnesia','Barvirus','Barparalyze','Barsilence','Barpetrify','Barpoison','Barblind','Barsleep',
     'Baramnesra','Barvira','Barparalyzra','Barsilencera','Barpetra','Barpoisonra','Barblindra','Barsleepra'}
 
+elements = {}
+elements.weak_to = {['Light']='Dark', ['Dark']='Light', ['Fire']='Ice', ['Ice']='Wind', ['Wind']='Earth', ['Earth']='Lightning',
+		['Lightning']='Water', ['Water']='Fire'}
+elements.strong_to = {['Light']='Dark', ['Dark']='Light', ['Fire']='Water', ['Ice']='Fire', ['Wind']='Ice', ['Earth']='Wind',
+        ['Lightning']='Earth', ['Water']='Lightning'}
+elemental_weather_bonus_potency = {[0]=0,[1]=10,[2]=25}
 elemental_weaponskills = S{'GustSlash','Cyclone','Energy Steal','Energy Drain','Aeolian Edge',
 	'Burning Blade','Red Lotus Blade','Shining Blade','Seraph Blade','Sanguine Blade',
     'Frostbite','Freezebite','Herculean Slash',
@@ -50,6 +56,8 @@ elemental_weaponskills = S{'GustSlash','Cyclone','Energy Steal','Energy Drain','
     'Flaming Arrow', 
     'Hot Shot','Wildfire','Trueflight','Leaden Salute'
 }
+
+dw_needed = 0
 
 state = {}
 
@@ -239,7 +247,9 @@ function precast(spell)
     equip(equipSet)
 end
 
-function midcast(spell) 
+function midcast(spell)
+    if spell.type == 'WeaponSkill' or spell.type == 'JobAbility' or spell.type == "CorsairRoll" then return end
+
     equipSet = sets.midcast
     local message = 'No midcast set'
 
@@ -308,15 +318,13 @@ function midcast(spell)
     if state.WeaponLock.value then
         equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
     end
-    
-    if spell.type ~= "JobAbility" and spell.type ~= "WeaponSkill" and spell.type ~= "CorsairRoll" then
-        log(message)
-        if message == 'No midcast set' and spell.skill then
-            log('Spell: '..spell.english..'  Skill: '..spell.skill)
-        end
+
+    log(message)
+    if message == 'No midcast set' and spell.skill then
+        log('Spell: '..spell.english..'  Skill: '..spell.skill)
     end
 
-    equipSet = elemental_check(spell, equipSet)
+    equipSet = elemental_magic_check(spell, equipSet)
     
     if midcast_custom then
         equipSet = set_combine(equipSet, midcast_custom(spell))
@@ -341,20 +349,7 @@ function select_idle_set()
     equipSet = sets.idle
     message = 'sets.idle'
 
-    if state.WeaponMode.value ~= 'Unlocked' then
-        equip(sets.weapons[state.WeaponMode.value])
-        check_stance()
-
-        -- PLD specific handling for multiple shield options
-        if state.ShieldMode.value ~= 'off' then
-            equip({sub=state.ShieldMode.value})
-        end
-
-        -- equip a default shield if defined and not DualWield or TwoHand
-        if sets.weapons.Shield and state.Stance.value ~= 'DualWield' and state.Stance.value ~= 'TwoHand' then
-            equip(sets.weapons.Shield)
-        end
-    end
+    local weapon_set = state.WeaponMode.value ~= 'Unlocked' and sets.weapons[state.WeaponMode.value] or {}
 
     if pet.isvalid and equipSet.Pet then
         equipSet = equipSet.Pet
@@ -375,19 +370,9 @@ function select_idle_set()
         equipSet = set_combine(equipSet, sets.buff['Sublimation: Activated'])
     end
 
-    log(message)
-    display_box_update()
-    return equipSet
-end
-
-function select_melee_set()
-    equipSet = {}
-    equipSet = sets.engaged
-    message = 'sets.engaged'
-
     if state.WeaponMode.value ~= 'Unlocked' then
-        equip(sets.weapons[state.WeaponMode.value])
-        check_stance() -- todo: probably want this to work outside of here too, but the shield depends on it and I don't want to call it twice?
+        equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
+        check_stance(equipSet)
 
         -- PLD specific handling for multiple shield options
         if state.ShieldMode.value ~= 'off' then
@@ -396,12 +381,24 @@ function select_melee_set()
 
         -- equip a default shield if defined and not DualWield or TwoHand
         if sets.weapons.Shield and state.Stance.value ~= 'DualWield' and state.Stance.value ~= 'TwoHand' then
-            equip(sets.weapons.Shield)
+            equipSet = set_combine(equipSet, sets.weapons.Shield)
         end
+        -- add_to_chat(123, state.Stance.value)
     end
-        -- todo: probably something about default shield, e.g. COR, RNG
 
+    log(message)
+    gs_display_update()
+    return equipSet
+end
 
+function select_melee_set()
+    equipSet = {}
+    equipSet = sets.engaged
+    message = 'sets.engaged'
+
+    -- Check stance first based on intended weapons or current equipment
+    local weapon_set = state.WeaponMode.value ~= 'Unlocked' and sets.weapons[state.WeaponMode.value] or {}
+    check_stance(weapon_set)
 
     update_melee_groups()
 
@@ -432,8 +429,23 @@ function select_melee_set()
         end
     end
 
+    if state.WeaponMode.value ~= 'Unlocked' then
+        equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
+
+        -- PLD specific handling for multiple shield options
+        if state.ShieldMode.value ~= 'off' then
+            equipSet=set_combine(equipSet, {sub=state.ShieldMode.value})
+        end
+
+        -- equip a default shield if defined and not DualWield or TwoHand
+        if sets.weapons.Shield and state.Stance.value ~= 'DualWield' and state.Stance.value ~= 'TwoHand' then
+            equipSet=set_combine(equipSet, sets.weapons.Shield)
+        end
+        -- todo: probably something about default shield, e.g. COR, RNG
+    end
+
     log(message)
-    display_box_update()
+    gs_display_update()
     return equipSet
 end
 
@@ -472,7 +484,7 @@ function select_weaponskill_set(spell)
         end
     end
 
-    equipSet = elemental_check(spell, equipSet)
+    equipSet = elemental_ws_check(spell, equipSet)
 
     log(message)
     return equipSet
@@ -503,6 +515,11 @@ function self_command(cmd)
             handle_cycle(commandArgs) 
         elseif commandArgs[1] == 'set' then
             handle_set(commandArgs)
+        elseif commandArgs[1] == 'hasteinfo' then
+            dw_needed = tonumber(commandArgs[2])
+            if not midaction() then
+                equip(select_set())
+            end
         end
     elseif commandArgs == 'update' then
         equip(select_set())
@@ -511,13 +528,13 @@ function self_command(cmd)
     elseif commandArgs == 'display' then
         state.Display:toggle()
         if state.Display.value then
-            gs_status:show()
+            gs_display:show()
         else
-            gs_status:hide()
+            gs_display:hide()
         end
     end
 
-    display_box_update()
+    gs_display_update()
 end
 
 function handle_cycle(commandArgs) 
@@ -566,33 +583,8 @@ function log(msg)
     end
 end
 
--- Stance check functions
--- https://github.com/Windower/Resources/blob/master/resources_data/skills.lua
-function get_equipped_item_data(slot)
-    local item = gearswap.items[gearswap.to_windower_bag_api(gearswap.res.bags[gearswap.items.equipment[slot].bag_id].en)][gearswap.items.equipment[slot].slot]
-    return player.equipment[slot] ~= empty and item and item.id and gearswap.res.items[item.id] or "empty"
-end
-
-function check_stance() 
-    state.Stance:reset()
-
-    local current_abilities = windower.ffxi.get_abilities()
-    local sub = get_future_equipment_data('sub')
-    local main = get_future_equipment_data('main')
-
-    if main ~= 'empty' and not S{1,4,6,7,8,10,12}:contains(main.skill) and (sub == 'empty' or not sub.skill) then
-        state.Stance:set('OneHand')
-    elseif main ~= 'empty' and S{4,6,7,8,10,12}:contains(main.skill) then
-        state.Stance:set('TwoHand')
-    elseif sub ~= 'empty' and sub.skill and not S{0,30}:contains(sub.skill) and table.contains(current_abilities.job_traits,18) then
-        state.Stance:set('DualWield')
-    end
-    log('stance: '..state.Stance.value)
-end
-
-function display_box_update()
-    width = 22
-    dialog = {}
+function gs_display_update()
+    display_data = {}
 
     melee_mode_value = state.MeleeMode.value
 
@@ -609,73 +601,64 @@ function display_box_update()
     end
     
     if state.WeaponLock.value then
-        dialog[#dialog+1] = {description='Weapon(L)', value = state.WeaponMode.value}
+        display_data[#display_data+1] = {description='Weapon(L)', value = state.WeaponMode.value}
     else
-        dialog[#dialog+1] = {description='Weapon', value = state.WeaponMode.value}
+        display_data[#display_data+1] = {description='Weapon', value = state.WeaponMode.value}
     end
 
     if player.main_job == 'PLD' then
-        dialog[#dialog+1] = {description='Shield', value=state.ShieldMode.value}
+        display_data[#display_data+1] = {description='Shield', value=state.ShieldMode.value}
     end
 
-    dialog[#dialog+1] = {description='Mode', value = melee_mode_value}
+    display_data[#display_data+1] = {description='Mode', value = melee_mode_value}
     if ranged_jobs:contains(player.main_job) then
-        dialog[#dialog+1] = {description='RangedMode', value=state.RangedMode.value}
+        display_data[#display_data+1] = {description='RangedMode', value=state.RangedMode.value}
     end
 
     if mage_jobs:contains(player.main_job) then
-        dialog[#dialog+1] = {description='MagicMode', value=state.MagicMode.value}
+        display_data[#display_data+1] = {description='MagicMode', value=state.MagicMode.value}
     end
 
     if player.main_job == 'COR' then
-        dialog[#dialog+1] = {description='QuickDraw', value=state.QuickDrawMode.value}
+        display_data[#display_data+1] = {description='QuickDraw', value=state.QuickDrawMode.value}
     end
 
     lines = T{}
-    for k, v in next, dialog do
-        lines:insert(v.description..':' ..string.format('%s', tostring(v.value)):lpad(' ',width-string.len(tostring(v.description))))
+    for k, v in next, display_data do
+        lines:insert(v.description..': ' ..string.format('%s', tostring(v.value))..'    ')
     end
-    gs_status:text(lines:concat('\n'))
+    gs_display:clear()
+    gs_display:append(lines:concat('    '))
+    -- gs_display:text(lines:concat('\n'))
 end
 
-Display_Box = {
-    text={
-        size=11,
-        font='Consolas',
-        red=255,
-        green=255,
-        blue=255,
-        alpha=255,
-        stroke={width=1,alpha=200,red=0,green=0,blue=0}
-    },
-    pos={
-        x=1600,
-        y=1000
-    },
-    bg={
-        visible=false,
-        red=0,
-        green=0,
-        blue=0,
-        alpha=50
-    },
-}
-gs_status = {}
-gs_status = texts.new("", Display_Box)
+if gs_display then gs_display:destroy() end
+gs_display = {}
+gs_display = texts.new()
+gs_display:pos(14,1420)
+gs_display:font('Arial')
+gs_display:size(12)
+gs_display:stroke_width(2)
+gs_display:stroke_alpha(192)
+gs_display:stroke_color(0, 0, 0)
+gs_display:bg_visible(false)
+gs_display:bg_color(0, 0, 0)
+gs_display:bg_alpha(50)
+
 if state.Display.value then
-    gs_status:show()
+    gs_display:show()
 end
 
 -- hides display during zone change
 windower.raw_register_event('incoming chunk', function(id)
     -- 0x0B is the packet ID for zone initiation
     if id == 0x0B then
-        if gs_status then
-            gs_status:hide()
+        if gs_display then
+            gs_display:hide()
         end
     elseif id == 0x0A then
-        if gs_status then
-            gs_status:show()
+        if gs_display then
+            gs_display:show()
         end
     end
 end)
@@ -684,17 +667,18 @@ end)
 windower.raw_register_event('status change', function(new_status_id)
     -- Status ID 4 is in a cutscene
     if new_status_id == 4 then
-        if gs_status then
-            gs_status:hide()
+        if gs_display then
+            gs_display:hide()
         end
     else
-        if state.Display.value and gs_status then
-            gs_status:show()
+        if state.Display.value and gs_display then
+            gs_display:show()
         end
     end
 end)
 
--- coroutine.schedule(display_box_update, 0.1)
+-- This displays the display on load, but waits just a moment to avoid default state values being shown
+coroutine.schedule(gs_display_update, 0.1)
 
 -- Locals for movement detection
 local movement_threshold = 0.1  -- How far player must move to count as "moving"
@@ -774,7 +758,7 @@ function state_change(state, new_state_value, old_state_value)
         state_change_custom(state, new_state_value, old_state_value)
     end
     
-    display_box_update()
+    gs_display_update()
 end
 
 function update_melee_groups()
@@ -792,25 +776,56 @@ function update_melee_groups()
         state.CustomMeleeGroups:append('Footwork')
     end
 
-    -- perhaps refactor this to stop producing Sub job groups and instead just produce the DW tier, e.g. DualWield4
-    if player.sub_job == 'DNC' then
-        state.CustomMeleeGroups:append('SubDNC')
-    elseif player.sub_job == 'NIN' then
-        state.CustomMeleeGroups:append('SubNIN')
+    -- not too sure where to put the boundaries for the DW tiers, but 11 and 21 (/NIN and /DNC) seem the most important for now
+    if dw_needed > 0 and dw_needed <= 11 then
+        state.CustomMeleeGroups:append('LowDW')
+    elseif dw_needed > 11 and dw_needed <= 21 then
+        state.CustomMeleeGroups:append('MidDW')
+    elseif dw_needed > 21 and dw_needed <= 31 then
+        state.CustomMeleeGroups:append('HighDW')
+    elseif dw_needed > 31 and dw_needed <= 42 then
+        state.CustomMeleeGroups:append('SuperDW')
+    elseif dw_needed > 42 then
+        state.CustomMeleeGroups:append('MaxDW')
     end
 end
 
-function elemental_check(spell, equipSet)
-    -- todo: refactor so it doesn't run in both precast and midcast?
-    -- maybe break out weaponskill into it's own check, it's the only one that runs in precast
-    if spell.type == 'WeaponSkill' then
-        if elemental_weaponskills:contains(spell.name) then
-            -- if day or weather
-            if (spell.element == world.day_element or spell.element == world.weather_element) and sets.Obi then
-                equipSet = set_combine(equipSet, sets.Obi)
-            end
+function elemental_ws_check(spell, equipSet)
+    if spell.type == 'WeaponSkill' and elemental_weaponskills:contains(spell.name) then
+        local distance = spell.target.distance - spell.target.model_size
+        local orpheus_intensity = 0
+        local hachirin_intensity = 0
+
+        orpheus_intensity = (16 - (distance <= 1 and 1 or distance >= 15 and 15 or distance))
+
+        -- log('spell: '..spell.english..' element: '..spell.element..' weather: '..world.weather_element..' day: '..world.day_element)
+
+        if spell.element == world.weather_element then
+            hachirin_intensity = hachirin_intensity + elemental_weather_bonus_potency[world.weather_intensity]
+        elseif spell.element == elements.weak_to[world.weather_element] then
+            hachirin_intensity = hachirin_intensity - elemental_weather_bonus_potency[world.weather_intensity]
         end
-    elseif spell.action_type == 'Magic' then
+        if spell.element == world.day_element then
+            hachirin_intensity = hachirin_intensity + 10
+        elseif spell.element == elements.weak_to[world.day_element] then
+            hachirin_intensity = hachirin_intensity - 10
+        end
+
+        if hachirin_intensity > orpheus_intensity and hachirin_intensity >= 5 then
+            equipSet = set_combine(equipSet, {waist="Hachirin-no-Obi"})
+            log('using hachirin')
+        elseif orpheus_intensity >= 5 then
+            equipSet = set_combine(equipSet, {waist="Orpheus's Sash"})
+            log('using orpheus')
+        end
+    end
+
+    return equipSet
+end
+
+function elemental_magic_check(spell, equipSet)
+    -- todo: refactor so it doesn't run in both precast and midcast?
+    if spell.action_type == 'Magic' then
         -- todo: refactor, cure should probably have an indepedent weather check for Twilight cape and such
         if spell.english:startswith('Cure') or spell.english:contains('Cura') then
             if (spell.element == world.day_element or spell.element == world.weather_element) and sets.Obi then
@@ -912,6 +927,33 @@ function get_future_equipment_data(slot)
     end
     return data or 'empty'
 end
+-- Stance check functions
+-- https://github.com/Windower/Resources/blob/master/resources_data/skills.lua
+function get_equipped_item_data(slot)
+    local item = gearswap.items[gearswap.to_windower_bag_api(gearswap.res.bags[gearswap.items.equipment[slot].bag_id].en)][gearswap.items.equipment[slot].slot]
+    return player.equipment[slot] ~= empty and item and item.id and gearswap.res.items[item.id] or "empty"
+end
+
+function check_stance(set) 
+    state.Stance:reset()
+
+    local current_abilities = windower.ffxi.get_abilities()
+
+    local main_name = type(set.main) == 'string' and set.main or type(set.main) == 'table' and set.main.name or nil
+    local sub_name = type(set.sub) == 'string' and set.sub or type(set.sub) == 'table' and set.sub.name or nil
+    
+    local main = main_name and gear_data_lookup[main_name] or get_equipped_item_data('main')
+    local sub = sub_name and gear_data_lookup[sub_name] or get_equipped_item_data('sub')
+
+    if main ~= 'empty' and not S{1,4,6,7,8,10,12}:contains(main.skill) and (sub == 'empty' or not sub.skill) then
+        state.Stance:set('OneHand')
+    elseif main ~= 'empty' and S{4,6,7,8,10,12}:contains(main.skill) then
+        state.Stance:set('TwoHand')
+    elseif sub ~= 'empty' and sub.skill and not S{0,30}:contains(sub.skill) and table.contains(current_abilities.job_traits,18) then
+        state.Stance:set('DualWield')
+    end
+    log('stance: '..state.Stance.value)
+end
 
 function set_lockstyle(lockstyle_set) 
     send_command('wait 5; input /lockstyleset '..lockstyle_set)
@@ -950,3 +992,8 @@ windower.raw_register_event('action',
             end
         end
     end)
+
+    
+coroutine.schedule(function()
+    send_command('hasteinfo report')
+end, 3)
