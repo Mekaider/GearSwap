@@ -25,7 +25,7 @@ Character folders:
 | Job | Status | Notes |
 |-----|--------|-------|
 | Warrior | ✅ | |
-| Monk | ⭕ | |
+| Monk | 🔄 | |
 | White Mage | ✅ | |
 | Black Mage | ⭕ | |
 | Red Mage | ⭕ | |
