@@ -67,8 +67,13 @@ The following gear sets are available across all jobs:
 
 #### Weapon Sets
 - `sets.weapons`: Base weapon sets
-- `sets.weapons.Shield`: Shield-specific sets
-- `sets.weapons.Gun`: Gun-specific sets
+- `sets.weapons.Shield`: Shield-specific set, only used on PLD so far
+
+##### Functionality:
+- When `WeaponLock` is `true`, the current weapon set overrides all other gear changes. This locks the weapons and prevents any changes, even if defined in the gear sets.
+- When `WeaponMode` is set to `Unlocked`, the library won't change weapons. However, weapons defined in gear sets will still work as expected. Useful for trial weapons, etc. 
+- Precast and midcast: any weapons defined in sets will be used, _unless_ state.WeaponLock is true
+- Aftercast (engaged and idle): the current weaponset will be used; any weapons defined in sets will be ignored
 
 #### Idle Sets
 - `sets.idle`: Standard idle set
