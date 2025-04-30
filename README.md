@@ -136,7 +136,7 @@ The following gear sets are available across all jobs:
 
 - **Weapon Lock**: Toggle with `Alt+W` to lock your weapon set regardless of other gear changes
 - **Magic Burst**: Toggle with `Alt+B` to enable/disable magic burst mode
-- **Automatic Stance Detection**: The system automatically detects and applies the appropriate stance-based gear sets. Available stances are:
+- **Stance Detection**: The library detects and applies the appropriate stance-based gear sets. Available stances are:
   - `Normal`: Default stance
   - `OneHand`: When using a one-handed weapon
   - `TwoHand`: When using a two-handed weapon
@@ -149,7 +149,7 @@ The following gear sets are available across all jobs:
   sets.engaged.DualWield = set_combine(sets.engaged, {})
   ```
 
-- **Dual Wield Detection**: The system uses HasteInfo to automatically calculate the required dual wield gear needed to reach specific delay reduction thresholds. This allows for optimal gear selection based on your current haste and dual wield values.
+- **Dual Wield Detection**: The library uses HasteInfo to automatically calculate the required dual wield gear needed to reach specific delay reduction thresholds. This allows for optimal gear selection based on your current haste and dual wield values.
 
   Example usage:
   ```lua
@@ -166,12 +166,12 @@ The following gear sets are available across all jobs:
     })
   ```
 
-  The system will automatically:
+  The library will automatically:
   - Calculate your current haste from gear, buffs, and job abilities
   - Determine the required dual wield value to reach specific delay reduction thresholds
   - Select the appropriate gear set to meet those requirements
 
-- **Custom Melee Groups**: Support for custom melee group definitions. This feature allows you to create specialized gear sets for specific combat situations or buffs. See `function update_melee_group`. The system automatically checks for these groups when selecting gear sets. For example:
+- **Custom Melee Groups**: Support for custom melee group definitions. This feature allows you to create specialized gear sets for specific combat situations or buffs. See `function update_melee_group`. The library automatically checks for these groups when selecting gear sets. For example:
 
   ```lua
   -- Define custom melee groups in your job lua
@@ -181,7 +181,7 @@ The following gear sets are available across all jobs:
   sets.engaged.Impetus = set_combine(sets.engaged, {body="Bhikku Cyclas +2"})
   ```
 
-  The system will automatically check for these custom groups when selecting gear sets for:
+  The library will automatically check for these custom groups when selecting gear sets for:
   - Engaged sets
   - Weaponskill sets
   - Any other melee-related gear changes
@@ -193,13 +193,14 @@ The following gear sets are available across all jobs:
 
 - **Elemental Weather Bonus**: Automatic calculation of elemental weather bonus potency
 - **Elemental Weaponskill Detection**: Automatic detection of elemental weaponskills
+- **Automatic Movement Speed Detection**: The library automatically detects when you're moving and equips your movement speed set (`sets.Moving`). Additionally, when in any town zone, it will automatically combine your idle set with the movement speed set.
 
 ### Usage Tips
 
 1. Weapon Lock (`Alt+W`) is useful when you want to maintain a specific weapon set regardless of other gear changes
 2. Magic Burst mode (`Alt+B`) should be toggled when you know you'll be magic bursting
 3. For optimal performance, ensure your gear sets are properly defined for each mode you plan to use
-4. The include file automatically handles many common scenarios, but you can customize sets in your job-specific lua files
+4. The library automatically handles many common scenarios, but you can customize sets in the job-specific lua files
 
 ### Debugging
 

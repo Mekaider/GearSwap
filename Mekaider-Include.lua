@@ -28,6 +28,38 @@ end
 local mage_jobs = S{'WHM','BLM','RDM','PLD','DRK','BRD','NIN','SMN','BLU','SCH','GEO','RUN'}
 local ranged_jobs = S{'RNG','COR'}
 
+-- City zones for town gear sets
+town_zones = S{
+    "Northern San d'Oria",
+    "Southern San d'Oria",
+    "Port San d'Oria",
+    "Bastok Markets",
+    "Bastok Mines",
+    "Port Bastok",
+    "Windurst Waters",
+    "Windurst Woods",
+    "Windurst Walls",
+    "Port Windurst",
+    "Ru'Lude Gardens",
+    "Upper Jeuno",
+    "Lower Jeuno",
+    "Port Jeuno",
+    "Selbina",
+    "Mhaura",
+    "Nashmau",
+    "Aht Urhgan Whitegate",
+    "Al Zahbi",
+    "Norg",
+    "Rabao",
+    "Tavnazian Safehold",
+    "Adoulin",
+    "Western Adoulin",
+    "Eastern Adoulin",
+    "Celennia Memorial Library",
+    "Kazham",
+    "Mog Garden"
+}
+
 blue_magic_emnity_spells = S{'Blank Gaze','Geist Wall','Jettatura','Soporific','Sheep Song'}
 blue_magic_healing_spells = S{'Wild Carrot','Healing Breeze','Magic Fruit'}
 
@@ -361,7 +393,11 @@ function select_idle_set()
         message = 'sets.idle.'..state.MeleeMode.value
     end
 
-    if state.Moving.value == true then
+    -- Check if we're in a city zone and combine with movement speed set
+    if town_zones:contains(world.zone) then
+        equipSet = set_combine(equipSet, sets.Moving)
+        message = message..' (town movement)'
+    elseif state.Moving.value == true then
         equipSet = set_combine(equipSet, sets.Moving)
         message = 'sets.Moving'
     end
