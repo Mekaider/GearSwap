@@ -70,15 +70,22 @@ town_zones = S {
     "Windurst Waters [S]"
 }
 
-blue_magic_emnity_spells = S { 'Blank Gaze', 'Geist Wall', 'Jettatura', 'Soporific', 'Sheep Song' }
-blue_magic_healing_spells = S { 'Wild Carrot', 'Healing Breeze', 'Magic Fruit', 'Plenilune Embrace' }
-blue_magic_elemental_spells = S { 'Anvil Lightning', 'Entomb', 'Spectral Floe', 'Subduction', 'Evryone. Grudge', 'Tenebral Crush' } -- todo: Add all the elemental spells
+blue_magic_emnity_spells = S{ 'Blank Gaze', 'Geist Wall', 'Jettatura', 'Soporific', 'Sheep Song' }
+blue_magic_healing_spells = S{ 'Wild Carrot', 'Healing Breeze', 'Magic Fruit', 'Plenilune Embrace' }
+blue_magic_elemental_spells = S{ 'Anvil Lightning', 'Entomb', 'Spectral Floe', 'Subduction', 'Evryone. Grudge', 'Tenebral Crush' } -- todo: Add all the elemental spells
 
-na_spells = S { 'Blindna', 'Cursna', 'Paralyna', 'Poisona', 'Silena', 'Stona', 'Viruna' }
-bar_element_spells = S { 'Barfire', 'Barblizzard', 'Baraero', 'Barstone', 'Barthunder', 'Barwater',
+na_spells = S{ 'Blindna', 'Cursna', 'Paralyna', 'Poisona', 'Silena', 'Stona', 'Viruna' }
+bar_element_spells = S{ 'Barfire', 'Barblizzard', 'Baraero', 'Barstone', 'Barthunder', 'Barwater',
     'Barfira', 'Barblizzara', 'Baraera', 'Barstonra', 'Barthundra', 'Barwatera' }
-bar_status_spells = S { 'Baramnesia', 'Barvirus', 'Barparalyze', 'Barsilence', 'Barpetrify', 'Barpoison', 'Barblind', 'Barsleep',
+bar_status_spells = S{ 'Baramnesia', 'Barvirus', 'Barparalyze', 'Barsilence', 'Barpetrify', 'Barpoison', 'Barblind', 'Barsleep',
     'Baramnesra', 'Barvira', 'Barparalyzra', 'Barsilencera', 'Barpetra', 'Barpoisonra', 'Barblindra', 'Barsleepra' }
+
+enhancing_magic_skill_spells = S{ "Enfire", "Enblizzard", "Enaero", "Enstone", "Enthunder", "Enwater", 
+    "Temper", "Temper II",
+    'Boost-STR','Boost-DEX','Boost-VIT','Boost-AGI','Boost-INT','Boost-MND','Boost-CHR'}
+
+enfeebling_magic_potency_spells = S{'Paralyze','Paralyze II','Slow','Slow II','Addle','Addle II','Distract','Distract II','Distract III','Frazzle III','Blind','Blind II'}
+enfeebling_magic_duration_spells = S{'Sleep','Sleep II','Sleepga','Sleepga II','Diaga','Dia','Dia II','Dia III','Bio','Bio II','Bio III','Silence','Gravity','Gravity II','Inundation','Break','Breakaga','Bind','Bind II'}
 
 elements = {}
 elements.weak_to = {
@@ -142,11 +149,13 @@ state.MeleeMode:set('TP')
 -- WeaponSkill Modes
 state.WeaponSkillMode = M { ['description'] = 'WeaponSkill Mode', 'Normal', 'PDL' }
 
-state.CustomMeleeGroups = L {}
+state.CustomMeleeGroups = L{}
+state.CustomMagicGroups = L{}
 
 -- Magic Modes
 state.MagicMode = M { ['description'] = 'Magic Mode', 'Normal', 'M.Acc' }
 state.MagicBurst = M(false)
+state.ExtraMagicModes = M{['description'] = 'Extra Magic Modes', 'None'}
 
 state.SongMode = M{['description']='Song Mode', 'Potency', 'Dummy', 'MiracleCheer'}
 
@@ -247,7 +256,8 @@ ammo.arrow = {}
 ammo.bolt = {}
 
 function precast(spell)
-    update_melee_groups()
+    update_magic_groups()
+    -- table.vprint(state.CustomMagicGroups)
 
     equipSet = {}
     local message = ''
@@ -258,10 +268,10 @@ function precast(spell)
 
         if state.Flurry == 1 then
             equipSet = sets.precast.RA.Flurry
-            message = 'Flurry preshot set'
+            message = 'sets.precast.RA.Flurry'
         elseif state.Flurry == 2 then
             equipSet = sets.precast.RA.FlurryII
-            message = 'Flurry II preshot set'
+            message = 'sets.precast.RA.FlurryII'
         end
 
         if equipSet[state.RangedMode.value] then
@@ -272,15 +282,15 @@ function precast(spell)
         equipSet = select_weaponskill_set(spell)
     elseif spell.type == 'JobAbility' then
         equipSet = sets.JA
-        message = 'No JA set'
+        message = 'sets.JA'
 
         if equipSet[spell.english] then
             equipSet = equipSet[spell.english]
-            message = 'JA set: ' .. spell.english
+            message = 'sets.JA.' .. spell.english
         end
     elseif spell.type == 'CorsairRoll' then
         equipSet = sets.PhantomRoll
-        message = 'Phantom Roll set'
+        message = 'sets.PhantomRoll'
 
         if equipSet[spell.english] then
             equipSet = equipSet[spell.english]
@@ -288,7 +298,7 @@ function precast(spell)
         end
     elseif spell.type == 'CorsairShot' then
         equipSet = sets.QuickDraw
-        message = 'Quick Draw set'
+        message = 'sets.QuickDraw'
 
         if equipSet[spell.english] then
             equipSet = equipSet[spell.english]
@@ -301,7 +311,7 @@ function precast(spell)
         end
     elseif spell.type == 'Waltz' then
         equipSet = sets.Waltz
-        message = 'Waltz set'
+        message = 'sets.Waltz'
 
         if equipSet[spell.english] then
             equipSet = equipSet[spell.english]
@@ -309,13 +319,13 @@ function precast(spell)
         end
     elseif spell.type == 'Samba' then
         equipSet = sets.Samba
-        message = 'Samba set'
+        message = 'sets.Samba'
     elseif spell.type == 'Jig' then
         equipSet = sets.Jig
-        message = 'Jig set'
+        message = 'sets.Jig'
     elseif spell.type == 'Step' then
         equipSet = sets.Step
-        message = 'Step set'
+        message = 'sets.Step'
 
         if equipSet[spell.english] then
             equipSet = equipSet[spell.english]
@@ -323,7 +333,7 @@ function precast(spell)
         end
     elseif spell.type == 'Flourish1' or spell.type == 'Flourish2' or spell.type == 'Flourish3' then
         equipSet = sets.Flourish
-        message = 'Flourish set'
+        message = 'sets.Flourish'
 
         if equipSet[spell.english] then
             equipSet = equipSet[spell.english]
@@ -331,21 +341,21 @@ function precast(spell)
         end
     elseif spell.action_type == 'Magic' then
         equipSet = sets.precast.FastCast
-        message = 'Fast Cast precast set'
+        message = 'sets.precast.FastCast'
 
         if equipSet[spell.english] then -- check for set for this specific spell
             equipSet = equipSet[spell.english]
-            message = spell.english .. ' precast set'
+            message = 'sets.precast.' .. spell.english
         elseif (spell.english:startswith('Cure') or spell.english:contains('Cura')) and equipSet.Cure then -- todo: Cure 1 hits the condition above, not sure how much I care
             equipSet = equipSet.Cure
-            message = 'Cure precast set'
+            message = 'sets.precast.Cure'
         elseif spell.skill and equipSet[spell.skill] then -- check for set for this magic skill e.g. 'Healing Magic'
             equipSet = equipSet[spell.skill]
-            message = spell.skill .. ' precast set'
+            message = 'sets.precast.' .. spell.skill
         elseif spell.type == 'BardSong' then
             if sets.precast.FastCast['BardSong'] then
                 equipSet = sets.precast.FastCast['BardSong']
-                message = 'Bard Song precast set'
+                message = 'sets.precast.FastCast.BardSong'
             end
             
             if spell.english == 'Honor March' then
@@ -384,7 +394,7 @@ function midcast(spell)
     if spell.type == 'WeaponSkill' or spell.type == 'JobAbility' or spell.type == "CorsairRoll" or spell.type == 'Samba' or spell.type == 'Jig' or spell.type == 'Step' or spell.type == 'Flourish1' or spell.type == 'Flourish2' or spell.type == 'Flourish3' then return end
 
     equipSet = sets.midcast
-    local message = 'No midcast set'
+    local message = 'sets.midcast'
 
     if spell.action_type == 'Ranged Attack' then
         equipSet = sets.midcast.RA
@@ -394,57 +404,49 @@ function midcast(spell)
 
     if equipSet[spell.english] then -- check for set for this specific spell
         equipSet = equipSet[spell.english]
-        message = spell.english .. ' set'
+        message = message .. '.' .. spell.english
     end
 
-    -- todo: bug here in that spell.skill is under a condition - it doesn't catch anything that's not white magic
-    if spell.type == 'WhiteMagic' then
-        if (spell.english:startswith('Cure') or spell.english:contains('Cura')) and equipSet.Cure then
-            equipSet = equipSet.Cure
-            message = 'Cure set'
-
-            if (buffactive['Afflatus Solace'] and equipSet['Afflatus Solace']) and not spell.english:contains('ga') then
-                equipSet = equipSet['Afflatus Solace']
-                message = message .. ' (Afflatus Solace)'
-            end
-        elseif spell.english:contains('Protect') and equipSet.Protect then
-            equipSet = equipSet.Protect
-            message = 'Protect set'
-        elseif na_spells:contains(spell.english) and equipSet.NaSpell then
-            equipSet = equipSet.NaSpell
-            message = 'Status removal set'
-        elseif spell.english:startswith('Boost-') and equipSet.BoostStat then
-            equipSet = equipSet.BoostStat
-            message = 'Boost stat set'
-        elseif bar_element_spells:contains(spell.english) and equipSet.BarElement then
-            equipSet = equipSet.BarElement
-            message = 'BarElement set'
-        elseif bar_status_spells:contains(spell.english) and equipSet.BarStatus then
-            equipSet = equipSet.BarStatus
-            message = 'BarStatus set'
-        elseif spell.english:contains('Regen') and equipSet.Regen then
-            equipSet = equipSet.Regen
-            message = 'Regen set'
-        elseif spell.skill and equipSet[spell.skill] then -- check for set for this magic skill e.g. 'Healing Magic'
-            equipSet = equipSet[spell.skill]
-            message = spell.skill .. ' set'
-        end
+    if (spell.english:startswith('Cure') or spell.english:contains('Cura')) and equipSet.Cure then
+        equipSet = equipSet.Cure
+        message = 'sets.midcast.Cure'
+    elseif spell.english:contains('Protect') and equipSet.Protect then
+        equipSet = equipSet.Protect
+        message = 'sets.midcast.Protect'
+    elseif na_spells:contains(spell.english) and equipSet.NaSpell then
+        equipSet = equipSet.NaSpell
+        message = 'sets.midcast.NaSpell'
+    elseif spell.english:startswith('Boost-') and equipSet.BoostStat then
+        equipSet = equipSet.BoostStat
+        message = 'sets.midcast.BoostStat'
+    elseif bar_element_spells:contains(spell.english) and equipSet.BarElement then
+        equipSet = equipSet.BarElement
+        message = 'sets.midcast.BarElement'
+    elseif bar_status_spells:contains(spell.english) and equipSet.BarStatus then
+        equipSet = equipSet.BarStatus
+        message = 'sets.midcast.BarStatus'
+    elseif spell.english:contains('Regen') and equipSet.Regen then
+        equipSet = equipSet.Regen
+        message = 'sets.midcast.Regen'
+    elseif spell.english:contains('Refresh') and equipSet.Refresh then
+        equipSet = equipSet.Refresh
+        message = 'sets.midcast.Refresh'
     elseif spell.type == 'Geomancy' then
         equipSet = equipSet.Geomancy
-        message = 'Geomancy set'
+        message = 'sets.midcast.Geomancy'
 
         if spell.english:startswith('Indi') and equipSet.Indi then
             equipSet = equipSet.Indi
-            message = 'Indicolore set'
+            message = 'sets.midcast.Geomancy.Indi'
         end
     elseif spell.type == 'BardSong' then
         if set.contains(spell.targets, 'Enemy') then
             equipSet = set_combine(sets.weapons.Songs, sets.instruments.Potency, sets.midcast.Songs.Enfeebling)
-            message = 'Songs enfeebling set'
+            message = 'sets.midcast.Songs.Enfeebling'
 
             if equipSet[spell.english] then
                 equipSet = equipSet[spell.english]
-                message = spell.english .. ' set'
+                message = message .. '.' .. spell.english
             elseif spell.english:contains('Lullaby') and sets.midcast.Lullaby then
                 equipSet = set_combine(equipSet, sets.midcast.Lullaby)
                 message = message .. ' (Lullaby)'
@@ -459,38 +461,38 @@ function midcast(spell)
             end
         else
             equipSet = set_combine(sets.weapons.Songs, sets.instruments.Potency, sets.midcast.Songs.Potency)
-            message = 'Songs potency set'
+            message = 'sets.midcast.Songs.Potency'
 
             if equipSet[spell.english] then
                 equipSet = equipSet[spell.english]
-                message = spell.english .. ' set'
+                message = message .. '.' .. spell.english
             elseif spell.english:contains('Carol') and sets.midcast.Carol then
                 equipSet = set_combine(equipSet, sets.midcast.Carol)
-                message = message .. ' (Carol)'
+                message = message .. '.Carol'
             elseif spell.english:contains('Etude') and sets.midcast.Etude then
                 equipSet = set_combine(equipSet, sets.midcast.Etude)
-                message = message .. ' (Etude)'
+                message = message .. '.Etude'
             elseif spell.english:contains('Madrigal') and sets.midcast.Madrigal then
                 equipSet = set_combine(equipSet, sets.midcast.Madrigal)
-                message = message .. ' (Madrigal)'
+                message = message .. '.Madrigal'
             elseif spell.english:contains('Mambo') and sets.midcast.Mambo then
                 equipSet = set_combine(equipSet, sets.midcast.Mambo)
-                message = message .. ' (Mambo)'
+                message = message .. '.Mambo'
             elseif spell.english:contains('March') and sets.midcast.March then
                 equipSet = set_combine(equipSet, sets.midcast.March)
-                message = message .. ' (March)'
+                message = message .. '.March'
             elseif spell.english:contains('Minne') and sets.midcast.Minne then
                 equipSet = set_combine(equipSet, sets.midcast.Minne)
-                message = message .. ' (Minne)'
+                message = message .. '.Minne'
             elseif spell.english:contains('Minuet') and sets.midcast.Minuet then
                 equipSet = set_combine(equipSet, sets.midcast.Minuet)
-                message = message .. ' (Minuet)'
+                message = message .. '.Minuet'
             elseif spell.english:contains('Paeon') and sets.midcast.Paeon then
                 equipSet = set_combine(equipSet, sets.midcast.Paeon)
-                message = message .. ' (Paeon)'
+                message = message .. '.Paeon'
             elseif spell.english:contains('Prelude') and sets.midcast.Prelude then
                 equipSet = set_combine(equipSet, sets.midcast.Prelude)
-                message = message .. ' (Prelude)'
+                message = message .. '.Prelude'
             end
 
             if spell.english == 'Honor March' then
@@ -513,12 +515,49 @@ function midcast(spell)
         end
     elseif spell.skill and equipSet[spell.skill] then -- check for set for this magic skill e.g. 'Healing Magic'
         equipSet = equipSet[spell.skill]
-        message = spell.skill .. ' set'
+        message = 'sets.midcast.' .. spell.skill
+    end
+
+    if spell.skill == 'Enhancing Magic' and enhancing_magic_skill_spells:contains(spell.english) and equipSet.Skill then
+        equipSet = equipSet.Skill
+        message = 'sets.midcast.' .. spell.skill .. '.Skill'
+    end
+
+    if spell.skill == 'Enfeebling Magic' and enfeebling_magic_potency_spells:contains(spell.english) and equipSet.Potency then
+        equipSet = equipSet.Potency
+        message = 'sets.midcast.' .. spell.skill .. '.Potency'
+    end
+
+    if spell.skill == 'Enfeebling Magic' and enfeebling_magic_duration_spells:contains(spell.english) and equipSet.Duration then
+        equipSet = equipSet.Duration
+        message = 'sets.midcast.' .. spell.skill .. '.Duration'
     end
 
     if equipSet[state.MagicMode.value] then
         equipSet = equipSet[state.MagicMode.value]
-        message = message .. ' (' .. state.MagicMode.value .. ')'
+        message = message .. '.' .. state.MagicMode.value
+    end
+
+    if equipSet[state.ExtraMagicModes.value] then
+        equipSet = equipSet[state.ExtraMagicModes.value]
+        message = message .. '.' .. state.ExtraMagicModes.value
+    end
+
+    for _, group in ipairs(state.CustomMagicGroups) do
+        if equipSet[group] then
+            equipSet = equipSet[group]
+            message = message .. '.' .. group
+        end
+    end
+
+    if equipSet.Self and spell.target.type == 'SELF' then
+        equipSet = equipSet.Self
+        message = message .. '.Self'
+    end
+
+    if equipSet.Others and (spell.target.type == 'PLAYER' or spell.target.type == 'NPC') then
+        equipSet = equipSet.Others
+        message = message .. '.Others'
     end
 
     -- enforce WeaponMode, even over gear sets, if WeaponLock is true
@@ -527,7 +566,7 @@ function midcast(spell)
     end
 
     log(message)
-    if message == 'No midcast set' and spell.skill then
+    if message == 'sets.midcast' and spell.skill then
         log('Spell: ' .. spell.english .. '  Skill: ' .. spell.skill)
     end
 
@@ -668,7 +707,7 @@ function select_weaponskill_set(spell)
 
     if equipSet[spell.english] then
         equipSet = equipSet[spell.english]
-        message = 'WS set: ' .. spell.english
+        message = 'sets.WS.' .. spell.english
     end
 
     if equipSet[state.WeaponMode.value] then
@@ -833,6 +872,10 @@ function gs_display_update()
     if mage_jobs:contains(player.main_job) then
         if state.MagicMode.value ~= 'Normal' then
             display_data[#display_data + 1] = { description = 'MagicMode', value = state.MagicMode.value }
+        end
+
+        if state.ExtraMagicModes.value ~= 'None' then
+            display_data[#display_data + 1] = { description = 'ExtraMagicModes', value = state.ExtraMagicModes.value }
         end
     end
 
@@ -1022,6 +1065,22 @@ function update_melee_groups()
     end
 end
 
+function update_magic_groups()
+    state.CustomMagicGroups:clear()
+
+    if state.ExtraMagicModes.value ~= 'None' then
+        state.CustomMagicGroups:append(state.ExtraMagicModes.value)
+    end
+
+    if buffactive['Afflatus Solace'] then
+        state.CustomMagicGroups:append('Afflatus Solace')
+    end
+
+    if buffactive['Composure'] then
+        state.CustomMagicGroups:append('Composure')
+    end
+end
+
 function elemental_ws_check(spell, equipSet)
     if spell.type == 'WeaponSkill' and elemental_weaponskills:contains(spell.name) then
         local distance = spell.target.distance - spell.target.model_size
@@ -1119,6 +1178,7 @@ function buff_change(name, gain, buff_details)
         end
     end
 
+    -- todo: move this to a buff_change_custom function in WHM.lua
     if name == 'Sleep' then
         if gain then
             disable('main', 'sub')
