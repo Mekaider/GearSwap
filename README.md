@@ -8,7 +8,7 @@
 | Monk | 🔄 | |
 | White Mage | ✅ | |
 | Black Mage | ⭕ | |
-| Red Mage | 🔄 | |
+| Red Mage | ✅ | |
 | Thief | ⭕ | |
 | Paladin | 🔄 | |
 | Dark Knight | ⭕ | |
@@ -115,6 +115,10 @@ The following gear sets are available across all jobs:
 - `Normal`: Standard magic mode
 - `M.Acc`: Magic Accuracy mode
 
+#### Extra Magic Modes
+- `None`: Standard casting mode
+- `Immunobreak`: Special mode for breaking immunities with enhanced Magic Accuracy gear
+
 #### Ranged Modes
 - `Normal`: Standard ranged mode
 - `PDL`: Physical Damage Limit mode
@@ -129,6 +133,10 @@ The following gear sets are available across all jobs:
 
 - **Weapon Lock**: Toggle with `Alt+W` to lock your weapon set regardless of other gear changes
 - **Magic Burst**: Toggle with `Alt+B` to enable/disable magic burst mode
+- **Enhanced Magic Casting**: The library now automatically selects appropriate gear sets based on spell classification:
+  - **Enhancing Magic Skill Spells**: Spells like Enspells, Temper, and Boost stats automatically use skill-focused gear sets when available (e.g., `sets.midcast['Enhancing Magic'].Skill`)
+  - **Enfeebling Magic Potency vs Duration**: The library distinguishes between spells that benefit from potency (Paralyze, Slow, etc.) vs duration (Sleep, Dia, etc.) and selects the appropriate gear set automatically
+  - **Custom Magic Groups**: Similar to custom melee groups, you can define special magic casting conditions that are automatically detected
 - **Stance Detection**: The library detects and applies the appropriate stance-based gear sets. Available stances are:
   - `Normal`: Default stance
   - `OneHand`: When using a one-handed weapon
