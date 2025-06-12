@@ -1,5 +1,6 @@
 include('Modes')
 
+-- Default keybindings for all jobs
 send_command('bind f9 gs c cycle WeaponMode')
 -- ~F9 is defined in job files, Gun, Shield, etc.
 send_command('bind f10 gs c cycle MeleeMode')
