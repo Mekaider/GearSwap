@@ -1,13 +1,10 @@
 -- Load and initialize the include file.
 include('Mekaider-Include')
 
-lockstyleset = 7
-send_command('wait 5; input /lockstyleset '..lockstyleset)
-
 state.WeaponMode:options('Verethragna', 'Godhands', 'Unlocked')
 state.WeaponMode:set('Verethragna')
 
-state.MeleeMode:options('TP', 'Acc', 'DT', 'PDL')
+state.MeleeMode:options('TP', 'Acc', 'DT')
 state.MeleeMode:set('TP')
 
 function get_sets()
@@ -30,7 +27,7 @@ function get_sets()
         hands="Nyame Gauntlets",
         legs="Nyame Flanchard",
         feet="Nyame Sollerets",
-        neck="Loricate Torque +1",
+        neck="Elite Royal Collar",
         waist="Moonbow Belt +1",
         left_ear="Eabani Earring",
         right_ear="Infused Earring",
@@ -47,7 +44,7 @@ function get_sets()
     sets.engaged = {
 		ammo="Coiste Bodhar",
 		head={ name="Adhemar Bonnet +1", augments={'DEX+12','AGI+12','Accuracy+20',}},
-		body="Ken. Samue +1",
+		body={ name="Mpaca's Doublet", augments={'Path: A',}},
 		hands={ name="Adhemar Wrist. +1", augments={'DEX+12','AGI+12','Accuracy+20',}},
 		legs="Bhikku Hose +2",
 		feet="Malignance Boots",
@@ -74,6 +71,15 @@ function get_sets()
 
     sets.engaged.Impetus = set_combine(sets.engaged, {body="Bhikku Cyclas +2"})
     sets.engaged.DT.Impetus = set_combine(sets.engaged.DT, {body="Bhikku Cyclas +2"})
+
+    sets.engaged.Godhands = set_combine(sets.engaged, {
+        right_ear="Mache Earring +1",
+    })
+    sets.engaged.Godhands.Impetus = set_combine(sets.engaged.Godhands, {body="Bhikku Cyclas +2"})
+    sets.engaged.Godhands.DT = set_combine(sets.engaged.DT, {
+        right_ear="Mache Earring +1",
+    })
+    sets.engaged.Godhands.DT.Impetus = set_combine(sets.engaged.Godhands.DT, {body="Bhikku Cyclas +2"})
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Weaponskill Sets --------------------------------------

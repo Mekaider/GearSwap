@@ -1,24 +1,4 @@
-# GearSwap Luas
-
-Symlinks:
-
-Include:
-
-    ln ~/Projects/GearSwap/Mekaider-Include.lua /c/Program\ Files\ \(x86\)/Windower/addons/GearSwap/libs/Mekaider-Include.lua
-
-Character folders:
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Mekaider" "%userprofile%\Projects\GearSwap\Mekaider" 
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Sodapoppy" "%userprofile%\Projects\GearSwap\Sodapoppy"
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Sarsaparilla" "%userprofile%\Projects\GearSwap\Sarsaparilla" 
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Neonx" "%userprofile%\Projects\GearSwap\Neonx" 
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Haronaru" "%userprofile%\Projects\GearSwap\Haronaru" 
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Verain" "%userprofile%\Projects\GearSwap\Verain" 
+# GearSwap Luas 
 
 ## Job GearSwap Progress
 
@@ -28,7 +8,7 @@ Character folders:
 | Monk | 🔄 | |
 | White Mage | ✅ | |
 | Black Mage | ⭕ | |
-| Red Mage | ⭕ | |
+| Red Mage | 🔄 | |
 | Thief | ⭕ | |
 | Paladin | 🔄 | |
 | Dark Knight | ⭕ | |
@@ -46,6 +26,14 @@ Character folders:
 | Scholar | ⭕ | |
 | Geomancer | ✅ | |
 | Rune Fencer | 🔄 | |
+
+## To-do
+
+- [ ] Finish job luas
+- [ ] Aftermath handling
+- [ ] Ammo checks, don't shoot special ammo, etc.
+- [ ] Treasure hunter modes/gear/etc.
+- [ ] Crafting gear set override?
 
 ## User Guide
 
@@ -211,3 +199,23 @@ The following gear sets are available across all jobs:
 
 - Enable debug logging by setting `state.DebugMode = true` in your job lua
 - The display box can be toggled with `state.Display = false` if you don't want to see the mode information
+
+## Symlinks:
+
+Include:
+
+    ln ~/Projects/GearSwap/Mekaider-Include.lua /c/Program\ Files\ \(x86\)/Windower/addons/GearSwap/libs/Mekaider-Include.lua
+
+Character folders:
+
+    mklink /D "C:\Windower-dev\addons\GearSwap\data\Mekaider" "%userprofile%\Projects\GearSwap\Mekaider" 
+
+    mklink /D "C:\Windower-dev\addons\GearSwap\data\Sodapoppy" "%userprofile%\Projects\GearSwap\Sodapoppy"
+
+    mklink /D "C:\Windower-dev\addons\GearSwap\data\Sarsaparilla" "%userprofile%\Projects\GearSwap\Sarsaparilla" 
+
+    mklink /D "C:\Windower-dev\addons\GearSwap\data\Neonx" "%userprofile%\Projects\GearSwap\Neonx" 
+
+    mklink /D "C:\Windower-dev\addons\GearSwap\data\Haronaru" "%userprofile%\Projects\GearSwap\Haronaru" 
+
+    mklink /D "C:\Windower-dev\addons\GearSwap\data\Verain" "%userprofile%\Projects\GearSwap\Verain"

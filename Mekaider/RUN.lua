@@ -1,9 +1,6 @@
 -- Load and initialize the include file.
 include('Mekaider-Include')
 
-lockstyleset = 19
-send_command('wait 5; input /lockstyleset '..lockstyleset)
-
 state.WeaponMode:options('Aettir', 'Lycurgos', 'Unlocked')
 state.WeaponMode:set('Aettir')
 state.MeleeMode:options('TP', 'Hybrid', 'Parry', 'Meva', 'AoE')
@@ -27,8 +24,8 @@ function get_sets()
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck="Loricate Torque +1",
         waist="Flume Belt +1",
-        left_ear={ name="Odnowa Earring +1", augments={'Path: A',}},
-        right_ear="Eabani Earring",
+        left_ear="Tuisto Earring",
+        right_ear="Erilaz Earring +1",
         left_ring="Defending Ring",
         right_ring="Moonlight Ring",
         back={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Parrying rate+5%',}},
@@ -83,8 +80,8 @@ function get_sets()
         feet="Turms Leggings +1",
         neck="Loricate Torque +1",
         waist="Flume Belt +1",
-        left_ear={ name="Odnowa Earring +1", augments={'Path: A',}},
-        right_ear="Eabani Earring",
+        left_ear="Tuisto Earring",
+        right_ear="Erilaz Earring +1",
         left_ring="Defending Ring",
         right_ring="Moonlight Ring",
         back={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Parrying rate+5%',}},
@@ -100,8 +97,8 @@ function get_sets()
         feet="Erilaz Greaves +2",
         neck={ name="Futhark Torque +2", augments={'Path: A',}},
         waist="Flume Belt +1",
-        left_ear={ name="Odnowa Earring +1", augments={'Path: A',}},
-        right_ear="Eabani Earring",
+        left_ear="Tuisto Earring",
+        right_ear="Erilaz Earring +1",        
         left_ring="Defending Ring",
         right_ring="Moonlight Ring",
         back={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Parrying rate+5%',}},
@@ -183,7 +180,7 @@ function get_sets()
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck="Loricate Torque +1",
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-        left_ear={ name="Odnowa Earring +1", augments={'Path: A',}},
+        left_ear="Tuisto Earring",
         right_ear="Eabani Earring",
         left_ring="Kishar Ring",
         right_ring="Prolix Ring",

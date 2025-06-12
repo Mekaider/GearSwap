@@ -5,25 +5,29 @@ send_command('gs c update')
 lockstyle_set = 15
 -- set_lockstyle(lockstyle_set)
 
-state.WeaponMode:options('Naegling', 'Club', 'Chango', 'Shining One', 'Montante', 'Unlocked')
+state.WeaponMode:options('Naegling', 'Club', 'Chango', 'ShiningOne', 'Montante', 'Unlocked')
 -- state.WeaponMode:options('Naegling', 'Chango')
 state.WeaponMode:set('Naegling')
-send_command('xb bar Sword')
+coroutine.schedule(function()
+    send_command('xb bar Sword')
+end, 3)
 
-state.MeleeMode:options('TP', 'DT', 'PDL')
+state.MeleeMode:options('TP', 'DT')
 state.MeleeMode:set('TP')
 
-function get_sets() 
+state.WeaponSkillMode:options('Normal', 'PDL')
+state.WeaponSkillMode:set('Normal')
 
+function get_sets() 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Weapon Sets -------------------------------------------
     ------------------------------------------------------------------------------------------------
 
-    sets.weapons['Naegling'] = {main="Naegling", sub="Blurred Shield +1"}
-    sets.weapons['Club'] = {main={name="Loxotic Mace +1", augments={'Path: A',}}, sub="Blurred Shield +1"}
-    sets.weapons['Chango'] = {main={ name="Chango", augments={'Path: A',}}, sub="Utu Grip"}
-    sets.weapons['Shining One'] = {main="Shining One", sub="Utu Grip"}
-    sets.weapons['Montante'] = {main="Montante +1", sub="Utu Grip"}
+    sets.weapons.Naegling = {main="Naegling", sub="Blurred Shield +1"}
+    sets.weapons.Club = {main={name="Loxotic Mace +1", augments={'Path: A',}}, sub="Blurred Shield +1"}
+    sets.weapons.Chango = {main={ name="Chango", augments={'Path: A',}}, sub="Utu Grip"}
+    sets.weapons.ShiningOne = {main="Shining One", sub="Utu Grip"}
+    sets.weapons.Montante = {main="Montante +1", sub="Utu Grip"}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Idle Sets ---------------------------------------------
@@ -121,11 +125,19 @@ function get_sets()
         waist="Reiki Yotai",
         left_ear="Eabani Earring"
     })
+    sets.engaged.DualWield.DT = set_combine(sets.engaged.DT, sets.engaged.DualWield)
 
-    sets.engaged.DualWield.SubDNC = set_combine(sets.engaged, {
-        waist="Reiki Yotai",
-        left_ear="Eabani Earring"
-    })
+    sets.engaged.DualWield.NoDW = sets.engaged
+    sets.engaged.DualWield.DT.NoDW = sets.engaged.DT
+
+    sets.engaged.DualWield.MinDW = set_combine(sets.engaged, {})
+    sets.engaged.DualWield.DT.MinDW = set_combine(sets.engaged.DualWield.MinDW, {})
+
+    sets.engaged.DualWield.LowDW = set_combine(sets.engaged.DualWield.MinDW, {})
+    sets.engaged.DualWield.DT.LowDW = set_combine(sets.engaged.DualWield.DT.MinDW, {})
+
+    sets.engaged.DualWield.MidDW = set_combine(sets.engaged.DualWield.LowDW, {})
+    sets.engaged.DualWield.DT.MidDW = set_combine(sets.engaged.DualWield.DT.LowDW, {})
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Weaponskill Sets --------------------------------------
@@ -281,7 +293,7 @@ function get_sets()
 
     -- sets.WS['Impulse Drive'].PDL = {}
 
-    sets.WS['Impulse Drive']['Shining One'] = {
+    sets.WS['Impulse Drive']['ShiningOne'] = {
         ammo="Knobkierrie",
         head="Boii Mask +3",
         body="Hjarrandi Breast.",
@@ -297,7 +309,7 @@ function get_sets()
         back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
-    -- sets.WS['Impulse Drive']['Shining One'].PDL = {}
+    -- sets.WS['Impulse Drive']['ShiningOne'].PDL = {}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- JA Sets -----------------------------------------------
@@ -332,7 +344,7 @@ function state_change_custom(state, new_state_value, old_state_value)
             send_command('xb bar Club')
         elseif new_state_value == 'Chango' then
             send_command('xb bar GreatAxe')
-        elseif new_state_value == 'Shining One' then
+        elseif new_state_value == 'ShiningOne' then
             send_command('xb bar Polearm')
         elseif new_state_value == 'Montante' then
             send_command('xb bar GreatSword')
