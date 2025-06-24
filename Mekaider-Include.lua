@@ -505,8 +505,10 @@ function midcast(spell)
             end
 
             if dummy_songs:contains(spell.english) or state.SongMode.value == 'Dummy' then
-                equipSet = set_combine(equipSet, sets.instruments.ExtraSongs)
-                message = message .. ' (dummy)'
+                -- ignore potency midcast set and just use fast cast set for reduced duration
+                -- todo: probably add an ExtraSongs set to bring in at least some potency
+                equipSet = sets.instruments.ExtraSongs
+                message = 'dummy songs set'
             end
 
             if state.SongMode.value == 'MiracleCheer' then
@@ -1319,6 +1321,42 @@ windower.raw_register_event('action',
         end
     end)
 
+
+-- Optional version of include().  If file does not exist, does not attempt to load, and does not throw an error.
+-- filenames takes an array of possible file names to include and checks each one.
+function optional_include(filenames)
+    for _,v in pairs(filenames) do
+        local path = gearswap.pathsearch({v})
+        if path then
+            log(tostring(path))
+            include(v)
+            return true
+        end
+    end
+end
+
+-- -- Attempt to load user gear files in place of default gear sets.
+-- -- Return true if one exists and was loaded.
+function load_sidecar(job)
+    if not job then return false end
+    
+    -- filename format example for user-local files: whm_gear.lua, or playername_whm_gear.lua
+    local filenames = {player.name..'_'..job..'_gear.lua', job..'_gear.lua',
+        'gear/'..player.name..'_'..job..'_gear.lua', 'gear/'..job..'_gear.lua',
+        'gear/'..player.name..'_'..job..'.lua', 'gear/'..job..'.lua'}
+    return optional_include(filenames)
+end
+
+-- -- Attempt to include user-globals.  Return true if it exists and was loaded.
+-- function load_user_globals()
+--     local filenames = {player.name..'-globals.lua', 'user-globals.lua'}
+--     return optional_include(filenames)
+-- end
+
+-- -- Load a sidecar file for the job (if it exists) that may re-define init_gear_sets and file_unload.
+-- load_sidecar(player.main_job)
+-- -- init_gear_sets()
+-- init_gear_sets()
 
 coroutine.schedule(function()
     send_command('hasteinfo report')
