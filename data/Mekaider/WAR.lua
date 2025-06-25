@@ -5,7 +5,7 @@ send_command('gs c update')
 lockstyle_set = 15
 -- set_lockstyle(lockstyle_set)
 
-state.WeaponMode:options('Naegling', 'Club', 'Chango', 'ShiningOne', 'Montante', 'Unlocked')
+state.WeaponMode:options('Naegling', 'Club', 'Chango', 'ShiningOne', 'Montante')
 -- state.WeaponMode:options('Naegling', 'Chango')
 state.WeaponMode:set('Naegling')
 coroutine.schedule(function()
@@ -18,7 +18,7 @@ state.MeleeMode:set('TP')
 state.WeaponSkillMode:options('Normal', 'PDL')
 state.WeaponSkillMode:set('Normal')
 
-function get_sets() 
+function get_sets()
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Weapon Sets -------------------------------------------
     ------------------------------------------------------------------------------------------------
@@ -334,22 +334,6 @@ function get_sets()
     sets.JA['Restraint'] = {hands="Boii Mufflers +3"}
     sets.JA['Tomahawk'] = {ammo="Thr. Tomahawk", feet="Agoge Calligae"}
     sets.JA['Blood Rage'] = {body="Boii Lorica +3"}
-end
-
-function state_change_custom(state, new_state_value, old_state_value) 
-    if state == 'WeaponMode' then 
-        if new_state_value == 'Naegling' then
-            send_command('xb bar Sword')
-        elseif new_state_value == 'Club' then
-            send_command('xb bar Club')
-        elseif new_state_value == 'Chango' then
-            send_command('xb bar GreatAxe')
-        elseif new_state_value == 'ShiningOne' then
-            send_command('xb bar Polearm')
-        elseif new_state_value == 'Montante' then
-            send_command('xb bar GreatSword')
-        end
-    end
 end
 
 -- for testing

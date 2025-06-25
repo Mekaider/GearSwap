@@ -1,15 +1,9 @@
 include('Modes')
 
 function file_unload()
-    send_command('unbind f9')
-    send_command('unbind f10')
-    send_command('unbind f12')
-
-    send_command('unbind ~m')
-    send_command('unbind ~q')
-    send_command('unbind ~w')
-    send_command('unbind ~b')
-    send_command('unbind ~s')
+    if global_on_unload() then
+        global_on_unload()
+    end
 
     if job_file_unload then
         job_file_unload()
@@ -112,6 +106,36 @@ elemental_weaponskills = S{'GustSlash', 'Cyclone', 'Energy Steal', 'Energy Drain
 }
 
 dummy_songs = S{"Shining Fantasia", "Puppet's Operetta", "Gold Capriccio"}
+
+-- Optional version of include().  If file does not exist, does not attempt to load, and does not throw an error.
+-- filenames takes an array of possible file names to include and checks each one.
+function optional_include(filenames)
+    for _,v in pairs(filenames) do
+        local path = gearswap.pathsearch({v})
+        if path then
+            include(v)
+            return true
+        end
+    end
+end
+
+-- -- Attempt to load user gear files in place of default gear sets.
+-- -- Return true if one exists and was loaded.
+function load_sidecar(job)
+    if not job then return false end
+
+    -- filename format example for user-local files: whm_gear.lua, or playername_whm_gear.lua
+    local filenames = {player.name..'_'..job..'_gear.lua', job..'_gear.lua',
+        'gear/'..player.name..'_'..job..'_gear.lua', 'gear/'..job..'_gear.lua',
+        'gear/'..player.name..'_'..job..'.lua', 'gear/'..job..'.lua'}
+    return optional_include(filenames)
+end
+
+-- -- Attempt to include user-globals.  Return true if it exists and was loaded.
+function load_user_globals()
+    local filenames = {player.name..'-globals.lua', 'user-globals.lua'}
+    return optional_include(filenames)
+end
 
 function init_include()
 
@@ -244,7 +268,17 @@ function init_include()
     ammo.arrow = {}
     ammo.bolt = {}
 
+    
     optional_include({'user-globals.lua'})
+    optional_include({player.name..'-globals.lua'})
+
+    if global_on_load then
+        global_on_load()
+    end    
+
+    if define_global_sets then
+        define_global_sets()
+    end
 
     load_sidecar(player.main_job)
 
@@ -256,7 +290,14 @@ function init_include()
         user_setup()
     end
 
-    init_gear_sets()
+    -- todo: transitional if, until I've changed everything to the sidecar pattern
+    if init_gear_sets then
+        init_gear_sets()
+    end
+
+    coroutine.schedule(function()
+        send_command('hasteinfo report')
+    end, 3)
 end
 
 init_include()
@@ -1019,14 +1060,16 @@ function get_state(name)
     end
 end
 
--- This function can be extended by defining and calling state_change_custom, if you need to do anything when state vars change
--- see Mekaider/WAR.lua for an example
 function state_change(state, new_state_value, old_state_value)
     log('state change: ' .. state .. ': ' .. new_state_value)
     equip(select_set())
 
-    if state_change_custom then
-        state_change_custom(state, new_state_value, old_state_value)
+    if user_state_change then
+        user_state_change(state, new_state_value, old_state_value)
+    end
+
+    if job_state_change then
+        job_state_change(state, new_state_value, old_state_value)
     end
 
     gs_display_update()
@@ -1325,43 +1368,3 @@ windower.raw_register_event('action',
             end
         end
     end)
-
-
--- Optional version of include().  If file does not exist, does not attempt to load, and does not throw an error.
--- filenames takes an array of possible file names to include and checks each one.
-function optional_include(filenames)
-    for _,v in pairs(filenames) do
-        local path = gearswap.pathsearch({v})
-        if path then
-            log(tostring(path))
-            include(v)
-            return true
-        end
-    end
-end
-
--- -- Attempt to load user gear files in place of default gear sets.
--- -- Return true if one exists and was loaded.
-function load_sidecar(job)
-    if not job then return false end
-
-    -- filename format example for user-local files: whm_gear.lua, or playername_whm_gear.lua
-    local filenames = {player.name..'_'..job..'_gear.lua', job..'_gear.lua',
-        'gear/'..player.name..'_'..job..'_gear.lua', 'gear/'..job..'_gear.lua',
-        'gear/'..player.name..'_'..job..'.lua', 'gear/'..job..'.lua'}
-    return optional_include(filenames)
-end
-
--- -- Attempt to include user-globals.  Return true if it exists and was loaded.
-function load_user_globals()
-    local filenames = {player.name..'-globals.lua', 'user-globals.lua'}
-    return optional_include(filenames)
-end
-
--- -- Load a sidecar file for the job (if it exists) that may re-define init_gear_sets and file_unload.
-load_sidecar(player.main_job)
-init_gear_sets()
-
-coroutine.schedule(function()
-    send_command('hasteinfo report')
-end, 3)

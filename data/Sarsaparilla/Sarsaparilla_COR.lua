@@ -269,7 +269,7 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
 
     sets.precast.JA['Snake Eye'] = {legs="Lanun Trews +3"}
-    sets.precast.JA['Wild Card'] = {feet="Lanun Bottes +3"}
+    sets.precast.JA['Wild Card'] = {feet={ name="Lanun Bottes +4", augments={'Enhances "Wild Card" effect',}}}
     sets.precast.JA['Random Deal'] = {body="Lanun Frac +3"}
 
     sets.precast.CorsairRoll = {
@@ -278,7 +278,7 @@ function init_gear_sets()
 		head={ name="Lanun Tricorne", augments={'Enhances "Winning Streak" effect',}}, -- 50% Job ability Bonus
         hands="Chasseur's Gants +3",
 		neck="Regal Necklace", -- 20 sec Duration
-		-- right_ring="Luzaf's Ring", -- 16 yalm range
+		left_ring="Luzaf's Ring", -- 16 yalm range
         back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     }
 
@@ -348,7 +348,7 @@ function init_gear_sets()
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands="Chasseur's Gants +3",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
-        feet={ name="Nyame Sollerets", augments={'Path: B',}},
+        feet={ name="Lanun Bottes +4", augments={'Enhances "Wild Card" effect',}},
         neck="Rep. Plat. Medal",
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear="Ishvara Earring",
@@ -386,7 +386,7 @@ function init_gear_sets()
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
-        feet={ name="Lanun Bottes +2", augments={'Enhances "Wild Card" effect',}},
+        feet={ name="Lanun Bottes +4", augments={'Enhances "Wild Card" effect',}},
         neck={ name="Comm. Charm +2", augments={'Path: A',}},
         waist="Eschan Stone",
         left_ear="Hermetic Earring",
@@ -475,7 +475,7 @@ function init_gear_sets()
         body="Nyame Mail",
         hands="Nyame Gauntlets",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
-        feet={ name="Lanun Bottes +2", augments={'Enhances "Wild Card" effect',}},
+        feet={ name="Lanun Bottes +4", augments={'Enhances "Wild Card" effect',}},
         neck={ name="Comm. Charm +2", augments={'Path: A',}},
         waist="Eschan Stone",
         left_ear="Hermetic Earring",
@@ -598,15 +598,16 @@ function init_gear_sets()
     sets.idle = {
         ammo=gear.RAbullet,
         head={ name="Nyame Helm", augments={'Path: B',}},
-        body="Nyame Mail",
-        hands="Nyame Gauntlets",
+        body={ name="Nyame Mail", augments={'Path: B',}},
+        hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
-        neck="Loricate Torque +1",
+        neck="Elite Royal Collar",
         waist="Flume Belt +1",
         left_ear="Eabani Earring",
         right_ear="Etiolation Earring",
-        left_ring="Gelatinous Ring +1",
+        left_ring="Defending Ring",
+        right_ring="Warden's Ring",
         back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     }
 
@@ -692,7 +693,7 @@ function init_gear_sets()
         hands = "Malignance Gloves", -- 5/5
         legs="Chas. Culottes +3",
         feet = "Malignance Boots", -- 4/4
-        -- left_ring = "Defending Ring", -- 10/10
+        left_ring = "Defending Ring", -- 10/10
     }
 
     sets.engaged.DT = set_combine(sets.engaged, sets.Hybrid)

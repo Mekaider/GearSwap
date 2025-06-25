@@ -1,9 +1,8 @@
-function user_setup()
-end
+function user_setup() end
 
-function get_sets()
+function init_gear_sets()
     sets.weapons['SavageBlade'] = {main="Naegling", sub="Thibron"}
-    sets.weapons['Seraph Blade'] = {main={ name="Crocea Mors", augments={'Path: C',}}, sub="Daybreak"}
+    sets.weapons['SeraphBlade'] = {main={ name="Crocea Mors", augments={'Path: C',}}, sub="Daybreak"}
     sets.weapons['BlackHalo'] = {main="Maxentius", sub="Thibron"}
     sets.weapons['Evisceration'] = {main="Tauret", sub="Gleti's Knife"}
     sets.weapons['AeolianEdge'] = {main="Tauret", sub="Thibron"}
@@ -65,7 +64,7 @@ function get_sets()
         back={ name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
     })
 
-    sets.WS = {}
+    -- sets.WS = {}
 
     sets.WS['Savage Blade'] = {
         ammo={ name="Coiste Bodhar", augments={'Path: A',}},
@@ -93,7 +92,7 @@ function get_sets()
         legs={ name="Lengo Pants", augments={'INT+7','Mag. Acc.+7','"Mag.Atk.Bns."+3','"Refresh"+1',}},
         neck="Voltsurge Torque",
         left_ear="Malignance Earring",
-        right_ear={ name="Lethargy Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+6','Mag. Acc.+6',}},
+        right_ear={ name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','"Dbl.Atk."+3',}},
         left_ring="Kishar Ring",
         right_ring="Prolix Ring",
     }

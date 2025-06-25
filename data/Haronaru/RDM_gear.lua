@@ -1,26 +1,10 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
+function user_setup() 
+    state.WeaponLock:set(true)
+end
 
-state.WeaponMode:options(
-    'SavageBlade',
-    'Seraph Blade',
-    'BlackHalo',
-    'Evisceration',
-    'AeolianEdge',
-    'Unlocked'
-)
-state.WeaponMode:set('SavageBlade')
-state.WeaponLock:set(true)
-
-state.MeleeMode:options('Normal')
-
-state.MagicMode:options('Normal', 'MagicAcc')
-state.ExtraMagicModes:options('None', 'Immunobreak')
-state.MagicBurst = M(false)
-
-function get_sets()
+function init_gear_sets()
     sets.weapons['SavageBlade'] = {main="Naegling", sub="Machaera +2"}
-    sets.weapons['Seraph Blade'] = {main={ name="Crocea Mors", augments={'Path: C',}}, sub="Daybreak"}
+    sets.weapons['SeraphBlade'] = {main={ name="Crocea Mors", augments={'Path: C',}}, sub="Daybreak"}
     sets.weapons['BlackHalo'] = {main="Maxentius", sub="Machaera +2"}
     sets.weapons['Evisceration'] = {main="Tauret", sub="Gleti's Knife"}
     sets.weapons['AeolianEdge'] = {main="Tauret", sub="Machaera +2"}
@@ -35,13 +19,13 @@ function get_sets()
         body="Lethargy Sayon +3",
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
-        feet={ name="Chironic Slippers", augments={'CHR+4','Crit. hit damage +3%','"Refresh"+1',}},
+        feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck="Loricate Torque +1",
         waist="Null Belt",
         left_ear="Etiolation Earring",
         right_ear="Infused Earring",
-        left_ring="Gelatinous Ring",
-        right_ring="Fortified Ring",
+        left_ring={name="Stikini Ring +1", bag="wardrobe1"},
+        right_ring={name="Stikini Ring +1", bag="wardrobe2"},
         back={ name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Store TP"+10','Phys. dmg. taken-10%',}},
     }
 
@@ -68,6 +52,9 @@ function get_sets()
         left_ear="Eabani Earring",
         back={ name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
     })
+
+    -- 0 DW
+    sets.engaged.DualWield.NoDW = sets.engaged
 
     -- 11 DW
     sets.engaged.DualWield.LowDW = set_combine(sets.engaged, {
@@ -234,13 +221,13 @@ function get_sets()
         body="Lethargy Sayon +3",
         hands="Leth. Ganth. +3",
         legs="Leth. Fuseau +3",
-        feet="Vitiation Boots +3",
+        feet="Viti. Boots +4",
         neck={ name="Dls. Torque +2", augments={'Path: A',}},
         waist="Obstin. Sash",
         left_ear="Malignance Earring",
         right_ear="Snotra Earring",
         -- right_ear={ name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','"Dbl.Atk."+4',}},
-        left_ring="Kishar Ring",
+        left_ring={name="Stikini Ring +1", bag="wardrobe1"},
         right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
         back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
     }
@@ -272,6 +259,26 @@ function get_sets()
     sets.midcast['Enfeebling Magic'].Duration.Immunobreak = set_combine(sets.midcast['Enfeebling Magic'].Duration, {
         legs={ name="Chironic Hose", augments={'MND+8','Mag. Acc.+23','"Store TP"+6',}},
     })
+
+    sets.midcast['Distract III'] = {
+        main={ name="Bunzi's Rod", augments={'Path: A',}},
+        sub="Ammurapi Shield",
+        ammo="Regal Gem",
+        head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
+        body="Lethargy Sayon +3",
+        hands="Leth. Ganth. +3",
+        legs="Leth. Fuseau +3",
+        feet={ name="Viti. Boots +4", augments={'Immunobreak Chance',}},
+        neck={ name="Dls. Torque +2", augments={'Path: A',}},
+        waist="Obstin. Sash",
+        left_ear="Malignance Earring",
+        right_ear="Snotra Earring",
+        left_ring={name="Stikini Ring +1", bag="wardrobe1"},
+        right_ring={name="Stikini Ring +1", bag="wardrobe2"},
+        back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+    }
+
+    sets.midcast['Frazzle III'] = sets.midcast['Distract III']
 
     sets.midcast['Elemental Magic'] = {
         main="Bunzi's Rod",

@@ -218,18 +218,8 @@ The following gear sets are available across all jobs:
 
 Include:
 
-    ln ~/Projects/GearSwap/Mekaider-Include.lua /c/Program\ Files\ \(x86\)/Windower/addons/GearSwap/libs/Mekaider-Include.lua
+    mklink "C:\Windower-dev\addons\GearSwap\libs\Mekaider-Include.lua" "%userprofile%\Projects\GearSwap\Mekaider-Include.lua"
 
-Character folders:
+Data:
 
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Mekaider" "%userprofile%\Projects\GearSwap\Mekaider"
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Sodapoppy" "%userprofile%\Projects\GearSwap\Sodapoppy"
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Sarsaparilla" "%userprofile%\Projects\GearSwap\Sarsaparilla"
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Neonx" "%userprofile%\Projects\GearSwap\Neonx"
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Haronaru" "%userprofile%\Projects\GearSwap\Haronaru"
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Verain" "%userprofile%\Projects\GearSwap\Verain"
+    mklink /D "C:\Windower-dev\addons\GearSwap\data" "%userprofile%\Projects\GearSwap\data"

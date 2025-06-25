@@ -1,14 +1,12 @@
 function job_setup()
     state.WeaponMode:options(
         'SavageBlade',
-        'Seraph Blade',
+        'SeraphBlade',
         'BlackHalo',
         'Evisceration',
         'AeolianEdge',
         'Unlocked'
     )
-    state.WeaponMode:set('SavageBlade')
-    state.WeaponLock:set(true)
     state.MeleeMode:options('Normal')
     state.MagicMode:options('Normal', 'MagicAcc')
     state.ExtraMagicModes:options('None', 'Immunobreak')
@@ -46,7 +44,7 @@ function init_gear_sets()
     -- 21 DW
     -- sets.engaged.DualWield.MidDW = set_combine(sets.engaged, {})
 
-    sets.WS = {}
+    -- sets.WS = {}
 
     sets.WS['Savage Blade'] = {}
 
