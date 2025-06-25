@@ -36,9 +36,6 @@
 - [ ] Crafting gear set override?
 - [ ] Review job_{pre,mid}cast and how that's hooked in (I'm not sure I like the current set_combine logic)
 - [ ] TP bonus (moonshade, etc.) handling and accounting for 3k tp
-- [ ] Sidecar file loading to remove all logic duplication
-- [ ] User-Globals (all chars)
-- [ ] Char-Globals
 - [ ] Add gear tables for things like AF and add to job files
 
 ## User Guide
