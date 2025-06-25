@@ -15,7 +15,7 @@ state.MagicMode:set('Normal')
 
 send_command('bind ~f9 gs c cycle ShieldMode')
 
-function file_unload_custom()
+function job_file_unload()
     send_command('unbind ~f9')
 end
 
@@ -90,7 +90,7 @@ function get_sets()
         right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
         back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Chance of successful block +5',}},
     }
-    
+
     sets.engaged.AoE = set_combine(sets.engaged.PDT, {waist="Flume Belt +1"})
 
     sets.engaged.Meva = {
@@ -116,7 +116,7 @@ function get_sets()
 
 
     -- gear cap: 200
-    -- Crusade +30 
+    -- Crusade +30
     -- Burtgang +23
     -- remaining 147
     sets.Enmity = {
@@ -183,7 +183,7 @@ function get_sets()
         right_ring="Prolix Ring",
         back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
     }
-    
+
     sets.midcast.SIRD = {
         ammo="Staunch Tathlum +1", -- 11
         head={ name="Souv. Schaller +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}}, -- 20

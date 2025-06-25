@@ -20,7 +20,7 @@ send_command('gs c display')
 
 send_command('bind ~f9 gs c cycle ShieldMode')
 
-function file_unload_custom()
+function job_file_unload()
     send_command('unbind ~f9')
 end
 
@@ -29,7 +29,7 @@ function get_sets()
     sets.weapons["Naegling"] = {main="Naegling"}
 
     sets.Moving = {right_ring="Shneddick Ring"}
-    
+
     sets.idle = {
         ammo="Staunch Tathlum",
         head={ name="Sakpata's Helm", augments={'Path: A',}},

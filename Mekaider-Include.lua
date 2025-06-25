@@ -1,36 +1,25 @@
 include('Modes')
 
--- Default keybindings for all jobs
-send_command('bind f9 gs c cycle WeaponMode')
--- ~F9 is defined in job files, Gun, Shield, etc.
-send_command('bind f10 gs c cycle MeleeMode')
--- send_command('bind f11 gs c cycle CastingMode')
-send_command('bind f12 gs c update')
-send_command('bind %~b gs c toggle MagicBurst')
-send_command('bind %~m gs c cycle MagicMode')
-send_command('bind %~q gs c cycle QuickDrawMode')
-send_command('bind %~w gs c cycle WeaponLock')
-send_command('bind %~s gs c cycle SongMode')
-
 function file_unload()
     send_command('unbind f9')
     send_command('unbind f10')
     send_command('unbind f12')
 
-    send_command('unbind ~b')
     send_command('unbind ~m')
     send_command('unbind ~q')
     send_command('unbind ~w')
+    send_command('unbind ~b')
+    send_command('unbind ~s')
 
-    if file_unload_custom then
-        file_unload_custom()
+    if job_file_unload then
+        job_file_unload()
     end
 end
 
-local mage_jobs = S { 'WHM', 'BLM', 'RDM', 'PLD', 'DRK', 'BRD', 'NIN', 'SMN', 'BLU', 'SCH', 'GEO', 'RUN' }
-local ranged_jobs = S { 'RNG', 'COR' }
+local mage_jobs = S{'WHM', 'BLM', 'RDM', 'PLD', 'DRK', 'BRD', 'NIN', 'SMN', 'BLU', 'SCH', 'GEO', 'RUN'}
+local ranged_jobs = S{'RNG', 'COR'}
 
-town_zones = S {
+town_zones = S{
     "Northern San d'Oria",
     "Southern San d'Oria",
     "Port San d'Oria",
@@ -71,17 +60,15 @@ town_zones = S {
     "Windurst Waters [S]"
 }
 
-blue_magic_emnity_spells = S{ 'Blank Gaze', 'Geist Wall', 'Jettatura', 'Soporific', 'Sheep Song' }
-blue_magic_healing_spells = S{ 'Wild Carrot', 'Healing Breeze', 'Magic Fruit', 'Plenilune Embrace' }
-blue_magic_elemental_spells = S{ 'Anvil Lightning', 'Entomb', 'Spectral Floe', 'Subduction', 'Evryone. Grudge', 'Tenebral Crush' } -- todo: Add all the elemental spells
+blue_magic_emnity_spells = S{'Blank Gaze', 'Geist Wall', 'Jettatura', 'Soporific', 'Sheep Song'}
+blue_magic_healing_spells = S{'Wild Carrot', 'Healing Breeze', 'Magic Fruit', 'Plenilune Embrace'}
+blue_magic_elemental_spells = S{'Anvil Lightning', 'Entomb', 'Spectral Floe', 'Subduction', 'Evryone. Grudge', 'Tenebral Crush'} -- todo: Add all the elemental spells
 
-na_spells = S{ 'Blindna', 'Cursna', 'Paralyna', 'Poisona', 'Silena', 'Stona', 'Viruna' }
-bar_element_spells = S{ 'Barfire', 'Barblizzard', 'Baraero', 'Barstone', 'Barthunder', 'Barwater',
-    'Barfira', 'Barblizzara', 'Baraera', 'Barstonra', 'Barthundra', 'Barwatera' }
-bar_status_spells = S{ 'Baramnesia', 'Barvirus', 'Barparalyze', 'Barsilence', 'Barpetrify', 'Barpoison', 'Barblind', 'Barsleep',
-    'Baramnesra', 'Barvira', 'Barparalyzra', 'Barsilencera', 'Barpetra', 'Barpoisonra', 'Barblindra', 'Barsleepra' }
+na_spells = S{'Blindna', 'Cursna', 'Paralyna', 'Poisona', 'Silena', 'Stona', 'Viruna'}
+bar_element_spells = S{'Barfire', 'Barblizzard', 'Baraero', 'Barstone', 'Barthunder', 'Barwater', 'Barfira', 'Barblizzara', 'Baraera', 'Barstonra', 'Barthundra', 'Barwatera'}
+bar_status_spells = S{'Baramnesia', 'Barvirus', 'Barparalyze', 'Barsilence', 'Barpetrify', 'Barpoison', 'Barblind', 'Barsleep', 'Baramnesra', 'Barvira', 'Barparalyzra', 'Barsilencera', 'Barpetra', 'Barpoisonra', 'Barblindra', 'Barsleepra'}
 
-enhancing_magic_skill_spells = S{ "Enfire", "Enblizzard", "Enaero", "Enstone", "Enthunder", "Enwater", 
+enhancing_magic_skill_spells = S{"Enfire", "Enblizzard", "Enaero", "Enstone", "Enthunder", "Enwater",
     "Temper", "Temper II",
     'Boost-STR','Boost-DEX','Boost-VIT','Boost-AGI','Boost-INT','Boost-MND','Boost-CHR'}
 
@@ -90,27 +77,27 @@ enfeebling_magic_duration_spells = S{'Sleep','Sleep II','Sleepga','Sleepga II','
 
 elements = {}
 elements.weak_to = {
-    ['Light'] = 'Dark',
-    ['Dark'] = 'Light',
-    ['Fire'] = 'Ice',
-    ['Ice'] = 'Wind',
-    ['Wind'] = 'Earth',
-    ['Earth'] = 'Lightning',
+    ['Light']     = 'Dark',
+    ['Dark']      = 'Light',
+    ['Fire']      = 'Ice',
+    ['Ice']       = 'Wind',
+    ['Wind']      = 'Earth',
+    ['Earth']     = 'Lightning',
     ['Lightning'] = 'Water',
-    ['Water'] = 'Fire'
+    ['Water']     = 'Fire'
 }
 elements.strong_to = {
-    ['Light'] = 'Dark',
-    ['Dark'] = 'Light',
-    ['Fire'] = 'Water',
-    ['Ice'] = 'Fire',
-    ['Wind'] = 'Ice',
-    ['Earth'] = 'Wind',
+    ['Light']     = 'Dark',
+    ['Dark']      = 'Light',
+    ['Fire']      = 'Water',
+    ['Ice']       = 'Fire',
+    ['Wind']      = 'Ice',
+    ['Earth']     = 'Wind',
     ['Lightning'] = 'Earth',
-    ['Water'] = 'Lightning'
+    ['Water']     = 'Lightning'
 }
 elemental_weather_bonus_potency = { [0] = 0, [1] = 10, [2] = 25 }
-elemental_weaponskills = S { 'GustSlash', 'Cyclone', 'Energy Steal', 'Energy Drain', 'Aeolian Edge',
+elemental_weaponskills = S{'GustSlash', 'Cyclone', 'Energy Steal', 'Energy Drain', 'Aeolian Edge',
     'Burning Blade', 'Red Lotus Blade', 'Shining Blade', 'Seraph Blade', 'Sanguine Blade',
     'Frostbite', 'Freezebite', 'Herculean Slash',
     'Cloudsplitter', 'Primal Rend',
@@ -126,135 +113,153 @@ elemental_weaponskills = S { 'GustSlash', 'Cyclone', 'Energy Steal', 'Energy Dra
 
 dummy_songs = S{"Shining Fantasia", "Puppet's Operetta", "Gold Capriccio"}
 
-dw_needed = 0
+function init_include()
 
-state = {}
+    state = {}
 
--- Modes
+    -- Modes
 
--- Internal modes used by the include, not intended for direct use by the user
-state.DebugMode = M(false, 'Enable debug logging for gear changes')
-state.Display = M(true, 'Enable display box')
-state.Moving = M(false, 'Player is moving')
-state.Stance = M { ['Description'] = 'Stance', 'Normal', 'OneHand', 'TwoHand', 'DualWield' }
+    -- Internal modes used by the include, not intended for direct use by the user
+    state.DebugMode = M(false, 'Enable debug logging for gear changes')
+    state.Display = M(true, 'Enable display box')
+    state.Moving = M(false, 'Player is moving')
+    state.Stance = M { ['Description'] = 'Stance', 'Normal', 'OneHand', 'TwoHand', 'DualWield' }
 
--- Weapon Modes
-state.WeaponMode = M { ['description'] = 'Weapon Mode' }
-state.ShieldMode = M { ['description'] = 'Shield Mode', 'off' } -- only used for Paladin so far
-state.WeaponLock = M(false)
+    -- Weapon Modes
+    state.WeaponMode = M { ['description'] = 'Weapon Mode' }
+    state.ShieldMode = M { ['description'] = 'Shield Mode', 'off' } -- only used for Paladin so far
+    state.WeaponLock = M(false)
 
--- Melee Modes
-state.MeleeMode = M { ['description'] = 'Melee Mode', 'TP', 'DT', 'Acc' }
-state.MeleeMode:set('TP')
+    -- Melee Modes
+    state.MeleeMode = M {['description'] = 'Melee Mode', 'Normal', 'DT', 'Acc'}
 
--- WeaponSkill Modes
-state.WeaponSkillMode = M { ['description'] = 'WeaponSkill Mode', 'Normal', 'PDL' }
+    -- WeaponSkill Modes
+    state.WeaponSkillMode = M { ['description'] = 'WeaponSkill Mode', 'Normal', 'PDL' }
 
-state.CustomMeleeGroups = L{}
-state.CustomMagicGroups = L{}
+    state.CustomMeleeGroups = L{}
+    state.CustomMagicGroups = L{}
 
--- Magic Modes
-state.MagicMode = M { ['description'] = 'Magic Mode', 'Normal', 'M.Acc' }
-state.MagicBurst = M(false)
-state.ExtraMagicModes = M{['description'] = 'Extra Magic Modes', 'None'}
+    -- Magic Modes
+    state.MagicMode = M { ['description'] = 'Magic Mode', 'Normal', 'M.Acc' }
+    state.MagicBurst = M(false)
+    state.ExtraMagicModes = M{['description'] = 'Extra Magic Modes', 'None'}
 
-state.SongMode = M{['description']='Song Mode', 'Potency', 'Dummy', 'MiracleCheer'}
+    state.SongMode = M{['description']='Song Mode', 'Potency', 'Dummy', 'MiracleCheer'}
 
--- Other Modes
-state.RangedMode = M { ['description'] = 'Ranged Mode', 'Normal', 'PDL', 'Crit' }
-state.QuickDrawMode = M { ['description'] = 'Quick Draw Mode', 'Normal', 'Enhance', 'StoreTP' }
-state.Flurry = nil
+    -- Other Modes
+    state.RangedMode = M { ['description'] = 'Ranged Mode', 'Normal', 'PDL', 'Crit' }
+    state.QuickDrawMode = M { ['description'] = 'Quick Draw Mode', 'Normal', 'Enhance', 'StoreTP' }
 
--- Default set definitions
+    state.DualWieldNeeded = 0
+    state.Flurry = nil
 
--- Weapon sets
-sets.weapons = {}
-sets.weapons.Shield = {}
-sets.weapons.Songs = {}
--- sets.weapons.Gun = {}
-sets.instruments = {}
-sets.instruments.Potency = {}
-sets.instruments.ExtraSongs = {}
-sets.instruments.LullabyHarp = {}
+    -- Default set definitions
 
--- Idle sets
-sets.idle = {}
-sets.idle.Pet = {}
+    -- Weapon sets
+    sets.weapons = {}
+    sets.weapons.Shield = {}
+    sets.weapons.Songs = {}
+    -- sets.weapons.Gun = {}
+    sets.instruments = {}
+    sets.instruments.Potency = {}
+    sets.instruments.ExtraSongs = {}
+    sets.instruments.LullabyHarp = {}
 
--- Engaged sets
-sets.engaged = {}
-sets.engaged.DT = {}
-sets.engaged.Acc = {}
-sets.engaged.OneHand = {}
-sets.engaged.TwoHand = {}
-sets.engaged.DualWield = {}
+    -- Idle sets
+    sets.idle = {}
+    sets.idle.Pet = {}
 
--- Resting set
-sets.resting = {}
+    -- Engaged sets
+    sets.engaged = {}
+    sets.engaged.DT = {}
+    sets.engaged.Acc = {}
+    sets.engaged.OneHand = {}
+    sets.engaged.TwoHand = {}
+    sets.engaged.DualWield = {}
 
--- Precast sets
-sets.precast = {}
-sets.precast.FastCast = {}
-sets.precast.FastCast['Enhancing Magic'] = {}
-sets.precast.FastCast['BardSong'] = {}
-sets.precast.Cure = {}
-sets.precast.QuickMagic = {}
-sets.precast.Utsusemi = {}
-sets.precast.RA = {}
-sets.precast.RA.Flurry = {}
-sets.precast.RA.FlurryII = {}
+    -- Resting set
+    sets.resting = {}
 
--- Midcast sets
-sets.midcast = {}
-sets.midcast.FastCast = sets.precast.FastCast
-sets.midcast.Songs = {}
-sets.midcast.Songs.Potency = {}
-sets.midcast.Songs.Enfeebling = {}
-sets.midcast.RA = {}
+    -- Precast sets
+    sets.precast = {}
+    sets.precast.FastCast = {}
+    sets.precast.FastCast['Enhancing Magic'] = {}
+    sets.precast.FastCast['BardSong'] = {}
+    sets.precast.Cure = {}
+    sets.precast.QuickMagic = {}
+    sets.precast.Utsusemi = {}
+    sets.precast.RA = {}
+    sets.precast.RA.Flurry = {}
+    sets.precast.RA.FlurryII = {}
 
--- Job ability sets
-sets.JA = {}
+    -- Midcast sets
+    sets.midcast = {}
+    sets.midcast.FastCast = sets.precast.FastCast
+    sets.midcast.Songs = {}
+    sets.midcast.Songs.Potency = {}
+    sets.midcast.Songs.Enfeebling = {}
+    sets.midcast.RA = {}
 
--- Special job ability sets
-sets.PhantomRoll = {}
+    -- Job ability sets
+    sets.JA = {}
 
-sets.Waltz = {}
-sets.Jig = {}
-sets.Samba = {}
-sets.Step = {}
-sets.Flourish = {}
+    -- Special job ability sets
+    sets.PhantomRoll = {}
 
--- Weaponskill sets
-sets.WS = {}
+    sets.Waltz = {}
+    sets.Jig = {}
+    sets.Samba = {}
+    sets.Step = {}
+    sets.Flourish = {}
 
-sets.Obi = {}
+    -- Weaponskill sets
+    sets.WS = {}
 
-sets.buff = {}
+    sets.Obi = {}
 
-sets.naked = {
-    main = empty,
-    sub = empty,
-    range = empty,
-    ammo = empty,
-    head = empty,
-    neck = empty,
-    ear1 = empty,
-    ear2 = empty,
-    body = empty,
-    hands = empty,
-    ring1 = empty,
-    ring2 = empty,
-    back = empty,
-    waist = empty,
-    legs = empty,
-    feet = empty
-}
+    sets.buff = {}
 
--- Ammunition
-ammo = {}
-ammo.bullet = {}
-ammo.arrow = {}
-ammo.bolt = {}
+    sets.naked = {
+        main = empty,
+        sub = empty,
+        range = empty,
+        ammo = empty,
+        head = empty,
+        neck = empty,
+        ear1 = empty,
+        ear2 = empty,
+        body = empty,
+        hands = empty,
+        ring1 = empty,
+        ring2 = empty,
+        back = empty,
+        waist = empty,
+        legs = empty,
+        feet = empty
+    }
+
+    -- Ammunition
+    ammo = {}
+    ammo.bullet = {}
+    ammo.arrow = {}
+    ammo.bolt = {}
+
+    optional_include({'user-globals.lua'})
+
+    load_sidecar(player.main_job)
+
+    if job_setup then
+        job_setup()
+    end
+
+    if user_setup then
+        user_setup()
+    end
+
+    init_gear_sets()
+end
+
+init_include()
 
 function precast(spell)
     update_magic_groups()
@@ -358,7 +363,7 @@ function precast(spell)
                 equipSet = sets.precast.FastCast['BardSong']
                 message = 'sets.precast.FastCast.BardSong'
             end
-            
+
             if spell.english == 'Honor March' then
                 equipSet = set_combine(equipSet, {range="Marsyas"})
             end
@@ -381,8 +386,8 @@ function precast(spell)
         equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
     end
 
-    if precast_custom then
-        equipSet = set_combine(equipSet, precast_custom(spell))
+    if job_precast then
+        equipSet = set_combine(equipSet, job_precast(spell))
     end
 
     if message ~= '' then
@@ -575,8 +580,8 @@ function midcast(spell)
 
     equipSet = elemental_magic_check(spell, equipSet)
 
-    if midcast_custom then
-        equipSet = set_combine(equipSet, midcast_custom(spell))
+    if job_midcast then
+        equipSet = set_combine(equipSet, job_midcast(spell))
     end
     equip(equipSet)
 end
@@ -768,7 +773,7 @@ function self_command(cmd)
         elseif commandArgs[1] == 'set' then
             handle_set(commandArgs)
         elseif commandArgs[1] == 'hasteinfo' then
-            dw_needed = tonumber(commandArgs[2])
+            state.DualWieldNeeded = tonumber(commandArgs[2])
             if not midaction() then
                 equip(select_set())
             end
@@ -1045,25 +1050,25 @@ function update_melee_groups()
     -- not too sure where to put the boundaries for DW sets, but 11 and 21 (/NIN and /DNC) seem the most important for now
 
     -- /DNC with capped magic haste and haste samba from dnc main OR /NIN with capped magic haste and any haste samba
-    if dw_needed == 0 then
+    if state.DualWieldNeeded == 0 then
         state.CustomMeleeGroups:append('NoDW')
-    
+
     -- /DNC with capped magic haste and haste samba that isn't dnc main
-    elseif dw_needed > 0 and dw_needed <= 9 then
+    elseif state.DualWieldNeeded > 0 and state.DualWieldNeeded <= 9 then
         state.CustomMeleeGroups:append('MinDW')
 
     -- /NIN with capped magic haste
-    elseif dw_needed > 9 and dw_needed <= 11 then
+    elseif state.DualWieldNeeded > 9 and state.DualWieldNeeded <= 11 then
         state.CustomMeleeGroups:append('LowDW')
 
     -- /DNC with capped magic haste
-    elseif dw_needed > 11 and dw_needed <= 21 then
+    elseif state.DualWieldNeeded > 11 and state.DualWieldNeeded <= 21 then
         state.CustomMeleeGroups:append('MidDW')
-    elseif dw_needed > 21 and dw_needed <= 31 then
+    elseif state.DualWieldNeeded > 21 and state.DualWieldNeeded <= 31 then
         state.CustomMeleeGroups:append('HighDW')
-    elseif dw_needed > 31 and dw_needed <= 42 then
+    elseif state.DualWieldNeeded > 31 and state.DualWieldNeeded <= 42 then
         state.CustomMeleeGroups:append('SuperDW')
-    elseif dw_needed > 42 then
+    elseif state.DualWieldNeeded > 42 then
         state.CustomMeleeGroups:append('MaxDW')
     end
 end
@@ -1339,7 +1344,7 @@ end
 -- -- Return true if one exists and was loaded.
 function load_sidecar(job)
     if not job then return false end
-    
+
     -- filename format example for user-local files: whm_gear.lua, or playername_whm_gear.lua
     local filenames = {player.name..'_'..job..'_gear.lua', job..'_gear.lua',
         'gear/'..player.name..'_'..job..'_gear.lua', 'gear/'..job..'_gear.lua',
@@ -1348,15 +1353,14 @@ function load_sidecar(job)
 end
 
 -- -- Attempt to include user-globals.  Return true if it exists and was loaded.
--- function load_user_globals()
---     local filenames = {player.name..'-globals.lua', 'user-globals.lua'}
---     return optional_include(filenames)
--- end
+function load_user_globals()
+    local filenames = {player.name..'-globals.lua', 'user-globals.lua'}
+    return optional_include(filenames)
+end
 
 -- -- Load a sidecar file for the job (if it exists) that may re-define init_gear_sets and file_unload.
--- load_sidecar(player.main_job)
--- -- init_gear_sets()
--- init_gear_sets()
+load_sidecar(player.main_job)
+init_gear_sets()
 
 coroutine.schedule(function()
     send_command('hasteinfo report')

@@ -1,17 +1,5 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
-
-state.WeaponMode:options(
-    'SavageBlade',
-    'Seraph Blade',
-    'BlackHalo',
-    'Evisceration',
-    'AeolianEdge',
-    'Unlocked'
-)
-state.WeaponMode:set('SavageBlade')
-state.MeleeMode:options('TP')
-state.MeleeMode:set('TP')
+function user_setup()
+end
 
 function get_sets()
     sets.weapons['SavageBlade'] = {main="Naegling", sub="Thibron"}
@@ -22,8 +10,6 @@ function get_sets()
 
     sets.weapons.Shield = {sub="Sacro Bulwark"}
 
-    sets.Moving = {right_ring="Shneddick Ring"}
-    
     sets.idle = {
         main="Daybreak",
         sub="Sacro Bulwark",
@@ -99,7 +85,7 @@ function get_sets()
 
     sets.WS['Black Halo'] = sets.WS['Savage Blade']
 
-    sets.JA = {}
+    -- sets.JA = {}
 
     sets.precast.FastCast = {
         body={ name="Vitiation Tabard", augments={'Enhances "Chainspell" effect',}},
@@ -135,8 +121,32 @@ function get_sets()
     -- sets.midcast.Cursna = {}
 
     sets.midcast['Enhancing Magic'] = {}
-    sets.midcast.BarElement = {}
+
+    sets.midcast['Enhancing Magic'].Skill = set_combine(sets.midcast['Enhancing Magic'], {})
+
+    sets.midcast['Enhancing Magic'].Composure = sets.midcast['Enhancing Magic']
+
+    sets.midcast['Enhancing Magic'].Composure.Others = set_combine(sets.midcast['Enhancing Magic'], {})
+
+    sets.midcast.Refresh = {}
+
+    -- sets.midcast.BarElement = {}
+
     sets.midcast['Enfeebling Magic'] = {}
+
+    sets.midcast['Enfeebling Magic'].Immunobreak = set_combine(sets.midcast['Enfeebling Magic'], {})
+
+    -- Potency set
+    sets.midcast['Enfeebling Magic'].Potency = set_combine(sets.midcast['Enfeebling Magic'], {})
+
+    sets.midcast['Enfeebling Magic'].Potency.Immunobreak = set_combine(sets.midcast['Enfeebling Magic'].Potency, {})
+
+    sets.midcast['Enfeebling Magic'].Duration = set_combine(sets.midcast['Enfeebling Magic'], {})
+
+    sets.midcast['Enfeebling Magic'].Duration.MagicAcc = set_combine(sets.midcast['Enfeebling Magic'].Duration, {})
+
+    sets.midcast['Enfeebling Magic'].Duration.Immunobreak = set_combine(sets.midcast['Enfeebling Magic'].Duration, {})
+
     sets.midcast['Elemental Magic'] = {
         main={ name="Bunzi's Rod", augments={'Path: A',}},
         sub="Ammurapi Shield",
@@ -154,6 +164,13 @@ function get_sets()
         right_ring="Metamorph Ring",
         back="Null Shawl",
     }
+
+    sets.midcast['Elemental Magic'].MagicAcc = set_combine(sets.midcast['Elemental Magic'], {})
+
+    -- sets.midcast.Impact = set_combine(sets.midcast['Elemental Magic'], {})
+
+    sets.midcast['Dark Magic'] = {}
+
     sets.Obi = {waist="Hachirin-no-Obi"}
     sets.buff['Sublimation: Activated'] = {waist="Embla Sash"}
 end
