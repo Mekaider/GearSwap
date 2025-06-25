@@ -1,29 +1,14 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
+function user_setup() end
 
-state.WeaponMode:options(
-    'SavageBlade',
-    'Seraph Blade',
-    'BlackHalo',
-    'Evisceration',
-    'AeolianEdge',
-    'Unlocked'
-)
-state.WeaponMode:set('SavageBlade')
-state.MeleeMode:options('TP')
-state.MeleeMode:set('TP')
-
-function get_sets()
+function init_gear_sets()
     sets.weapons['SavageBlade'] = {main="Naegling", sub="Thibron"}
-    sets.weapons['Seraph Blade'] = {main={ name="Crocea Mors", augments={'Path: C',}}, sub="Daybreak"}
+    sets.weapons['SeraphBlade'] = {main={ name="Crocea Mors", augments={'Path: C',}}, sub="Daybreak"}
     sets.weapons['BlackHalo'] = {main="Maxentius", sub="Thibron"}
     sets.weapons['Evisceration'] = {main="Tauret", sub="Gleti's Knife"}
     sets.weapons['AeolianEdge'] = {main="Tauret", sub="Thibron"}
 
     sets.weapons.Shield = {sub="Sacro Bulwark"}
 
-    sets.Moving = {right_ring="Shneddick Ring"}
-    
     sets.idle = {
         main="Daybreak",
         sub="Sacro Bulwark",
@@ -79,7 +64,7 @@ function get_sets()
         back={ name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
     })
 
-    sets.WS = {}
+    -- sets.WS = {}
 
     sets.WS['Savage Blade'] = {
         ammo={ name="Coiste Bodhar", augments={'Path: A',}},
@@ -99,7 +84,7 @@ function get_sets()
 
     sets.WS['Black Halo'] = sets.WS['Savage Blade']
 
-    sets.JA = {}
+    -- sets.JA = {}
 
     sets.precast.FastCast = {
         body={ name="Vitiation Tabard", augments={'Enhances "Chainspell" effect',}},
@@ -107,7 +92,7 @@ function get_sets()
         legs={ name="Lengo Pants", augments={'INT+7','Mag. Acc.+7','"Mag.Atk.Bns."+3','"Refresh"+1',}},
         neck="Voltsurge Torque",
         left_ear="Malignance Earring",
-        right_ear={ name="Lethargy Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+6','Mag. Acc.+6',}},
+        right_ear={ name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','"Dbl.Atk."+3',}},
         left_ring="Kishar Ring",
         right_ring="Prolix Ring",
     }
@@ -135,8 +120,32 @@ function get_sets()
     -- sets.midcast.Cursna = {}
 
     sets.midcast['Enhancing Magic'] = {}
-    sets.midcast.BarElement = {}
+
+    sets.midcast['Enhancing Magic'].Skill = set_combine(sets.midcast['Enhancing Magic'], {})
+
+    sets.midcast['Enhancing Magic'].Composure = sets.midcast['Enhancing Magic']
+
+    sets.midcast['Enhancing Magic'].Composure.Others = set_combine(sets.midcast['Enhancing Magic'], {})
+
+    sets.midcast.Refresh = {}
+
+    -- sets.midcast.BarElement = {}
+
     sets.midcast['Enfeebling Magic'] = {}
+
+    sets.midcast['Enfeebling Magic'].Immunobreak = set_combine(sets.midcast['Enfeebling Magic'], {})
+
+    -- Potency set
+    sets.midcast['Enfeebling Magic'].Potency = set_combine(sets.midcast['Enfeebling Magic'], {})
+
+    sets.midcast['Enfeebling Magic'].Potency.Immunobreak = set_combine(sets.midcast['Enfeebling Magic'].Potency, {})
+
+    sets.midcast['Enfeebling Magic'].Duration = set_combine(sets.midcast['Enfeebling Magic'], {})
+
+    sets.midcast['Enfeebling Magic'].Duration.MagicAcc = set_combine(sets.midcast['Enfeebling Magic'].Duration, {})
+
+    sets.midcast['Enfeebling Magic'].Duration.Immunobreak = set_combine(sets.midcast['Enfeebling Magic'].Duration, {})
+
     sets.midcast['Elemental Magic'] = {
         main={ name="Bunzi's Rod", augments={'Path: A',}},
         sub="Ammurapi Shield",
@@ -154,6 +163,13 @@ function get_sets()
         right_ring="Metamorph Ring",
         back="Null Shawl",
     }
+
+    sets.midcast['Elemental Magic'].MagicAcc = set_combine(sets.midcast['Elemental Magic'], {})
+
+    -- sets.midcast.Impact = set_combine(sets.midcast['Elemental Magic'], {})
+
+    sets.midcast['Dark Magic'] = {}
+
     sets.Obi = {waist="Hachirin-no-Obi"}
     sets.buff['Sublimation: Activated'] = {waist="Embla Sash"}
 end

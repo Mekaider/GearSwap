@@ -1,4 +1,4 @@
-# GearSwap Luas 
+# GearSwap Luas
 
 ## Job GearSwap Progress
 
@@ -34,6 +34,12 @@
 - [ ] Ammo checks, don't shoot special ammo, etc.
 - [ ] Treasure hunter modes/gear/etc.
 - [ ] Crafting gear set override?
+- [ ] Review job_{pre,mid}cast and how that's hooked in (I'm not sure I like the current set_combine logic)
+- [ ] TP bonus (moonshade, etc.) handling and accounting for 3k tp
+- [ ] Sidecar file loading to remove all logic duplication
+- [ ] User-Globals (all chars)
+- [ ] Char-Globals
+- [ ] Add gear tables for things like AF and add to job files
 
 ## User Guide
 
@@ -59,7 +65,7 @@ The following gear sets are available across all jobs:
 
 ##### Functionality:
 - When `WeaponLock` is `true`, the current weapon set overrides all other gear changes. This locks the weapons and prevents any changes, even if defined in the gear sets.
-- When `WeaponMode` is set to `Unlocked`, the library won't change weapons. However, weapons defined in gear sets will still work as expected. Useful for trial weapons, etc. 
+- When `WeaponMode` is set to `Unlocked`, the library won't change weapons. However, weapons defined in gear sets will still work as expected. Useful for trial weapons, etc.
 - Precast and midcast: any weapons defined in sets will be used, _unless_ state.WeaponLock is true
 - Aftercast (engaged and idle): the current weaponset will be used; any weapons defined in sets will be ignored
 
@@ -177,7 +183,7 @@ The following gear sets are available across all jobs:
   ```lua
   -- Define custom melee groups in your job lua
   state.CustomMeleeGroups = L{'Impetus'}
-  
+
   -- Use in gear sets
   sets.engaged.Impetus = set_combine(sets.engaged, {body="Bhikku Cyclas +2"})
   ```
@@ -212,18 +218,8 @@ The following gear sets are available across all jobs:
 
 Include:
 
-    ln ~/Projects/GearSwap/Mekaider-Include.lua /c/Program\ Files\ \(x86\)/Windower/addons/GearSwap/libs/Mekaider-Include.lua
+    mklink "C:\Windower-dev\addons\GearSwap\libs\Mekaider-Include.lua" "%userprofile%\Projects\GearSwap\Mekaider-Include.lua"
 
-Character folders:
+Data:
 
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Mekaider" "%userprofile%\Projects\GearSwap\Mekaider" 
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Sodapoppy" "%userprofile%\Projects\GearSwap\Sodapoppy"
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Sarsaparilla" "%userprofile%\Projects\GearSwap\Sarsaparilla" 
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Neonx" "%userprofile%\Projects\GearSwap\Neonx" 
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Haronaru" "%userprofile%\Projects\GearSwap\Haronaru" 
-
-    mklink /D "C:\Windower-dev\addons\GearSwap\data\Verain" "%userprofile%\Projects\GearSwap\Verain"
+    mklink /D "C:\Windower-dev\addons\GearSwap\data" "%userprofile%\Projects\GearSwap\data"

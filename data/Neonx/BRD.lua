@@ -33,7 +33,7 @@ function get_sets()
         left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
         right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
         back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},
-      }
+    }
 
     sets.engaged = {
         range={ name="Linos", augments={'Accuracy+20','"Store TP"+4','Quadruple Attack +3',}},
@@ -44,7 +44,7 @@ function get_sets()
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="Bard's Charm +2", augments={'Path: A',}},
         waist="Sailfi Belt +1",
-        left_ear="Cessance Earring",
+        left_ear="Crep. Earring",
         right_ear="Telos Earring",
         left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
         right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
@@ -151,7 +151,7 @@ function get_sets()
         body="Fili Hongreline +3",
         hands="Fili Manchettes",
         legs="Inyanga Shalwar +2",
-        feet="Brioso Slippers +3",
+        feet="Brioso Slippers +4",
         neck="Mnbw. Whistle +1",
         waist="Flume Belt +1",
         -- left_ear={ name="Odnowa Earring +1", augments={'Path: A',}, priority=3},
@@ -166,7 +166,7 @@ function get_sets()
         body="Fili Hongreline +3",
         hands="Fili Manchettes",
         legs="Inyanga Shalwar +2",
-        feet="Brioso Slippers +3",
+        feet="Brioso Slippers +4",
         neck="Mnbw. Whistle +1",
         waist="Flume Belt +1",
         left_ear="Regal Earring",
@@ -180,7 +180,7 @@ function get_sets()
         body="Fili Hongreline +3",
         hands="Inyan. Dastanas +2",
         legs="Inyanga Shalwar +2",
-        feet="Brioso Slippers +3",
+        feet="Brioso Slippers +4",
         neck="Mnbw. Whistle +1",
         left_ear={ name="Etiolation Earring", priority=1}, -- 1
         right_ear={ name="Fili Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},      left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
