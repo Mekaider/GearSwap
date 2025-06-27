@@ -1,24 +1,16 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
-send_command('gs c update')
+function user_setup()
+    state.WeaponMode:options('Naegling', 'Club', 'Chango', 'ShiningOne', 'Montante')
 
-lockstyle_set = 15
--- set_lockstyle(lockstyle_set)
+    state.MeleeMode:options('TP', 'DT')
 
-state.WeaponMode:options('Naegling', 'Club', 'Chango', 'ShiningOne', 'Montante')
--- state.WeaponMode:options('Naegling', 'Chango')
-state.WeaponMode:set('Naegling')
-coroutine.schedule(function()
-    send_command('xb bar Sword')
-end, 3)
+    state.WeaponSkillMode:options('Normal', 'PDL')
 
-state.MeleeMode:options('TP', 'DT')
-state.MeleeMode:set('TP')
+    coroutine.schedule(function()
+        send_command('xb bar Sword')
+    end, 1)
+end
 
-state.WeaponSkillMode:options('Normal', 'PDL')
-state.WeaponSkillMode:set('Normal')
-
-function get_sets()
+function init_gear_sets()
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Weapon Sets -------------------------------------------
     ------------------------------------------------------------------------------------------------

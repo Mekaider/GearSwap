@@ -268,13 +268,13 @@ function init_include()
     ammo.arrow = {}
     ammo.bolt = {}
 
-    
+
     optional_include({'user-globals.lua'})
     optional_include({player.name..'-globals.lua'})
 
     if global_on_load then
         global_on_load()
-    end    
+    end
 
     if define_global_sets then
         define_global_sets()
@@ -610,7 +610,7 @@ function midcast(spell)
     end
 
     -- enforce WeaponMode, even over gear sets, if WeaponLock is true
-    if state.WeaponLock.value and not buffactive['Troubadour'] then
+    if state.WeaponLock.value and not buffactive['Nightingale'] then
         equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
     end
 
@@ -1338,9 +1338,19 @@ function check_stance(set)
 end
 
 function sub_job_change(new, old)
-    if sub_job_change_custom then
-        sub_job_change_custom()
+    if user_setup then
+        user_setup()
     end
+
+    if user_sub_job_change then
+        user_sub_job_change(new, old)
+    end
+
+    if job_sub_job_change then
+        job_sub_job_change(new, old)
+    end
+
+    equip(select_set())
 end
 
 -- Update Flurry state based on action

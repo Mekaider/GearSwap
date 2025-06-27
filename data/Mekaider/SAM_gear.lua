@@ -1,17 +1,15 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
+function user_setup()
+    state.WeaponMode:options('Gekkei', 'ShiningOne')
+    state.MeleeMode:options('Normal', 'Meva')
 
-state.WeaponMode:options('Gekkei', 'ShiningOne', 'Unlocked')
-state.MeleeMode:options('TP', 'DT', 'Meva')
+    coroutine.schedule(function()
+        send_command('xb bar GK')
+    end, 1)
+end
 
-send_command('input /macro book 2; wait 1; input /macro set 1')
-
-function get_sets() 
-
+function init_gear_sets() 
     sets.weapons['Gekkei'] = {main="Gekkei", sub="Utu Grip"}
     sets.weapons['ShiningOne'] = {main="Shining One", sub="Utu Grip"}
-
-    sets.Moving = {right_ring="Shneddick Ring"}
     
     sets.idle = {
         ammo="Staunch Tathlum +1",

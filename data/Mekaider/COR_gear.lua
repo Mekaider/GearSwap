@@ -1,25 +1,18 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
-send_command('gs c update')
+function user_setup()
+    state.WeaponMode:options(
+        'SavageBlade',
+        'Evisceration',
+        'AeolianEdge',
+        'Leaden(M)',
+        'Leaden(R)',
+        'LastStand(M)',
+        'LastStand(R)',
+        'HotShot(M)'
+    )
+    state.MeleeMode:options('TP', 'DT')
+end
 
--- state.DebugMode:set(true)
-
-state.WeaponMode:options(
-    'SavageBlade',
-    'Evisceration',
-    'AeolianEdge',
-    'Leaden(M)',
-    'Leaden(R)',
-    'LastStand(M)',
-    'LastStand(R)',
-    'HotShot(M)',
-    'Unlocked'
-)
-state.WeaponMode:set('SavageBlade')
-state.MeleeMode:options('TP', 'DT')
-state.MeleeMode:set('DT')
-
-function get_sets()
+function init_gear_sets()
     sets.weapons['SavageBlade'] = { main = "Naegling", sub = "Gleti's Knife", ranged = "Ataktos" }
     sets.weapons['Evisceration'] = { main = "Tauret", sub = "Gleti's Knife", ranged = "Ataktos" }
     sets.weapons['AeolianEdge'] = { main = "Tauret", sub = "Naegling", ranged = "Ataktos" }
