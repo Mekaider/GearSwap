@@ -14,5 +14,11 @@ function user_state_change(state, new_state_value, old_state_value)
                 send_command('xb bar GreatSword')
             end
         end
+    elseif player.main_job == 'SAM' then
+        if new_state_value == 'Gekkei' then
+            send_command('xb bar GK')
+        elseif new_state_value == 'ShiningOne' then
+            send_command('xb bar Polearm')
+        end
     end
 end
