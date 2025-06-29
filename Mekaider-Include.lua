@@ -139,6 +139,7 @@ end
 
 function init_include()
 
+    gear = {}
     state = {}
 
     -- Modes
@@ -150,7 +151,7 @@ function init_include()
     state.Stance = M { ['Description'] = 'Stance', 'Normal', 'OneHand', 'TwoHand', 'DualWield' }
 
     -- Weapon Modes
-    state.WeaponMode = M { ['description'] = 'Weapon Mode' }
+    state.WeaponMode = M { ['description'] = 'Weapon Mode', 'Unlocked' }
     state.ShieldMode = M { ['description'] = 'Shield Mode', 'off' } -- only used for Paladin so far
     state.WeaponLock = M(false)
 
@@ -164,15 +165,15 @@ function init_include()
     state.CustomMagicGroups = L{}
 
     -- Magic Modes
-    state.MagicMode = M { ['description'] = 'Magic Mode', 'Normal', 'M.Acc' }
+    state.MagicMode = M{['description'] = 'Magic Mode', 'Normal', 'MagicAcc' }
     state.MagicBurst = M(false)
     state.ExtraMagicModes = M{['description'] = 'Extra Magic Modes', 'None'}
 
     state.SongMode = M{['description']='Song Mode', 'Potency', 'Dummy', 'MiracleCheer'}
 
     -- Other Modes
-    state.RangedMode = M { ['description'] = 'Ranged Mode', 'Normal', 'PDL', 'Crit' }
-    state.QuickDrawMode = M { ['description'] = 'Quick Draw Mode', 'Normal', 'Enhance', 'StoreTP' }
+    state.RangedMode = M{['description'] = 'Ranged Mode', 'Normal', 'PDL', 'Crit' }
+    state.QuickDrawMode = M{['description'] = 'Quick Draw Mode', 'Normal', 'Enhance', 'StoreTP' }
 
     state.DualWieldNeeded = 0
     state.Flurry = nil
@@ -278,6 +279,10 @@ function init_include()
 
     if define_global_sets then
         define_global_sets()
+    end
+
+    if define_user_global_sets then
+        define_user_global_sets()
     end
 
     load_sidecar(player.main_job)
@@ -457,6 +462,11 @@ function midcast(spell)
     if (spell.english:startswith('Cure') or spell.english:contains('Cura')) and equipSet.Cure then
         equipSet = equipSet.Cure
         message = 'sets.midcast.Cure'
+
+        if (spell.element == world.day_element or spell.element == world.weather_element) and equipSet.Weather then
+            equipSet = equipSet.Weather
+            message = 'sets.midcast.Cure.Weather'
+        end
     elseif spell.english:contains('Protect') and equipSet.Protect then
         equipSet = equipSet.Protect
         message = 'sets.midcast.Protect'
@@ -478,6 +488,9 @@ function midcast(spell)
     elseif spell.english:contains('Refresh') and equipSet.Refresh then
         equipSet = equipSet.Refresh
         message = 'sets.midcast.Refresh'
+    elseif spell.english:contains('helix') and equipSet.Helix then
+        equipSet = equipSet.Helix
+        message = 'sets.midcast.Helix'
     elseif spell.type == 'Geomancy' then
         equipSet = equipSet.Geomancy
         message = 'sets.midcast.Geomancy'
@@ -818,6 +831,14 @@ function self_command(cmd)
             if not midaction() then
                 equip(select_set())
             end
+        elseif commandArgs[1] == 'display' then
+            if commandArgs[2] == 'on' then
+                state.Display:set(true)
+                gs_display:show()
+            else
+                state.Display:set(false)
+                gs_display:hide()
+            end
         end
     elseif commandArgs == 'update' then
         equip(select_set())
@@ -925,6 +946,10 @@ function gs_display_update()
 
         if state.ExtraMagicModes.value ~= 'None' then
             display_data[#display_data + 1] = { description = 'ExtraMagicModes', value = state.ExtraMagicModes.value }
+        end
+
+        if state.MagicBurst.value then
+            display_data[#display_data +1] = { description = 'Burst', value = 'on'}
         end
     end
 
@@ -1119,6 +1144,10 @@ end
 function update_magic_groups()
     state.CustomMagicGroups:clear()
 
+    if state.MagicBurst.value then
+        state.CustomMagicGroups:append('Burst')
+    end
+
     if state.ExtraMagicModes.value ~= 'None' then
         state.CustomMagicGroups:append(state.ExtraMagicModes.value)
     end
@@ -1129,6 +1158,22 @@ function update_magic_groups()
 
     if buffactive['Composure'] then
         state.CustomMagicGroups:append('Composure')
+    end
+
+    if buffactive['Light Arts'] or buffactive['Addendum: White'] then
+        state.CustomMagicGroups:append('Light Arts')
+    end
+
+    if buffactive['Dark Arts'] or buffactive['Addendum: Black'] then
+        state.CustomMagicGroups:append('Dark Arts')
+    end
+
+    if buffactive['Immanence'] then
+        state.CustomMagicGroups:append('Immanence')
+    end
+
+    if job_update_magic_groups then
+        job_update_magic_groups()
     end
 end
 
@@ -1181,14 +1226,6 @@ function elemental_magic_check(spell, equipSet)
     if spell.english:contains('helix') then
         if orpheus_intensity >= 5 then
             equipSet = set_combine(equipSet, { waist = "Orpheus's Sash" })
-            return equipSet
-        end
-    end
-
-    -- todo: refactor, cure should probably have an indepedent weather check for Twilight cape and such
-    if spell.english:startswith('Cure') or spell.english:contains('Cura') then
-        if (spell.element == world.day_element or spell.element == world.weather_element) and sets.Obi then
-            equipSet = set_combine(equipSet, sets.Obi)
             return equipSet
         end
     end

@@ -11,7 +11,7 @@ function get_sets()
     sets.weapons['Tishtrya'] = {main="Tishtrya", sub="Genmei Shield"}
 
     sets.Moving = {right_ring="Shneddick Ring"}
-    
+
     sets.idle = {
         main="Daybreak",
         sub="Genmei Shield",
@@ -37,7 +37,7 @@ function get_sets()
         hands="Geo. Mitaines +1",
         back={ name="Nantosuelta's Cape", augments={'MP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Pet: "Regen"+10','Pet: Damage taken -5%',}},
     })
-    
+
     sets.engaged = {
         ammo="Oshasha's Treatise",
         head={ name="Nyame Helm", augments={'Path: B',}},
@@ -48,7 +48,7 @@ function get_sets()
         neck="Null Loop",
         waist="Witful Belt",
         left_ear="Etiolation Earring",
-        right_ear={ name="Ebers Earring +2", augments={'System: 1 ID: 1676 Val: 0','Accuracy+18','Mag. Acc.+18','Damage taken-7%','STR+11 MND+11',}},
+        right_ear="Crep. Earring",
         left_ring="Chirich Ring +1",
         right_ring="Chirich Ring +1",
         back="Null Shawl",

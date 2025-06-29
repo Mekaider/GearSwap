@@ -22,8 +22,8 @@ function init_gear_sets()
         waist="Carrier's Sash",
         left_ear="Eabani Earring",
         right_ear="Infused Earring",
-        left_ring="Defending Ring",
-        right_ring="Stikini Ring +1",
+        left_ring=gear.left_stikini_ring,
+        right_ring=gear.right_stikini_ring,-- right_ring="Stikini Ring +1",
         back={ name="Sucellos's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
     }
 

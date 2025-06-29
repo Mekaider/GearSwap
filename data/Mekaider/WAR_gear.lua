@@ -36,8 +36,8 @@ function init_gear_sets()
         waist="Carrier's Sash",
         left_ear={ name="Odnowa Earring +1", augments={'Path: A',}},
         right_ear="Infused Earring",
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     }
 
@@ -59,7 +59,7 @@ function init_gear_sets()
         left_ear="Schere Earring",
         right_ear={ name="Boii Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+7','Mag. Acc.+7',}},
         left_ring="Niqmaddu Ring",
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        right_ring=gear.right_moonlight_ring,
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     } -- 28% DA traits +5% merits = 33% starting DA + 65% gear = 98% DA
 
@@ -69,8 +69,8 @@ function init_gear_sets()
         hands="Sakpata's Gauntlets",
         legs="Sakpata's Cuisses",
         feet="Sakpata's Leggings",
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
     })
 
     sets.engaged.OneHand = {
@@ -85,7 +85,7 @@ function init_gear_sets()
         left_ear="Schere Earring",
         right_ear={ name="Boii Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+7','Mag. Acc.+7',}},
         left_ring="Niqmaddu Ring",
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        right_ring=gear.right_moonlight_ring,
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     }
 
@@ -95,8 +95,8 @@ function init_gear_sets()
         hands="Sakpata's Gauntlets",
         legs="Sakpata's Cuisses",
         feet="Sakpata's Leggings",
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
     })
 
     sets.engaged.TwoHand = set_combine(sets.engaged, {
@@ -109,8 +109,8 @@ function init_gear_sets()
         hands="Sakpata's Gauntlets",
         legs="Sakpata's Cuisses",
         feet="Sakpata's Leggings",
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
     })
 
     sets.engaged.DualWield = set_combine(sets.engaged, {
@@ -187,7 +187,7 @@ function init_gear_sets()
     }
 
     sets.WS['Upheaval']['Mighty Strikes'] = set_combine(sets.WS['Upheaval'], {
-        feet="Boii Calligae +3", 
+        feet="Boii Calligae +3",
     })
 
     sets.WS['Upheaval'].PDL = {
@@ -207,7 +207,7 @@ function init_gear_sets()
     }
 
     sets.WS['Upheaval'].PDL['Mighty Strikes'] = set_combine(sets.WS['Upheaval'].PDL, {
-        feet="Boii Calligae +3", 
+        feet="Boii Calligae +3",
     })
 
     sets.WS['King\'s Justice'] = set_combine(sets.WS['Upheaval'], {
@@ -250,7 +250,7 @@ function init_gear_sets()
 
 
     sets.WS['Savage Blade']['Mighty Strikes'] = set_combine(sets.WS['Savage Blade'], {
-        feet="Boii Calligae +3", 
+        feet="Boii Calligae +3",
     })
 
     sets.WS['Savage Blade'].PDL = set_combine(sets.WS['Savage Blade'], {

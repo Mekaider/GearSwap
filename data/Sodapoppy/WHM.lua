@@ -13,8 +13,6 @@ function get_sets()
     sets.weapons['Yagrush'] = {main="Yagrush", sub="Genmei Shield"}
     sets.weapons['Tishtrya'] = {main="Tishtrya", sub="Genmei Shield"}
 
-    sets.Moving = set_combine(sets.idle, {right_ring="Shneddick Ring"})
-
     sets.idle = {
         main="Daybreak",
         sub="Genmei Shield",
@@ -97,8 +95,10 @@ function get_sets()
         left_ring="Naji's Loop",
         back={ name = "Alaunus's Cape", augments = { 'MND+20', 'Eva.+20 /Mag. Eva.+20', 'MND+10', 'Enmity-10', 'Phys. dmg. taken-10%', } },
     }
+    sets.midcast.Cure.Weather = set_combine(sets.midcast.Cure, {waist="Hachirin-no-Obi"})
 
     sets.midcast.Cure['Afflatus Solace'] = set_combine(sets.midcast.Cure, {body="Ebers Bliaut +3"})
+    sets.midcast.Cure.Weather['Afflatus Solace'] = set_combine(sets.midcast.Cure['Afflatus Solace'], {waist="Hachirin-no-Obi"})
 
     sets.midcast.NaSpell = {
         main="Yagrush",
@@ -109,7 +109,7 @@ function get_sets()
 
     sets.midcast.Erase = {
         main="Yagrush",
-        legs="Ebers Pant. +3", 
+        legs="Ebers Pant. +3",
         neck="Clr. Torque +2",
     }
 

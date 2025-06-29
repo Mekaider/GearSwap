@@ -14,7 +14,7 @@ function get_sets()
     sets.weapons["Lycurgos"] = {main="Lycurgos"}
 
     sets.Moving = {right_ring="Shneddick Ring"}
-    
+
     sets.idle = {
         ammo="Staunch Tathlum +1",
         head={ name="Nyame Helm", augments={'Path: B',}},
@@ -98,7 +98,7 @@ function get_sets()
         neck={ name="Futhark Torque +2", augments={'Path: A',}},
         waist="Flume Belt +1",
         left_ear="Tuisto Earring",
-        right_ear="Erilaz Earring +1",        
+        right_ear="Erilaz Earring +1",
         left_ring="Defending Ring",
         right_ring="Moonlight Ring",
         back={ name="Ogma's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Parrying rate+5%',}},
@@ -149,7 +149,7 @@ function get_sets()
     sets.JA['Elemental Sforzo'] = set_combine(sets.Enmity, {body="Futhark Coat"})
     sets.JA['Swordplay'] = set_combine(sets.Enmity, {hands="Futhark Mitons"})
     sets.JA['Vivacious Pulse'] = {
-        head="Erilaz Galea",        
+        head="Erilaz Galea",
         ring1={name="Stikini Ring +1", bag="wardrobe3"},
         ring2={name="Stikini Ring +1", bag="wardrobe4"},
     }
@@ -230,7 +230,7 @@ function get_sets()
 
 end
 
-function midcast_custom(spell)
+function job_midcast(spell)
     equipSet = sets.midcast
     message = ''
 
@@ -250,7 +250,7 @@ function midcast_custom(spell)
     end
 
     if message ~= '' then
-        log('midcast_custom: '..message)
+        log('job_midcast: '..message)
     end
     return equipSet
 end

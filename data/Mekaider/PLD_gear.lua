@@ -1,25 +1,10 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
 
-state.WeaponMode:options('Burtgang', 'Moralltach', 'Naegling', 'Unlocked')
-
-state.ShieldMode:options('Priwen', 'Duban', 'Srivatsa', 'Aegis', 'Blurred Shield +1')
-
-state.MeleeMode:options('TP', 'PDT', 'AoE', 'Meva')
-state.MeleeMode:set('PDT')
-
-state.MagicMode:options('Normal', 'SIRD')
-state.MagicMode:set('Normal')
-
--- state.DebugMode:set(true)
-
-send_command('bind ~f9 gs c cycle ShieldMode')
-
-function job_file_unload()
-    send_command('unbind ~f9')
+function user_setup()
+    state.WeaponMode:options('Burtgang', 'Moralltach', 'Naegling')
+    state.ShieldMode:options('Priwen', 'Duban', 'Srivatsa', 'Aegis', 'Blurred Shield +1')
 end
 
-function get_sets()
+function init_gear_sets()
     sets.weapons["Burtgang"] = {main="Burtgang"}
     sets.weapons["Moralltach"] = {main={ name="Moralltach", augments={'Path: C',}}}
     sets.weapons["Naegling"] = {main="Naegling"}
@@ -36,8 +21,8 @@ function get_sets()
 		waist="Carrier's Sash",
         left_ear="Tuisto Earring",
 		right_ear="Eabani Earring",
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
 		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Chance of successful block +5',}},
 	}
 
@@ -52,8 +37,8 @@ function get_sets()
 		waist="Flume Belt +1",
         left_ear="Tuisto Earring",
 		right_ear={ name="Chev. Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+8','Mag. Acc.+8',}},
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
 		back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Chance of successful block +5',}},
     }
 
@@ -70,8 +55,8 @@ function get_sets()
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
 		left_ear="Telos Earring",
 		right_ear="Cessance Earring",
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
 		back="Null Shawl",
     }
 
@@ -86,8 +71,8 @@ function get_sets()
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear="Tuisto Earring",
         right_ear={ name="Chev. Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+8','Mag. Acc.+8',}},
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
         back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Chance of successful block +5',}},
     }
 
@@ -104,8 +89,8 @@ function get_sets()
 		waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear="Tuisto Earring",
         right_ear={ name="Odnowa Earring +1", augments={'Path: A',}},
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
         back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Chance of successful block +5',}},
     }
 
@@ -207,8 +192,8 @@ function get_sets()
         waist="Creed Baudrier",
         left_ear="Thureous Earring",
         right_ear={ name="Chev. Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+8','Mag. Acc.+8',}},
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
         back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Chance of successful block +5',}},
     }
 
@@ -251,8 +236,8 @@ function get_sets()
         waist="Audumbla Sash",
         left_ear="Thureous Earring",
         right_ear={ name="Chev. Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+8','Mag. Acc.+8',}},
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
         back={ name="Weard Mantle", augments={'VIT+1','DEX+1','Enmity+3','Phalanx +2',}},
     }
 
@@ -269,8 +254,8 @@ function get_sets()
         waist="Creed Baudrier",
         left_ear="Thureous Earring",
         right_ear={ name="Odnowa Earring +1", augments={'Path: A',}},
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
         back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Chance of successful block +5',}},
     }
 
@@ -304,29 +289,4 @@ function get_sets()
     sets.midcast['Blue Magic'].Enmity.SIRD = set_combine(sets.midcast['Blue Magic'].Enmity, sets.midcast['Blue Magic'].SIRD)
     sets.midcast['Blue Magic'].Cure = sets.midcast.Cure
     sets.midcast['Blue Magic'].Cure.SIRD = set_combine(sets.midcast['Blue Magic'].Cure, sets.midcast['Blue Magic'].SIRD)
-end
-
-function midcast_custom(spell)
-    equipSet = sets.midcast
-    message = ''
-
-    if spell.type == 'BlueMagic' then
-        if blue_magic_emnity_spells:contains(spell.english) then
-            equipSet = equipSet['Blue Magic'].Enmity
-            message = 'Blue magic enmity set'
-        elseif blue_magic_healing_spells:contains(spell.english) then
-            equipSet = equipSet['Blue Magic'].Cure
-            message = 'Blue magic healing set'
-        end
-    end
-
-    if equipSet[state.MagicMode.value] then
-        equipSet = equipSet[state.MagicMode.value]
-        message = message..' ('..state.MagicMode.value..')'
-    end
-
-    if message ~= '' then
-        log('midcast_custom: '..message)
-    end
-    return equipSet
 end

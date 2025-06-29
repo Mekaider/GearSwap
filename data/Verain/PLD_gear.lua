@@ -1,30 +1,12 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
-
-lockstyle_set = 2
--- set_lockstyle(lockstyle_set)
-
-state.WeaponMode:options("Sakpata", "Naegling", "Unlocked")
-state.WeaponMode:set("Sakpata")
-
-state.ShieldMode:options('Priwen', 'Duban')
-state.ShieldMode:set('Priwen')
-
-state.MeleeMode:options('PDT', 'AoE', 'Meva')
-state.MeleeMode:set('PDT')
-
-state.MagicMode:options('Normal', 'SIRD')
-state.MagicMode:set('SIRD')
-
-send_command('gs c display')
-
-send_command('bind ~f9 gs c cycle ShieldMode')
-
-function job_file_unload()
-    send_command('unbind ~f9')
+function user_setup()
+    state.WeaponMode:options("Sakpata", "Naegling")
+    state.ShieldMode:options('Priwen', 'Duban')
+    state.MeleeMode:options('PDT', 'AoE', 'Meva')
+    state.MagicMode:set('SIRD')
 end
 
-function get_sets()
+
+function init_gear_sets()
     sets.weapons["Sakpata"] = {main="Sakpata's Sword"}
     sets.weapons["Naegling"] = {main="Naegling"}
 
@@ -137,29 +119,4 @@ function get_sets()
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
     }
-end
-
-function midcast_custom(spell)
-    equipSet = sets.midcast
-    message = ''
-
-    if spell.type == 'BlueMagic' then
-        if blue_magic_emnity_spells:contains(spell.english) then
-            equipSet = equipSet['Blue Magic'].Enmity
-            message = 'Blue magic enmity set'
-        elseif blue_magic_healing_spells:contains(spell.english) then
-            equipSet = equipSet['Blue Magic'].Cure
-            message = 'Blue magic healing set'
-        end
-    end
-
-    if equipSet[state.MagicMode.value] then
-        equipSet = equipSet[state.MagicMode.value]
-        message = message..' ('..state.MagicMode.value..')'
-    end
-
-    if message ~= '' then
-        log('midcast_custom: '..message)
-    end
-    return equipSet
 end

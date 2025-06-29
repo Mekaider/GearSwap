@@ -102,10 +102,6 @@ function user_unload()
     send_command('unbind ~F9')
     send_command('unbind @f11')
     send_command('unbind f12')
-    send_command('unbind numpad0')
-    send_command('unbind numpad1')
-    send_command('unbind numpad2')
-    send_command('unbind numpad3')
 end
 
 
@@ -324,7 +320,7 @@ function init_gear_sets()
         right_ear="Odnowa Earring",
         left_ring="Defending Ring",
         right_ring="Warden's Ring",
-        back={ name="Toutatis's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+5','"Store TP"+10','Phys. dmg. taken-10%',}},    
+        back={ name="Toutatis's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+5','"Store TP"+10','Phys. dmg. taken-10%',}},
         }
 
     sets.idle.DT = set_combine(sets.idle, {
@@ -339,7 +335,7 @@ function init_gear_sets()
         right_ear="Odnowa Earring",
         left_ring="Gelatinous Ring",
         right_ring="Warden's Ring",
-        back={ name="Toutatis's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+5','"Store TP"+10','Phys. dmg. taken-10%',}},    
+        back={ name="Toutatis's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+5','"Store TP"+10','Phys. dmg. taken-10%',}},
         })
 
    sets.idle.Refresh = set_combine(sets.idle, {
