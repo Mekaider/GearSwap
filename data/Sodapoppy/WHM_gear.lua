@@ -1,15 +1,12 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
+function user_setup()
+    state.WeaponMode:options('Tishtrya', 'Unlocked')
+    state.WeaponMode:set('Unlocked')
 
-state.WeaponMode:options('Tishtrya', 'Unlocked')
-state.WeaponMode:set('Unlocked')
+    state.MeleeMode = M{['description']='Melee Mode', 'Normal'}
+    state.ExtraMagicModes:options('None', 'SIRD', 'Immunobreak')
+end
 
-state.MeleeMode = M{['description']='Melee Mode', 'Normal'}
-state.MagicMode:options('Normal', 'MagicAcc')
-state.ExtraMagicModes:options('None', 'SIRD', 'Immunobreak')
-state.MagicBurst = M(false)
-
-function get_sets()
+function init_gear_sets()
     sets.weapons['Yagrush'] = {main="Yagrush", sub="Genmei Shield"}
     sets.weapons['Tishtrya'] = {main="Tishtrya", sub="Genmei Shield"}
 

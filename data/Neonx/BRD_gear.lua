@@ -1,11 +1,10 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
+function user_setup()
+    state.WeaponMode:options('Naegling', 'Carnwenhan')
+    state.MeleeMode:options('Normal')
+    state.WeaponLock:set(true)
+end
 
-state.WeaponMode:options('Naegling', 'Carnwenhan')
-state.MeleeMode:options('TP')
-state.WeaponLock:set(true)
-
-function get_sets()
+function init_gear_sets()
     sets.instruments.Potency = {range="Gjallarhorn"}
     sets.instruments.ExtraSongs = {range="Daurdabla"}
     sets.instruments.LullabyHarp = {range="Daurdabla"}
@@ -18,7 +17,7 @@ function get_sets()
     sets.weapons.Shield = {sub="Ammurapi Shield"}
 
     sets.Moving = {right_ring="Shneddick Ring"}
-    
+
     sets.idle = {
         range={ name="Linos", augments={'Accuracy+20','"Store TP"+4','Quadruple Attack +3',}},
         head="Fili Calot +3",
@@ -29,7 +28,7 @@ function get_sets()
         neck="Elite Royal Collar",
         waist="Null Belt",
         left_ear="Etiolation Earring",
-        right_ear={ name="Fili Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},      
+        right_ear={ name="Fili Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},
         left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
         right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
         back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},
@@ -129,7 +128,7 @@ function get_sets()
         left_ring="Moonlight Ring",
         right_ring="Cornelia's Ring",
         back={ name="Intarabus's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
-    } 
+    }
 
     sets.JA = {}
 
@@ -158,7 +157,7 @@ function get_sets()
         left_ear={ name="Etiolation Earring", priority=1}, -- 1
         left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
         right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
-        back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},    
+        back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},
     }
 
     sets.midcast.Songs.Enfeebling = {
@@ -172,7 +171,7 @@ function get_sets()
         left_ear="Regal Earring",
         right_ear={ name="Fili Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},      left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
         right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
-        back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},    
+        back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},
     }
 
     sets.midcast['Horde Lullaby II'] = {
@@ -185,7 +184,7 @@ function get_sets()
         left_ear={ name="Etiolation Earring", priority=1}, -- 1
         right_ear={ name="Fili Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},      left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
         right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
-        back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},  
+        back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},
       }
 
     sets.midcast.Carol = {hands="Mousai Gages +1"}
@@ -212,5 +211,4 @@ function get_sets()
         feet={ name="Telchine Pigaches", augments={'Enh. Mag. eff. dur. +8',}},
         waist="Embla Sash",
     }
-
 end

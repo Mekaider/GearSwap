@@ -1,4 +1,7 @@
-function user_setup() end
+function user_setup()
+    -- send_command('gs c display on')
+    -- send_command('gs c debug')
+end
 
 function init_gear_sets()
     sets.idle = {

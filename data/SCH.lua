@@ -1,5 +1,16 @@
 function job_setup()
     state.RegenMode = M{['description']='Regen Mode', 'Potency', 'Duration'} -- not currently used
+
+    state.Buff['Light Arts'] = buffactive['Light Arts'] or false
+    state.Buff['Dark Arts'] = buffactive['Dark Arts'] or false
+    state.Buff['Penury'] = buffactive['Penury'] or false
+    state.Buff['Parsimony'] = buffactive['Parsimony'] or false
+    state.Buff['Celerity'] = buffactive['Celerity'] or false
+    state.Buff['Alacrity'] = buffactive['Alacrity'] or false
+    state.Buff['Rapture'] = buffactive['Rapture'] or false
+    state.Buff['Ebullience'] = buffactive['Ebullience'] or false
+    state.Buff['Perpetuance'] = buffactive['Perpetuance'] or false
+    state.Buff['Immanence'] = buffactive['Immanence'] or false
 end
 
 function get_sets()
@@ -30,28 +41,28 @@ function job_midcast(spell)
     message = ''
     equipSet = {}
 
-    if buffactive['Penury'] and sets.Penury then
+    if state.Buff['Penury'] and sets.Penury then
         if spell.type == 'WhiteMagic' then
             equipSet = set_combine(equipSet, sets.Penury)
             message = 'sets.Penury'
         end
     end
 
-    if buffactive['Celerity'] and sets.Celerity then
+    if state.Buff['Celerity'] and sets.Celerity then
         if spell.type == 'WhiteMagic' then
             equipSet = set_combine(equipSet, sets.Celerity)
             message = 'sets.Celerity'
         end
     end
 
-    if buffactive['Parsimony'] and sets.Parsimony then
+    if state.Buff['Parsimony'] and sets.Parsimony then
         if spell.type == 'BlackMagic' then
             equipSet = set_combine(equipSet, sets.Parsimony)
             message = 'sets.Parsimony'
         end
     end
 
-    if buffactive['Alacrity'] and sets.Alacrity then
+    if state.Buff['Alacrity'] and sets.Alacrity then
         if spell.type == 'BlackMagic' then
             equipSet = set_combine(equipSet, sets.Alacrity)
             message = 'sets.Alacrity'
@@ -66,21 +77,21 @@ function job_midcast(spell)
             end
         end
 
-        if buffactive['Ebullience'] and sets.Ebullience then
+        if state.Buff['Ebullience'] and sets.Ebullience then
             equipSet = set_combine(equipSet, sets.Ebullience)
             message = message..' sets.Ebullience'
         end
     end
 
     if spell.skill == 'Enhancing Magic' then
-        if buffactive['Perpetuance'] and sets.Perpetuance then
+        if state.Buff['Perpetuance'] and sets.Perpetuance then
             equipSet = set_combine(equipSet, sets.Perpetuance)
             message = 'sets.Perpetuance'
         end
     end
 
     if spell.skill == 'Healing Magic' or spell.skill == 'Divine Magic' then
-        if buffactive['Rapture'] and sets.Rapture then
+        if state.Buff['Rapture'] and sets.Rapture then
             equipSet = set_combine(equipSet, sets.Rapture)
             message = 'sets.Rapture'
         end
@@ -91,4 +102,10 @@ function job_midcast(spell)
     end
 
     return equipSet
+end
+
+function job_update_magic_groups()
+    if state.Buff['Immanence'] then
+        state.CustomMagicGroups:append('Immanence')
+    end
 end

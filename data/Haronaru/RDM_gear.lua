@@ -1,4 +1,4 @@
-function user_setup() 
+function user_setup()
     state.WeaponLock:set(true)
 end
 
@@ -12,7 +12,7 @@ function init_gear_sets()
     sets.weapons.Shield = {sub="Sacro Bulwark"}
 
     sets.Moving = {right_ring="Shneddick Ring"}
-    
+
     sets.idle = {
         ammo={ name="Coiste Bodhar", augments={'Path: A',}},
         head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
@@ -73,7 +73,7 @@ function init_gear_sets()
         ammo="Coiste Bodhar",
         head={ name="Nyame Helm", augments={'Path: B',}},
         body={ name="Nyame Mail", augments={'Path: B',}},
-        hands={ name="Nyame Gauntlets", augments={'Path: B',}},        
+        hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet="Leth. Houseaux +3",
         neck={ name="Dls. Torque +2", augments={'Path: A',}},
@@ -113,7 +113,7 @@ function init_gear_sets()
         neck="Sibyl Scarf",
         waist="Eschan Stone",
         left_ear="Malignance Earring",
-        right_ear="Moonshade Earring",        
+        right_ear="Moonshade Earring",
         left_ring="Cornelia's Ring",
         right_ring="Freke Ring",
         back={ name="Sucellos's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
@@ -196,7 +196,7 @@ function init_gear_sets()
         feet="Leth. Houseaux +3",
     })
 
-    sets.midcast['Enhancing Magic'].Composure = sets.midcast['Enhancing Magic']
+    sets.midcast['Enhancing Magic'].Composure = set_combine(sets.midcast['Enhancing Magic'], {})
     sets.midcast['Enhancing Magic'].Composure.Others = set_combine(sets.midcast['Enhancing Magic'], {
         head="Leth. Chappel +3",
         body="Lethargy Sayon +3",

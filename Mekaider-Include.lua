@@ -141,6 +141,7 @@ function init_include()
 
     gear = {}
     state = {}
+    state.Buff = {}
 
     -- Modes
 
@@ -308,8 +309,12 @@ end
 init_include()
 
 function precast(spell)
-    update_magic_groups()
-    -- table.vprint(state.CustomMagicGroups)
+    if state.Buff[spell.english] ~= nil then
+        state.Buff[spell.english] = true
+    end
+
+    update_magic_groups() -- not sure if this would be better in Aftercast and also state_change
+    -- log(table.vprint(state.CustomMagicGroups))
 
     equipSet = {}
     local message = ''
@@ -332,7 +337,7 @@ function precast(spell)
         end
     elseif spell.type == 'WeaponSkill' then
         equipSet = select_weaponskill_set(spell)
-    elseif spell.type == 'JobAbility' then
+    elseif spell.type == 'JobAbility' or spell.type == 'Scholar' then
         equipSet = sets.JA
         message = 'sets.JA'
 
@@ -443,7 +448,18 @@ function precast(spell)
 end
 
 function midcast(spell)
-    if spell.type == 'WeaponSkill' or spell.type == 'JobAbility' or spell.type == "CorsairRoll" or spell.type == 'Samba' or spell.type == 'Jig' or spell.type == 'Step' or spell.type == 'Flourish1' or spell.type == 'Flourish2' or spell.type == 'Flourish3' then return end
+    if spell.type == 'WeaponSkill' or
+        spell.type == 'JobAbility' or
+        spell.type == "CorsairRoll" or
+        spell.type == 'Samba' or
+        spell.type == 'Jig' or
+        spell.type == 'Step' or
+        spell.type == 'Flourish1' or
+        spell.type == 'Flourish2' or
+        spell.type == 'Flourish3' or
+        spell.type == 'Scholar' then
+        return
+    end
 
     equipSet = sets.midcast
     local message = 'sets.midcast'
@@ -623,7 +639,7 @@ function midcast(spell)
     end
 
     -- enforce WeaponMode, even over gear sets, if WeaponLock is true
-    if state.WeaponLock.value and not buffactive['Nightingale'] then
+    if state.WeaponLock.value and not state.Buff['Troubadour'] then
         equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
     end
 
@@ -641,6 +657,11 @@ function midcast(spell)
 end
 
 function aftercast(spell)
+    if state.Buff[spell.english] ~= nil then
+        state.Buff[spell.english] = not spell.interrupted or buffactive[spell.english] or false
+        log('state.Buff: ' .. spell.english .. ' ' .. tostring(not spell.interrupted or buffactive[spell.english] or false))
+    end
+
     if player.main_job == 'SMN' and pet_midaction() then
         return
     else
@@ -1152,24 +1173,12 @@ function update_magic_groups()
         state.CustomMagicGroups:append(state.ExtraMagicModes.value)
     end
 
-    if buffactive['Afflatus Solace'] then
-        state.CustomMagicGroups:append('Afflatus Solace')
-    end
-
-    if buffactive['Composure'] then
-        state.CustomMagicGroups:append('Composure')
-    end
-
     if buffactive['Light Arts'] or buffactive['Addendum: White'] then
         state.CustomMagicGroups:append('Light Arts')
     end
 
     if buffactive['Dark Arts'] or buffactive['Addendum: Black'] then
         state.CustomMagicGroups:append('Dark Arts')
-    end
-
-    if buffactive['Immanence'] then
-        state.CustomMagicGroups:append('Immanence')
     end
 
     if job_update_magic_groups then
@@ -1256,6 +1265,10 @@ end
 
 function buff_change(name, gain, buff_details)
     log('buff change: ' .. name .. ' ' .. tostring(gain))
+
+    if state.Buff[name] ~= nil then
+        state.Buff[name] = gain
+    end
 
     if sets.buff[name] then
         log('buff set found: ' .. name)

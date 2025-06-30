@@ -10,6 +10,8 @@ function job_setup()
     state.MeleeMode:options('Normal')
     state.MagicMode:options('Normal', 'MagicAcc')
     state.ExtraMagicModes:options('None', 'Immunobreak')
+
+    state.Buff['Composure'] = buffactive['Composure'] or false
 end
 
 function get_sets()
@@ -67,12 +69,12 @@ function init_gear_sets()
     -- sets.midcast.NaSpell = {}
     -- sets.midcast.Cursna = {}
 
-    sets.midcast['Enhancing Magic'] = {}
+    -- sets.midcast['Enhancing Magic'] = {}
 
-    sets.midcast['Enhancing Magic'].Skill = set_combine(sets.midcast['Enhancing Magic'], {})
+    -- sets.midcast['Enhancing Magic'].Skill = set_combine(sets.midcast['Enhancing Magic'], {})
 
-    sets.midcast['Enhancing Magic'].Composure = sets.midcast['Enhancing Magic']
-    sets.midcast['Enhancing Magic'].Composure.Others = set_combine(sets.midcast['Enhancing Magic'], {})
+    -- sets.midcast['Enhancing Magic'].Composure = sets.midcast['Enhancing Magic']
+    -- sets.midcast['Enhancing Magic'].Composure.Others = set_combine(sets.midcast['Enhancing Magic'], {})
 
     sets.midcast.Refresh = {}
 
@@ -109,3 +111,10 @@ end
 -- function job_precast(spell) end
 
 -- function job_midcast(spell) end
+
+
+function job_update_magic_groups()
+    if state.Buff['Composure'] then
+        state.CustomMagicGroups:append('Composure')
+    end
+end
