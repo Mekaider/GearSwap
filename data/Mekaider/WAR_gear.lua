@@ -32,7 +32,7 @@ function init_gear_sets()
         hands="Sakpata's Gauntlets",
         legs="Sakpata's Cuisses",
         feet="Sakpata's Leggings",
-        neck="Loricate Torque +1",
+        neck="Elite Royal Collar",
         waist="Carrier's Sash",
         left_ear={ name="Odnowa Earring +1", augments={'Path: A',}},
         right_ear="Infused Earring",

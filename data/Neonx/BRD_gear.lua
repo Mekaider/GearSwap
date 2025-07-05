@@ -117,7 +117,7 @@ function init_gear_sets()
     sets.WS['Savage Blade'] = {
         range={ name="Linos", augments={'Attack+15','Weapon skill damage +3%','STR+6 DEX+6',}},
         head={ name="Nyame Helm", augments={'Path: B',}},
-        body={ name="Nyame Mail", augments={'Path: B',}},
+        body={ name="Bihu Jstcorps. +3", augments={'Enhances "Troubadour" effect',}},
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
@@ -131,6 +131,8 @@ function init_gear_sets()
     }
 
     sets.JA = {}
+    sets.JA['Nightingale'] = {feet="Bihu Slippers +1"}
+    sets.JA['Troubadour'] = {body={ name="Bihu Jstcorps. +3", augments={'Enhances "Troubadour" effect',}}}
 
     sets.precast.FastCast = {
         head="Bunzi's Hat",

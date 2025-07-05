@@ -281,6 +281,12 @@ function init_gear_sets()
 
     sets.midcast.Flash.SIRD = set_combine(sets.midcast.Flash, sets.midcast.SIRD)
 
+    sets.midcast.Foil = set_combine(sets.Enmity, {
+        feet="Chev. Sabatons +2",
+    })
+
+    sets.midcast.Foil.SIRD = set_combine(sets.midcast.Foil, sets.midcast.SIRD)
+
     sets.midcast['Enfeebling Magic'] = {}
 
     sets.midcast['Blue Magic'] = {}

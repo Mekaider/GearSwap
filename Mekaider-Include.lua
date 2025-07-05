@@ -8,6 +8,10 @@ function file_unload()
     if job_file_unload then
         job_file_unload()
     end
+
+    if user_file_unload then
+        user_file_unload()
+    end
 end
 
 local mage_jobs = S{'WHM', 'BLM', 'RDM', 'PLD', 'DRK', 'BRD', 'NIN', 'SMN', 'BLU', 'SCH', 'GEO', 'RUN'}
@@ -1235,8 +1239,8 @@ function elemental_magic_check(spell, equipSet)
     if spell.english:contains('helix') then
         if orpheus_intensity >= 5 then
             equipSet = set_combine(equipSet, { waist = "Orpheus's Sash" })
-            return equipSet
         end
+        return equipSet
     end
 
     if spell.skill == 'Elemental Magic' or spell.type == 'BlueMagic' then

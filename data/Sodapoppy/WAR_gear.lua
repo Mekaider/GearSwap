@@ -1,21 +1,12 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
-send_command('gs c update')
+function user_setup()
+    state.WeaponMode:options('Naegling', 'Club')
 
-state.WeaponMode:options('Naegling', 'Club')
--- state.WeaponMode:options('Naegling', 'Chango')
-state.WeaponMode:set('Naegling')
--- coroutine.schedule(function()
---     send_command('xb bar Sword')
--- end, 3)
+    state.MeleeMode:options('TP', 'DT')
 
-state.MeleeMode:options('TP', 'DT')
-state.MeleeMode:set('TP')
+    state.WeaponSkillMode:options('Normal', 'PDL')
+end
 
-state.WeaponSkillMode:options('Normal', 'PDL')
-state.WeaponSkillMode:set('Normal')
-
-function get_sets() 
+function init_gear_sets()
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Weapon Sets -------------------------------------------
     ------------------------------------------------------------------------------------------------
@@ -140,9 +131,9 @@ function get_sets()
     -- default WS set
     sets.WS = {
         ammo="Knobkierrie",
-        head="Agoge Mask +3",
+        head={ name="Nyame Helm", augments={'Path: B',}},
         body={ name="Nyame Mail", augments={'Path: B',}},
-        hands="Boii Mufflers +3",
+        hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="War. Beads +2", augments={'Path: A',}},
@@ -189,7 +180,7 @@ function get_sets()
     }
 
     sets.WS['Upheaval']['Mighty Strikes'] = set_combine(sets.WS['Upheaval'], {
-        feet="Boii Calligae +3", 
+        feet="Boii Calligae +3",
     })
 
     sets.WS['Upheaval'].PDL = {
@@ -209,7 +200,7 @@ function get_sets()
     }
 
     sets.WS['Upheaval'].PDL['Mighty Strikes'] = set_combine(sets.WS['Upheaval'].PDL, {
-        feet="Boii Calligae +3", 
+        feet="Boii Calligae +3",
     })
 
     sets.WS['King\'s Justice'] = set_combine(sets.WS['Upheaval'], {
@@ -252,7 +243,7 @@ function get_sets()
 
 
     sets.WS['Savage Blade']['Mighty Strikes'] = set_combine(sets.WS['Savage Blade'], {
-        feet="Boii Calligae +3", 
+        feet="Boii Calligae +3",
     })
 
     sets.WS['Savage Blade'].PDL = set_combine(sets.WS['Savage Blade'], {
@@ -330,8 +321,8 @@ function get_sets()
     sets.JA['Blood Rage'] = {body="Boii Lorica +3"}
 end
 
--- function state_change_custom(state, new_state_value, old_state_value) 
---     if state == 'WeaponMode' then 
+-- function state_change_custom(state, new_state_value, old_state_value)
+--     if state == 'WeaponMode' then
 --         if new_state_value == 'Naegling' then
 --             send_command('xb bar Sword')
 --         elseif new_state_value == 'Club' then

@@ -41,7 +41,7 @@ function job_midcast(spell)
     message = ''
     equipSet = {}
 
-    if state.Buff['Penury'] and sets.Penury then
+    if state.Buff['Penury'] and sets.Penury and spell.skill ~= "Enhancing Magic" then
         if spell.type == 'WhiteMagic' then
             equipSet = set_combine(equipSet, sets.Penury)
             message = 'sets.Penury'
