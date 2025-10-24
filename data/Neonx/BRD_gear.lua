@@ -1,6 +1,6 @@
 function user_setup()
     state.WeaponMode:options('Naegling', 'Carnwenhan')
-    state.MeleeMode:options('Normal')
+    state.MeleeMode:options('Normal', 'Acc')
     state.WeaponLock:set(true)
 end
 
@@ -59,13 +59,14 @@ function init_gear_sets()
         back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
     }) -- 26DW
 
-    sets.engaged.DualWield.Naegling = set_combine(sets.engaged.DualWield, {
+    sets.engaged.DualWield.Acc = set_combine(sets.engaged.DualWield, {
         hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- used for acc with TP bonus offhand
     })
 
-    sets.engaged.DualWield.NoDW = sets.engaged
-    sets.engaged.DualWield.Naegling.NoDW = set_combine(sets.engaged.DualWield.NoDW, {
+    sets.engaged.DualWield.NoDW = set_combine(sets.engaged)
+    sets.engaged.DualWield.Acc.NoDW = set_combine(sets.engaged.DualWield.NoDW, {
         hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- used for acc with TP bonus offhand
+        right_ear="Telos Earring",
     })
 
     sets.engaged.DualWield.MinDW = set_combine(sets.engaged, {
@@ -73,35 +74,37 @@ function init_gear_sets()
         right_ear="Suppanomimi",
     }) -- 9 DW required
 
-    sets.engaged.DualWield.Naegling.MinDW = set_combine(sets.engaged.DualWield.MinDW, {
+    sets.engaged.DualWield.Acc.MinDW = set_combine(sets.engaged.DualWield.MinDW, {
         hands={ name="Gazu Bracelets +1", augments={'Path: A'}}
     })
 
     sets.engaged.DualWield.LowDW = set_combine(sets.engaged, {
-        hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- needed to cap gear haste, ideally wouldn't need these here
         waist="Reiki Yotai",
         left_ear="Eabani Earring",
+        right_ear="Alabaster Earring"
     }) -- 11 DW required
 
-    sets.engaged.DualWield.Naegling.LowDW = set_combine(sets.engaged.DualWield.LowDW, {
-        hands={ name="Gazu Bracelets +1", augments={'Path: A'}}
+    sets.engaged.DualWield.Acc.LowDW = set_combine(sets.engaged.DualWield.LowDW, {
+        hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- used for acc with TP bonus offhand
+        right_ear="Telos Earring",
     })
 
     sets.engaged.DualWield.MidDW = set_combine(sets.engaged, {
-        hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- needed to cap gear haste, ideally wouldn't need these here
         waist="Reiki Yotai",
         left_ear="Eabani Earring",
+        right_ear="Alabaster Earring",
         back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
-    }) -- 21 DW required -- @19
+    }) -- 21 DW required
 
-    sets.engaged.DualWield.Naegling.MidDW = set_combine(sets.engaged.DualWield.MidDW, {
+    sets.engaged.DualWield.Acc.MidDW = set_combine(sets.engaged.DualWield.MidDW, {
         hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- used for acc with TP bonus offhand
+        right_ear="Telos Earring",
     })
 
     sets.WS = {
         range={ name="Linos", augments={'Attack+15','Weapon skill damage +3%','STR+6 DEX+6',}},
         head={ name="Nyame Helm", augments={'Path: B',}},
-        body={ name="Nyame Mail", augments={'Path: B',}},
+        body={ name="Bihu Just. +4", augments={'Enhances "Troubadour" effect',}},
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
@@ -117,7 +120,7 @@ function init_gear_sets()
     sets.WS['Savage Blade'] = {
         range={ name="Linos", augments={'Attack+15','Weapon skill damage +3%','STR+6 DEX+6',}},
         head={ name="Nyame Helm", augments={'Path: B',}},
-        body={ name="Bihu Jstcorps. +3", augments={'Enhances "Troubadour" effect',}},
+        body={ name="Bihu Just. +4", augments={'Enhances "Troubadour" effect',}},
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
@@ -132,7 +135,7 @@ function init_gear_sets()
 
     sets.JA = {}
     sets.JA['Nightingale'] = {feet="Bihu Slippers +1"}
-    sets.JA['Troubadour'] = {body={ name="Bihu Jstcorps. +3", augments={'Enhances "Troubadour" effect',}}}
+    sets.JA['Troubadour'] = {body={ name="Bihu Just. +4", augments={'Enhances "Troubadour" effect',}}}
 
     sets.precast.FastCast = {
         head="Bunzi's Hat",

@@ -15,7 +15,7 @@ function init_gear_sets()
 
     sets.idle = {
         ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-        head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
+        head={ name="Viti. Chapeau +4", augments={'Enfeebling Magic duration','Magic Accuracy',}},
         body="Lethargy Sayon +3",
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -87,7 +87,7 @@ function init_gear_sets()
 
     sets.WS['Savage Blade'] = {
         ammo="Oshasha's Treatise",
-        head={ name="Nyame Helm", augments={'Path: B',}},
+        head={ name="Viti. Chapeau +4", augments={'Enfeebling Magic duration','Magic Accuracy',}},
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -217,7 +217,7 @@ function init_gear_sets()
         main="Bunzi's Rod",
         sub="Ammurapi Shield",
         ammo="Regal Gem",
-        head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
+        head={ name="Viti. Chapeau +4", augments={'Enfeebling Magic duration','Magic Accuracy',}},
         body="Lethargy Sayon +3",
         hands="Leth. Ganth. +3",
         legs="Leth. Fuseau +3",
@@ -264,7 +264,7 @@ function init_gear_sets()
         main={ name="Bunzi's Rod", augments={'Path: A',}},
         sub="Ammurapi Shield",
         ammo="Regal Gem",
-        head={ name="Viti. Chapeau +3", augments={'Enfeebling Magic duration','Magic Accuracy',}},
+        head={ name="Viti. Chapeau +4", augments={'Enfeebling Magic duration','Magic Accuracy',}},
         body="Lethargy Sayon +3",
         hands="Leth. Ganth. +3",
         legs="Leth. Fuseau +3",

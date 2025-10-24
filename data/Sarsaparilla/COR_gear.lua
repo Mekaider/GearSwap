@@ -114,8 +114,8 @@ function init_gear_sets()
         back={name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
     }) -- depends on 2% haste from Gleti's offhand to cap
 
-    sets.engaged.DualWield.NoDW = sets.engaged
-    sets.engaged.DualWield.DT.NoDW = sets.engaged.DT
+    sets.engaged.DualWield.NoDW = set_combine(sets.engaged)
+    sets.engaged.DualWield.DT.NoDW = set_combine(sets.engaged.DT)
 
     -- 9 DW required
     sets.engaged.DualWield.MinDW = set_combine(sets.engaged, {
@@ -161,8 +161,8 @@ function init_gear_sets()
         back={ name="Camulus's Mantle", augments={'AGI+20','Rng.Acc.+20 Rng.Atk.+20','Rng.Acc.+10','"Store TP"+10','Mag. Evasion+15',}},
     }
 
-    sets.precast.RA.Flurry = sets.precast.RA
-    sets.precast.RA.FlurryII = sets.precast.RA
+    sets.precast.RA.Flurry = set_combine(sets.precast.RA)
+    sets.precast.RA.FlurryII = set_combine(sets.precast.RA)
 
     sets.midcast.RA = {
         ammo = ammo.bullet.RA,
@@ -224,7 +224,7 @@ function init_gear_sets()
 
     sets.QuickDraw['Light Shot'] = {}
     sets.QuickDraw['Light Shot'].Enhance = set_combine(sets.QuickDraw['Light Shot'], {feet="Chass. Bottes +3"})
-    sets.QuickDraw['Dark Shot'] = sets.QuickDraw['Light Shot']
+    sets.QuickDraw['Dark Shot'] = set_combine(sets.QuickDraw['Light Shot'])
     sets.QuickDraw['Dark Shot'].Enhance = set_combine(sets.QuickDraw['Dark Shot'], {feet="Chass. Bottes +3"})
 
     sets.WS = {
@@ -293,7 +293,7 @@ function init_gear_sets()
         back={ name="Camulus's Mantle", augments={'AGI+20','Mag. Acc+20 /Mag. Dmg.+20','AGI+10','Weapon skill damage +10%','Mag. Evasion+15',}},
     }
 
-    sets.WS['Hot Shot'] = sets.WS['Wildfire']
+    sets.WS['Hot Shot'] = set_combine(sets.WS['Wildfire'])
     -- sets.WS['Hot Shot'].PDL = {}
 
     sets.WS['Leaden Salute'] = set_combine(sets.WS['Wildfire'], {
@@ -301,10 +301,10 @@ function init_gear_sets()
         ear1 = "Moonshade Earring",
     })
 
-    sets.WS['Aeolian Edge'] = sets.WS['Wildfire']
+    sets.WS['Aeolian Edge'] = set_combine(sets.WS['Wildfire'])
 
-    sets.WS['Burning Blade'] = sets.WS['Wildfire']
-    sets.WS['Red Lotus Blade'] = sets.WS['Wildfire']
+    sets.WS['Burning Blade'] = set_combine(sets.WS['Wildfire'])
+    sets.WS['Red Lotus Blade'] = set_combine(sets.WS['Wildfire'])
 
     -- sets.Obi = { waist = "Hachirin-no-Obi" }
 end

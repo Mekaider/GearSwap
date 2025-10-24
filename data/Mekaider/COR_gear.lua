@@ -117,8 +117,8 @@ function init_gear_sets()
         back = { name = "Camulus's Mantle", augments = { 'DEX+20', 'Accuracy+20 Attack+20', 'Accuracy+5', '"Dual Wield"+10', 'Phys. dmg. taken-10%', } },
     })
 
-    sets.engaged.DualWield.NoDW = sets.engaged
-    sets.engaged.DualWield.DT.NoDW = sets.engaged.DT
+    sets.engaged.DualWield.NoDW = set_combine(sets.engaged)
+    sets.engaged.DualWield.DT.NoDW = set_combine(sets.engaged.DT)
 
     sets.engaged.DualWield.LowDW = set_combine(sets.engaged, {
         body = { name = "Adhemar Jacket +1", augments = { 'DEX+12', 'AGI+12', 'Accuracy+20', } }, -- 6
@@ -149,8 +149,8 @@ function init_gear_sets()
         neck = { name = "Comm. Charm +2", augments = { 'Path: A', } },                               -- 4/0
     }
 
-    sets.precast.RA.Flurry = sets.precast.RA
-    sets.precast.RA.FlurryII = sets.precast.RA
+    sets.precast.RA.Flurry = set_combine(sets.precast.RA)
+    sets.precast.RA.FlurryII = set_combine(sets.precast.RA)
 
     sets.midcast.RA = {
         ammo = ammo.bullet.RA,
@@ -213,7 +213,7 @@ function init_gear_sets()
 
     sets.QuickDraw['Light Shot'] = {}
     sets.QuickDraw['Light Shot'].Enhance = set_combine(sets.QuickDraw['Light Shot'], { feet = "" })
-    sets.QuickDraw['Dark Shot'] = sets.QuickDraw['Light Shot']
+    sets.QuickDraw['Dark Shot'] = set_combine(sets.QuickDraw['Light Shot'])
     sets.QuickDraw['Dark Shot'].Enhance = set_combine(sets.QuickDraw['Dark Shot'], { feet = "" })
 
     sets.WS = {
@@ -288,7 +288,7 @@ function init_gear_sets()
         -- ring1="Archon Ring",
     })
 
-    sets.WS['Aeolian Edge'] = sets.WS['Wildfire']
+    sets.WS['Aeolian Edge'] = set_combine(sets.WS['Wildfire'])
 
     sets.Obi = { waist = "Hachirin-no-Obi" }
 end

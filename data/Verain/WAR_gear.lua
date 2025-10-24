@@ -1,8 +1,5 @@
 function user_setup()
-    state.WeaponSet = M{['description']='Weapon', 'Naegling', 'Club', 'Polearm'}
-    
-    lockstyleset = 6
-    set_lockstyle()
+    state.WeaponMode:options('Naegling', 'Club', 'ShiningOne')
 end
 
 -- Define sets and vars used by this job file.
@@ -11,15 +8,13 @@ function init_gear_sets()
     ---------------------------------------- Weapon Sets -------------------------------------------
     ------------------------------------------------------------------------------------------------
 
-    sets.Naegling = {main="Naegling", sub="Blurred Shield +1"}
-    sets.Club = {main={name="Loxotic Mace +1", augments={'Path: A',}},sub="Blurred Shield +1"}
-    sets.Polearm = {main="Shining One", sub="Utu Grip"}
+    sets.weapons.Naegling = {main="Naegling", sub="Blurred Shield +1"}
+    sets.weapons.Club = {main={name="Loxotic Mace +1", augments={'Path: A',}}, sub="Blurred Shield +1"}
+    sets.weapons.ShiningOne = {main="Shining One", sub="Utu Grip"}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Idle Sets ---------------------------------------------
     ------------------------------------------------------------------------------------------------
-
-    sets.Moving = {right_ring="Shneddick Ring"}
 
     sets.idle = {
 		head="Sakpata's Helm",
@@ -40,7 +35,7 @@ function init_gear_sets()
     ---------------------------------------- Engaged Sets ------------------------------------------
     ------------------------------------------------------------------------------------------------
 
-    sets.engaged = {    
+    sets.engaged = {
 		ammo="Coiste Bodhar",
         head="Flam. Zucchetto +2",
         body="Hjarrandi Breast.",
@@ -56,27 +51,19 @@ function init_gear_sets()
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     }
 
-    sets.engaged.Acc = set_combine(sets.engaged, {})
-
-    sets.engaged.PDL = {}
-
-    sets.engaged.Hybrid = {
+    sets.engaged.DT = set_combine(sets.engaged, {
         head="Sakpata's Helm",
         body="Sakpata's Plate",
         hands="Sakpata's Gauntlets",
         legs="Sakpata's Cuisses",
         feet="Sakpata's Leggings",
-        }
-
-    sets.engaged.DT = set_combine(sets.engaged, sets.engaged.Hybrid)
-    sets.engaged.Acc.DT = set_combine(sets.engaged.Acc, sets.engaged.Hybrid)
-    sets.engaged.PDL.DT = set_combine(sets.engaged.PDL, sets.engaged.Hybrid)
+    })
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Weaponskill Sets --------------------------------------
     ------------------------------------------------------------------------------------------------
 
-    sets.precast.WS = {
+    sets.WS = {
 		ammo="Knobkierrie",
         head={ name="Nyame Helm", augments={'Path: B',}},
         body={ name="Nyame Mail", augments={'Path: B',}},
@@ -96,13 +83,12 @@ function init_gear_sets()
     ---------------------------------------- JA Sets -----------------------------------------------
     ------------------------------------------------------------------------------------------------
 
-    sets.precast.JA['Berserk'] = {}
+    sets.JA['Berserk'] = {}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Magic Precast Sets ------------------------------------
     ------------------------------------------------------------------------------------------------
 
-    sets.precast.FC = {}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Magic Midcast Sets ------------------------------------

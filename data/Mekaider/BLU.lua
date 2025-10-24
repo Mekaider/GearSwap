@@ -12,7 +12,7 @@ state.WeaponMode:options(
 )
 state.MeleeMode:options('TP', 'DT', 'Learning')
 
-function get_sets() 
+function get_sets()
     sets.weapons['SavageBlade'] = {main="Naegling", sub="Thibron"}
     sets.weapons['BlackHalo'] = {main="Maxentius", sub="Thibron"}
     sets.weapons['Magical'] = {main="Maxentius", sub="Bunzi's Rod"}
@@ -20,7 +20,7 @@ function get_sets()
     sets.weapons.Shield = {sub="Genmei Shield"}
 
     sets.Moving = {right_ring="Shneddick Ring"}
-    
+
     sets.idle = {
         ammo="Staunch Tathlum +1",
         head="Null Masque",
@@ -90,7 +90,7 @@ function get_sets()
 
     sets.engaged.DualWield.DT.LowDW = set_combine(sets.engaged.DT, {
         waist="Reiki Yotai", -- 7
-        left_ear="Eabani Earring", -- 4   
+        left_ear="Eabani Earring", -- 4
     })
 
     sets.engaged.DualWield.DT.MidDW = set_combine(sets.engaged.DT, {
@@ -110,7 +110,7 @@ function get_sets()
         left_ear="Ishvara Earring",
         right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
         left_ring="Epona's Ring",
-        left_ring="Epaminondas's Ring",        
+        left_ring="Epaminondas's Ring",
         back={ name="Rosmerta's Cape", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
@@ -130,7 +130,7 @@ function get_sets()
         back={ name="Rosmerta's Cape", augments={'STR+20','Accuracy+20 Attack+20','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
-    sets.WS['Black Halo'] = sets.WS['Savage Blade']
+    sets.WS['Black Halo'] = set_combine(sets.WS['Savage Blade'])
 
     -- sets.JA
     sets.precast.FastCast = {
@@ -226,7 +226,7 @@ function get_sets()
         back="Null Shawl",
     }
 
-    
+
 
     sets.Obi = {waist="Hachirin-no-Obi"}
 end

@@ -124,7 +124,7 @@ function get_sets()
         legs="Futhark Trousers",
     })
 
-    sets.JA['Valiance'] = sets.JA['Vallation']
+    sets.JA['Valiance'] = set_combine(sets.JA['Vallation'])
     sets.JA['Pflug'] = set_combine(sets.Enmity, {feet="Runeist's Boots"})
     sets.JA['Battuta'] = set_combine(sets.Enmity, {head="Futhark Bandeau"})
     sets.JA['Liement'] = set_combine(sets.Enmity, {body="Futhark Coat"})
@@ -143,7 +143,7 @@ function get_sets()
         -- back="Argocham. Mantle",
         -- waist="Eschan Stone",
     }
-    sets.JA['Swipe'] = sets.JA['Lunge']
+    sets.JA['Swipe'] = set_combine(sets.JA['Lunge'])
     sets.JA['Gambit'] = set_combine(sets.Enmity, {hands="Runeist's Mitons"})
     sets.JA['Rayke'] = set_combine(sets.Enmity, {feet="Futhark Boots"})
     sets.JA['Elemental Sforzo'] = set_combine(sets.Enmity, {body="Futhark Coat"})
@@ -169,7 +169,7 @@ function get_sets()
 
     sets.WS['Resolution'] = set_combine(sets.WS, {})
     sets.WS['Dimidiation'] = set_combine(sets.WS, {})
-    sets.WS['Herculean Slash'] = sets.JA['Lunge']
+    sets.WS['Herculean Slash'] = set_combine(sets.JA['Lunge'])
 
     sets.precast.FastCast = {
         ammo="Sapience Orb",
@@ -216,16 +216,16 @@ function get_sets()
     sets.midcast.Phalanx.SIRD = set_combine(sets.midcast.Phalanx, sets.midcast.SIRD)
     sets.midcast.Temper = set_combine(sets.midcast['Enhancing Magic'], {})
     sets.midcast.Flash = set_combine(sets.Enmity, {})
-    sets.midcast.Foil = sets.Enmity
+    sets.midcast.Foil = set_combine(sets.Enmity)
     sets.midcast.Regen = {head="Runeist Bandeau", right_ear="Erilaz Earring", waist="Sroda Belt"}
     sets.midcast.Refresh = {
         head="Erilaz Galea",
     }
-    sets.midcast['Divine Magic'] = sets.Enmity
+    sets.midcast['Divine Magic'] = set_combine(sets.Enmity)
 
     sets.midcast['Blue Magic'] = {}
-    sets.midcast['Blue Magic'].Enmity = sets.Enmity
-    sets.midcast['Blue Magic'].SIRD = sets.midcast.SIRD
+    sets.midcast['Blue Magic'].Enmity = set_combine(sets.Enmity)
+    sets.midcast['Blue Magic'].SIRD = set_combine(sets.midcast.SIRD)
     sets.midcast['Blue Magic'].Enmity.SIRD = set_combine(sets.midcast['Blue Magic'].Enmity, sets.midcast['Blue Magic'].SIRD)
 
 end

@@ -224,7 +224,7 @@ function init_include()
 
     -- Midcast sets
     sets.midcast = {}
-    sets.midcast.FastCast = sets.precast.FastCast
+    sets.midcast.FastCast = set_combine(sets.precast.FastCast)
     sets.midcast.Songs = {}
     sets.midcast.Songs.Potency = {}
     sets.midcast.Songs.Enfeebling = {}

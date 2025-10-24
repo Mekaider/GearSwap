@@ -319,9 +319,9 @@ function init_gear_sets()
         left_ear="Sherida Earring",
         right_ear="Odnowa Earring",
         left_ring="Defending Ring",
-        right_ring="Warden's Ring",
+        right_ring="Shneddick Ring",
         back={ name="Toutatis's Cape", augments={'DEX+20','Accuracy+20 Attack+20','DEX+5','"Store TP"+10','Phys. dmg. taken-10%',}},
-        }
+    }
 
     sets.idle.DT = set_combine(sets.idle, {
         ammo="Yamarang",

@@ -7,7 +7,7 @@ function user_setup()
 
     coroutine.schedule(function()
         send_command('xb bar Sword')
-    end, 1)
+    end, 2)
 end
 
 function init_gear_sets()
@@ -119,8 +119,8 @@ function init_gear_sets()
     })
     sets.engaged.DualWield.DT = set_combine(sets.engaged.DT, sets.engaged.DualWield)
 
-    sets.engaged.DualWield.NoDW = sets.engaged
-    sets.engaged.DualWield.DT.NoDW = sets.engaged.DT
+    sets.engaged.DualWield.NoDW = set_combine(sets.engaged)
+    sets.engaged.DualWield.DT.NoDW = set_combine(sets.engaged.DT)
 
     sets.engaged.DualWield.MinDW = set_combine(sets.engaged, {})
     sets.engaged.DualWield.DT.MinDW = set_combine(sets.engaged.DualWield.MinDW, {})
@@ -138,7 +138,7 @@ function init_gear_sets()
     -- default WS set
     sets.WS = {
         ammo="Knobkierrie",
-        head="Agoge Mask +3",
+        head="Agoge Mask +4",
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands="Boii Mufflers +3",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -154,7 +154,7 @@ function init_gear_sets()
 
     sets.WS['Fell Cleave'] = {
         ammo="Knobkierrie",
-        head="Agoge Mask +3",
+        head="Agoge Mask +4",
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands="Boii Mufflers +3",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -168,11 +168,11 @@ function init_gear_sets()
         back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
-    sets.WS['Steel Cyclone'] = sets.WS['Fell Cleave']
+    sets.WS['Steel Cyclone'] = set_combine(sets.WS['Fell Cleave'])
 
     sets.WS['Upheaval'] = {
         ammo="Knobkierrie",
-        head={ name="Agoge Mask +3", augments={'Enhances "Savagery" effect',}},
+        head={ name="Agoge Mask +4", augments={'Enhances "Savagery" effect',}},
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands="Boii Mufflers +3",
         legs="Boii Cuisses +3",
@@ -234,7 +234,7 @@ function init_gear_sets()
 
     sets.WS['Savage Blade'] = {
         ammo="Knobkierrie",
-        head="Agoge Mask +3",
+        head="Agoge Mask +4",
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands="Boii Mufflers +3",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -264,8 +264,8 @@ function init_gear_sets()
         feet="Boii Calligae +3",
     })
 
-    sets.WS['Judgment'] = sets.WS['Savage Blade']
-    sets.WS['Judgment'].PDL = sets.WS['Savage Blade'].PDL
+    sets.WS['Judgment'] = set_combine(sets.WS['Savage Blade'])
+    sets.WS['Judgment'].PDL = set_combine(sets.WS['Savage Blade'].PDL)
 
     sets.WS['Impulse Drive'] = {
         ammo="Knobkierrie",
@@ -322,7 +322,7 @@ function init_gear_sets()
     sets.JA['Mighty Strikes'] = {hands="Agoge Mufflers"}
     sets.JA['Berserk'] = {feet="Agoge Calligae"}
     sets.JA['Aggressor'] = {body="Agoge Lorica"}
-    sets.JA['Warcry'] = {head="Agoge Mask +3"}
+    sets.JA['Warcry'] = {head="Agoge Mask +4"}
     sets.JA['Restraint'] = {hands="Boii Mufflers +3"}
     sets.JA['Tomahawk'] = {ammo="Thr. Tomahawk", feet="Agoge Calligae"}
     sets.JA['Blood Rage'] = {body="Boii Lorica +3"}

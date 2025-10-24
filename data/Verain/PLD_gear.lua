@@ -104,10 +104,10 @@ function init_gear_sets()
     sets.midcast.Flash.SIRD = set_combine(sets.midcast.Flash, sets.midcast.SIRD)
 
     sets.midcast['Blue Magic'] = {}
-    sets.midcast['Blue Magic'].Enmity = sets.Enmity
-    sets.midcast['Blue Magic'].SIRD = sets.midcast.SIRD
+    sets.midcast['Blue Magic'].Enmity = set_combine(sets.Enmity)
+    sets.midcast['Blue Magic'].SIRD = set_combine(sets.midcast.SIRD)
     sets.midcast['Blue Magic'].Enmity.SIRD = set_combine(sets.midcast['Blue Magic'].Enmity, sets.midcast['Blue Magic'].SIRD)
-    sets.midcast['Blue Magic'].Cure = sets.midcast.Cure
+    sets.midcast['Blue Magic'].Cure = set_combine(sets.midcast.Cure)
     sets.midcast['Blue Magic'].Cure.SIRD = set_combine(sets.midcast['Blue Magic'].Cure, sets.midcast['Blue Magic'].SIRD)
 
     sets.JA['Divine Emblem'] = {feet="Chev. Sabatons +2"}

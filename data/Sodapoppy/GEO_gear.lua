@@ -1,13 +1,8 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
+function user_setup()
+    state.WeaponMode:options('Unlocked', 'Tishtrya')
+end
 
-state.WeaponMode:options('Unlocked', 'Tishtrya')
-
-state.MeleeMode:options('DT')
-
-send_command('gs c display')
-
-function get_sets()
+function init_gear_sets()
     sets.weapons['Tishtrya'] = {main="Tishtrya", sub="Genmei Shield"}
 
     sets.Moving = {right_ring="Shneddick Ring"}

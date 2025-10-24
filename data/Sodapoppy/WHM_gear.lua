@@ -74,7 +74,7 @@ function init_gear_sets()
 
     sets.precast.FastCast.Cure = set_combine(sets.precast.FastCast, {})
 
-    sets.precast.FastCast.Curaga = sets.precast.FastCast.Cure
+    sets.precast.FastCast.Curaga = set_combine(sets.precast.FastCast.Cure)
 
     sets.midcast.Cure = {
         main="Raetic Rod +1", -- 23(+10)

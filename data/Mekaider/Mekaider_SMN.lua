@@ -6,19 +6,19 @@
 
 --[[
     Custom commands:
-    
+
     gs c petweather
         Automatically casts the storm appropriate for the current avatar, if possible.
-    
+
     gs c siphon
         Automatically run the process to: dismiss the current avatar; cast appropriate
         weather; summon the appropriate spirit; Elemental Siphon; release the spirit;
         and re-summon the avatar.
-        
+
         Will not cast weather you do not have access to.
         Will not re-summon the avatar if one was not out in the first place.
         Will not release the spirit if it was out before the command was issued.
-        
+
     gs c pact [PactType]
         Attempts to use the indicated pact type for the current avatar.
         PactType can be one of:
@@ -55,20 +55,20 @@ function job_setup()
     spirits = S{"LightSpirit", "DarkSpirit", "FireSpirit", "EarthSpirit", "WaterSpirit", "AirSpirit", "IceSpirit", "ThunderSpirit"}
 
     avatars = S{"Carbuncle", "Fenrir", "Diabolos", "Ifrit", "Titan", "Leviathan", "Garuda", "Shiva", "Ramuh", "Odin", "Alexander", "Cait Sith", "Siren"}
-  
+
     bp_magical = S{'Inferno','Earthen Fury','Tidal Wave','Aerial Blast','Diamond Dust','Judgment Bolt','Searing Light','Howling Moon',
         'Ruinous Omen','Fire II','Stone II','Water II','Aero II','Blizzard II','Thunder II','Thunderspark','Somnolence','Meteorite',
         'Fire IV','Stone IV','Water IV','Aero IV','Blizzard IV','Thunder IV','Nether Blast','Meteor Strike','Geocrush','Grand Fall',
         'Wind Blade','Heavenly Strike','Thunderstorm','Level ? Holy','Holy Mist','Lunar Bay','Night Terror','Conflag Strike','Sonic Buffet','Tornado II'
     }
-    
+
     bp_physical=S{'Punch','Rock Throw','Barracuda Dive','Claw','Axe Kick','Shock Strike','Camisado','Regal Scratch','Poison Nails',
         'Moonlit Charge','Crescent Fang','Rock Buster','Tail Whip','Double Punch','Megalith Throw','Double Slap','Eclipse Bite','Mountain Buster',
         'Spinning Dive','Predator Claws','Rush','Chaotic Strike','Crag Throw','Volt Strike','Hysteric Assault','Welt','Roundhouse'
     }
-    
+
     bp_hybrid=S{'Burning Strike','Flaming Crush'}
-    
+
     enticersRagePacts = S{
         'Impact','Conflag Strike', 'Fire II','Stone II','Water II','Aero II','Blizzard II','Thunder II',
         'Fire IV','Stone IV','Water IV','Aero IV','Blizzard IV','Thunder IV'
@@ -96,10 +96,10 @@ function job_setup()
         ['Fenrir']='Ecliptic Growl', ['Siren']='Katabatic Blades'}
     pacts.buffdefense = {['Carbuncle']='Shining Ruby', ['Shiva']='Frost Armor', ['Garuda']='Aerial Armor', ['Titan']='Earthen Ward',
         ['Ramuh']='Lightning Armor', ['Fenrir']='Ecliptic Howl', ['Diabolos']='Noctoshield', ['Cait Sith']='Reraise II',['Siren']='Chinook'}
- 
+
     pacts.buffspecial = {['Ifrit']='Inferno Howl', ['Garuda']='Fleet Wind', ['Titan']='Earthen Armor', ['Diabolos']='Dream Shroud',
         ['Carbuncle']='Soothing Ruby',['Carbuncle']='Pacifying ruby', ['Shiva']='Crystal blessing',['Fenrir']='Heavenward Howl', ['Leviathan']='Soothing current',['Cait Sith']='Raise II',['Siren']='Wind\'s Blessing'}
- 
+
     pacts.debuff1 = {['Shiva']='Diamond Storm', ['Ramuh']='Shock Squall', ['Leviathan']='Tidal Roar', ['Fenrir']='Lunar Cry',
         ['Diabolos']='Pavor Nocturnus', ['Cait Sith']='Eerie Eye',['Carbuncle']='Soothing Ruby', ['Siren']='Lunatic Voice'}
     pacts.debuff2 = {['Leviathan']='Slowga', ['Fenrir']='Lunar Roar', ['Diabolos']='Somnolence',['Siren']='Bitter Elegy'}
@@ -123,7 +123,7 @@ function job_setup()
 
 
 
-    -- Wards table for creating custom timers   
+    -- Wards table for creating custom timers
     wards = {}
     -- Base duration for ward pacts.
     wards.durations = {
@@ -146,14 +146,14 @@ function job_setup()
         ['Frost Armor']     = 'spells/00250.png', -- 00250 for Ice Spikes
         ['Lightning Armor'] = 'spells/00251.png', -- 00251 for Shock Spikes
         ['Reraise II']      = 'spells/00135.png', -- 00135 for Reraise
-        ['Fleet Wind']      = 'abilities/00074.png', -- 
+        ['Fleet Wind']      = 'abilities/00074.png', --
     }
     -- Flags for code to get around the issue of slow skill updates.
     wards.flag = false
     wards.spell = ''
 
     on_job_change()
-        
+
 end
 
 -------------------------------------------------------------------------------------------------------------------
@@ -164,7 +164,7 @@ end
 function user_setup()
     state.OffenseMode:options('Normal', 'Acc')
     state.CastingMode:options('Normal', 'Resistant')
-    state.IdleMode:options('Normal', 'PDT')    
+    state.IdleMode:options('Normal', 'PDT')
     --select_default_macro_book()
 end
 
@@ -175,10 +175,10 @@ function init_gear_sets()
     --------------------------------------
     -- Precast Sets
     --------------------------------------
-    
+
     -- Precast sets to enhance JAs
     sets.precast.JA['Astral Flow'] = {}
-    
+
     sets.precast.JA['Elemental Siphon'] = {right_ring="Zodiac Ring"}
 
     sets.precast.JA['Mana Cede'] = {}
@@ -201,10 +201,10 @@ function init_gear_sets()
         -- back=gear.SmnBPD,
     }
 
-    sets.precast.BloodPactRage = sets.precast.BloodPactWard
+    sets.precast.BloodPactRage = set_combine(sets.precast.BloodPactWard)
 
     -- Fast cast sets for spells
-    
+
     sets.precast.FC = {
         main="Mpaca's Staff",
         sub="Enki Strap",
@@ -220,7 +220,7 @@ function init_gear_sets()
 
     sets.precast.FC['Enhancing Magic'] = set_combine(sets.precast.FC, {})
 
-       
+
     -- Weaponskill sets
     -- Default set for any weaponskill that isn't any more specifically defined
     sets.precast.WS = {
@@ -240,7 +240,7 @@ function init_gear_sets()
     -- Specific weaponskill sets.  Uses the base set if an appropriate WSMod version isn't found.
     sets.precast.WS['Myrkr'] = {}
 
-    
+
     --------------------------------------
     -- Midcast sets
     --------------------------------------
@@ -257,7 +257,7 @@ function init_gear_sets()
 
 
     -- Avatar pact sets.  All pacts are Ability type.
-    
+
     sets.midcast.Pet.BloodPactWard = {}
 
     sets.midcast.Pet.DebuffBloodPactWard = {}
@@ -301,9 +301,9 @@ function init_gear_sets()
         right_ring={name="Varar Ring +1", bag="wardrobe6"},
         back="Scintillating Cape",
     }
-    
+
     sets.midcast.Pet.HybridBP.Acc = set_combine(sets.midcast.Pet.HybridBP, {})
-    
+
     sets.midcast.Pet.MagicalBP = {
         main={ name="Gridarvor", augments={'Pet: Accuracy+70','Pet: Attack+70','Pet: "Dbl. Atk."+15',}},
         sub="Elan Strap +1",
@@ -325,13 +325,13 @@ function init_gear_sets()
     sets.midcast.Pet.MagicalBP.Acc = set_combine(sets.midcast.Pet.MagicalBP, {})
 
     -- Spirits cast magic spells, which can be identified in standard ways.
-    
+
     sets.midcast.Pet.WhiteMagic = {}
-    
+
     sets.midcast.Pet['Elemental Magic'] = set_combine(sets.midcast.Pet.BloodPactRage, {})
 
     sets.midcast.Pet['Elemental Magic'].Resistant = {}
-    
+
 
     --------------------------------------
     -- Idle/resting/defense/etc sets
@@ -372,10 +372,10 @@ function init_gear_sets()
     -- fenrir: 13
     -- others: 15
     -- avatar's favor: -4/tick
-    
+
     -- Max useful -perp gear is 1 less than the perp cost (can't be reduced below 1)
     -- Aim for -14 perp, and refresh in other slots.
-    
+
     -- -perp gear:
     -- Gridarvor: -5
     -- Glyphic Horn: -4
@@ -383,9 +383,9 @@ function init_gear_sets()
     -- Evoker's Ring: -1
     -- Convoker's Pigaches: -4
     -- total: -18
-    
+
     -- Can make due without either the head or the body, and use +refresh items in those slots.
-    
+
     sets.idle.Avatar = {
         main={ name="Gridarvor", augments={'Pet: Accuracy+70','Pet: Attack+70','Pet: "Dbl. Atk."+15',}},
         sub="Enki Strap",
@@ -403,21 +403,21 @@ function init_gear_sets()
         right_ring="Stikini Ring +1",
         back="Scintillating Cape",
     }
-    
+
     sets.idle.AvatarCP = set_combine(sets.idle.Avatar, {})
     sets.idle.PDT.Avatar = set_combine(sets.idle.Avatar, {main="Malignance Pole",neck="Loricate Torque +1",})
 
     sets.idle.Spirit = {}
-    
+
     sets.idle.SpiritCP = {}
 
     -- Favor uses Caller's Horn instead of Convoker's Horn for refresh
     sets.idle.Avatar.Favor = set_combine(sets.idle.Avatar, {})
-    
+
     sets.idle.Avatar.Melee = {}
-    
+
     sets.idle.Avatar.MeleeCP = set_combine(sets.idle.Avatar.Melee, {})
-    
+
     sets.perp = {}
     -- Caller's Bracer's halve the perp cost after other costs are accounted for.
     -- Using -10 (Gridavor, ring, Conv.feet), standard avatars would then cost 5, halved to 2.
@@ -429,22 +429,22 @@ function init_gear_sets()
     sets.perp.Carbuncle = {}
     -- Diabolos's Rope doesn't gain us anything at this time
     --sets.perp.Diabolos = {waist="Diabolos's Rope"}
-    sets.perp.Alexander = sets.midcast.Pet.BloodPactWard
+    sets.perp.Alexander = set_combine(sets.midcast.Pet.BloodPactWard)
 
     sets.perp.staff_and_grip = {}
-    
+
     -- Defense sets
     sets.defense.PDT = {}
 
     sets.defense.MDT = {}
-    
+
     sets.latent_refresh = {}
-    
+
 
     --------------------------------------
     -- Engaged sets
     --------------------------------------
-    
+
     -- Normal melee group
     sets.engaged = {
         head={ name="Nyame Helm", augments={'Path: B',}},
@@ -576,7 +576,7 @@ function customize_idle_set(idleSet)
             idleSet = set_combine(idleSet, sets.idle.Avatar.Melee)
         end
     end
-    
+
     if player.mpp < 51 then
         idleSet = set_combine(idleSet, sets.latent_refresh)
     end
@@ -770,24 +770,24 @@ function handle_petweather()
         add_to_chat(122, "You can not cast storm spells")
         return
     end
-        
+
     if not pet.isvalid then
         add_to_chat(122, "You do not have an active avatar.")
         return
     end
-    
+
     local element = pet.element
     if element == 'Thunder' then
         element = 'Lightning'
     end
-    
+
     if S{'Light','Dark','Lightning'}:contains(element) then
         add_to_chat(122, 'You do not have access to '..elements.storm_of[element]..'.')
         return
-    end 
-    
+    end
+
     local storm = elements.storm_of[element]
-    
+
     if storm then
         send_command('@input /ma "'..elements.storm_of[element]..'" <me>')
     else
@@ -807,7 +807,7 @@ function handle_siphoning()
     local stormElementToUse
     local releasedAvatar
     local dontRelease
-    
+
     -- If we already have a spirit out, just use that.
     if pet.isvalid and spirits:contains(pet.name) then
         siphonElement = pet.element
@@ -841,7 +841,7 @@ function handle_siphoning()
             end
         end
     end
-    
+
     -- If we decided to use a storm, set that as the spirit element to cast.
     if stormElementToUse then
         siphonElement = stormElementToUse
@@ -850,44 +850,44 @@ function handle_siphoning()
     else
         siphonElement = world.day_element
     end
-    
+
     local command = ''
     local releaseWait = 0
-    
+
     if pet.isvalid and avatars:contains(pet.name) then
         command = command..'input /pet "Release" <me>;wait 1.1;'
         releasedAvatar = pet.name
         releaseWait = 10
     end
-    
+
     if stormElementToUse then
         command = command..'input /ma "'..elements.storm_of[stormElementToUse]..'" <me>;wait 4;'
         releaseWait = releaseWait - 4
     end
-    
+
     if not (pet.isvalid and spirits:contains(pet.name)) then
         command = command..'input /ma "'..elements.spirit_of[siphonElement]..'" <me>;wait 4;'
         releaseWait = releaseWait - 4
     end
-    
+
     command = command..'input /ja "Elemental Siphon" <me>;'
     releaseWait = releaseWait - 1
     releaseWait = releaseWait + 0.1
-    
+
     if not dontRelease then
         if releaseWait > 0 then
             command = command..'wait '..tostring(releaseWait)..';'
         else
             command = command..'wait 1.1;'
         end
-        
+
         command = command..'input /pet "Release" <me>;'
     end
-    
+
     if releasedAvatar then
         command = command..'wait 1.1;input /ma "'..releasedAvatar..'" <me>'
     end
-    
+
     send_command(command)
 end
 
@@ -916,20 +916,20 @@ end
         add_to_chat(123,'No pact type given.')
         return
     end
-    
+
     local pact = cmdParams[2]:lower()
-    
+
     if not pacts[pact] then
         add_to_chat(123,'Unknown pact type: '..tostring(pact))
         return
     end
-    
+
     if pacts[pact][pet.name] then
         if pact == 'astralflow' and not buffactive['astral flow'] then
             add_to_chat(122,'Cannot use Astral Flow pacts at this time.')
             return
         end
-        
+
         -- Leave out target; let Shortcuts auto-determine it.
         send_command('@input /pet "'..pacts[pact][pet.name]..'"')
     else
@@ -965,9 +965,9 @@ windower.raw_register_event('incoming chunk',
 --                 ward_duration = ward_duration + skill
 --             end
 --         end
-        
+
 --         local timer_cmd = 'timers c "'..spell_name..'" '..tostring(ward_duration)..' down'
-        
+
 --         if wards.icons[spell_name] then
 --             timer_cmd = timer_cmd..' '..wards.icons[spell_name]
 --         end

@@ -8,7 +8,7 @@ function init_gear_sets()
         head="Null Masque",
         body="Shamash Robe",
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
-        legs={ name="Nyame Flanchard", augments={'Path: B',}},
+        legs="Arbatel Pants +3",
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck="Sibyl Scarf",
         waist="Null Belt",
@@ -294,7 +294,7 @@ function init_gear_sets()
     sets.midcast.Helix = set_combine(sets.midcast['Elemental Magic'], {})
     sets.midcast['Luminohelix II'] = set_combine(sets.midcast.Helix, {main="Daybreak"})
 
-    sets.midcast.Helix.Immanence = sets.midcast['Elemental Magic'].Immanence
+    sets.midcast.Helix.Immanence = set_combine(sets.midcast['Elemental Magic'].Immanence)
 
     -- todo: magic burst set
 

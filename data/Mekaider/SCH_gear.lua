@@ -3,7 +3,7 @@ function user_setup()
 
     coroutine.schedule(function()
         send_command('xb bar Basic')
-    end, 1)
+    end, 2)
 end
 
 function user_file_unload()
@@ -99,7 +99,7 @@ function init_gear_sets()
         hands={ name="Telchine Gloves", augments={'Enh. Mag. eff. dur. +10',}},
         legs=gear.sch_af_legs,
         feet={ name="Vanya Clogs", augments={'"Cure" potency +5%','"Cure" spellcasting time -15%','"Conserve MP"+6',}},
-        neck="Sibyl Scarf",
+        -- neck="Sibyl Scarf",
         waist="Null Belt",
         left_ear="Infused Earring",
         right_ear="Lugalbanda Earring",
@@ -111,7 +111,8 @@ function init_gear_sets()
     sets.midcast.Cure.Weather = set_combine(sets.midcast.Cure, {
         main="Chatoyant Staff",
         sub="Kaja Grip",
-        waist="Hachirin-no-Obi"
+        waist="Hachirin-no-Obi",
+        back="Twilight Cape"
     })
 
     -- sets.midcast.NaSpell = {}
@@ -294,7 +295,7 @@ function init_gear_sets()
     sets.midcast.Helix = set_combine(sets.midcast['Elemental Magic'], {})
     sets.midcast['Luminohelix II'] = set_combine(sets.midcast.Helix, {main="Daybreak"})
 
-    sets.midcast.Helix.Immanence = sets.midcast['Elemental Magic'].Immanence
+    sets.midcast.Helix.Immanence = set_combine(sets.midcast['Elemental Magic'].Immanence)
 
     -- todo: magic burst set
 
