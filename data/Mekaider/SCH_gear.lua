@@ -1,4 +1,5 @@
 function user_setup()
+    state.WeaponMode:options('Unlocked', 'Musa')
     send_command('lua l schud')
 
     coroutine.schedule(function()
@@ -11,9 +12,11 @@ function user_file_unload()
 end
 
 function init_gear_sets()
+    sets.weapons.Musa = {main="Musa", sub="Khonsu"}
+
     sets.idle = {
         main="Mpaca's Staff",
-        sub="Kaja Grip",
+        sub="Khonsu",
         ammo="Staunch Tathlum +1",
         head="Null Masque",
         body=gear.sch_emp_body,
@@ -68,12 +71,12 @@ function init_gear_sets()
     sets.JA['Enlightenment'] = {body=gear.sch_relic_body}
 
     sets.precast.FastCast = {
-        --    /RDM --15
+        -- /RDM 15
 		ammo="Incantor Stone",
-		main={ name="Musa", augments={'Path: C',}}, -- 10
-		sub="Kaja Grip",
+		main="Musa",
+        sub="Khonsu",
         head={ name="Vanya Hood", augments={'MP+50','"Fast Cast"+10','Haste+2%',}},
-		body="Agwu's Robe",
+		body="Zendik Robe",
 		hands=gear.sch_af_hands,
 		legs="Agwu's Slops",
 		feet="Regal Pumps",
@@ -91,8 +94,8 @@ function init_gear_sets()
     sets.precast.FastCast.Dispelga = set_combine(sets.precast.FastCast, {main="Daybreak", sub="Ammurapi Shield"})
 
     sets.midcast.Cure = {
-        main="Daybreak",
-        sub="Genmei Shield",
+        main="Musa",
+        sub="Khonsu",
         ammo="Staunch Tathlum +1",
         head={ name="Vanya Hood", augments={'MP+50','"Fast Cast"+10','Haste+2%',}},
         body=gear.sch_emp_body,
@@ -110,7 +113,7 @@ function init_gear_sets()
 
     sets.midcast.Cure.Weather = set_combine(sets.midcast.Cure, {
         main="Chatoyant Staff",
-        sub="Kaja Grip",
+        sub="Khonsu",
         waist="Hachirin-no-Obi",
         back="Twilight Cape"
     })
@@ -131,9 +134,9 @@ function init_gear_sets()
 
     sets.midcast['Enhancing Magic'] = {
         main={ name="Musa", augments={'Path: C',}},
-        sub="Kaja Grip",
+        sub="Khonsu",
         head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +10',}},
-        body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +8',}},
+        body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}},
         hands={ name="Telchine Gloves", augments={'Enh. Mag. eff. dur. +10',}},
         legs={ name="Telchine Braconi", augments={'Enh. Mag. eff. dur. +10',}},
         feet={ name="Telchine Pigaches", augments={'Enh. Mag. eff. dur. +10',}},
@@ -164,6 +167,13 @@ function init_gear_sets()
 
     sets.midcast['Divine Magic'] = {}
 
+    -- todo:
+    -- sets.midcast['Enfeebling Magic'].Immunobreak
+    -- sets.midcast['Enfeebling Magic'].Potency
+    -- sets.midcast['Enfeebling Magic'].Potency.Immunobreak
+    -- sets.midcast['Enfeebling Magic'].Duration
+    -- sets.midcast['Enfeebling Magic'].Duration.Immunobreak
+
     sets.midcast['Enfeebling Magic'] = {
         main="Bunzi's Rod",
 		sub="Ammurapi Shield",
@@ -185,15 +195,15 @@ function init_gear_sets()
     })
 
     sets.midcast['Enfeebling Magic']['Light Arts'] = set_combine(sets.midcast['Enfeebling Magic'], {
-        -- legs="Acad. Pants +3",
-        -- feet="Acad. Loafers +3"
+        legs="Acad. Pants +3",
+        feet="Acad. Loafers +3"
     })
 
     sets.midcast['Enfeebling Magic'].MagicAcc['Light Arts'] = set_combine(sets.midcast['Enfeebling Magic'], {})
 
     sets.midcast['Enfeebling Magic']['Dark Arts'] = set_combine(sets.midcast['Enfeebling Magic'], {
         -- body="Acad. Gown +3",
-        -- feet="Acad. Loafers +3"
+        feet="Acad. Loafers +3"
     })
 
     sets.midcast['Enfeebling Magic'].MagicAcc['Dark Arts'] = set_combine(sets.midcast['Enfeebling Magic'], {})
@@ -232,7 +242,7 @@ function init_gear_sets()
 
     sets.midcast.Stun = {
         main={ name="Musa", augments={'Path: C',}},
-        sub="Kaja Grip",
+        sub="Khonsu",
         ammo="Pemphredo Tathlum",
         head=gear.sch_af_head,
         body=gear.sch_af_body,
@@ -250,7 +260,7 @@ function init_gear_sets()
 
     sets.midcast.Stun['Dark Arts'] = set_combine(sets.midcast.Stun, {
         main={ name="Musa", augments={'Path: C',}},
-        sub="Kaja Grip",
+        sub="Khonsu",
         ammo="Pemphredo Tathlum",
         head=gear.sch_af_head,
         body=gear.sch_af_body,
@@ -304,7 +314,11 @@ function init_gear_sets()
 
     sets.Obi = {waist="Hachirin-no-Obi"}
 
-    sets.buff['Sublimation: Activated'] = {head=gear.sch_af_head, body="Peda. Gown +1"}
+    sets.buff['Sublimation: Activated'] = {
+        head=gear.sch_af_head,
+        body="Peda. Gown +1",
+        waist="Embla Sash"
+    }
 
     -- sets.buff.sleep = {}
 

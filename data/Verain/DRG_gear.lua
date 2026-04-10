@@ -27,14 +27,12 @@ function init_gear_sets()
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck="Loricate Torque +1",
         waist="Sailfi Belt +1",
-        left_ear="Odnowa Earring",
+        left_ear="Alabaster Earring",
         right_ear="Infused Earring",
         left_ring="Defending Ring",
         right_ring="Warden's Ring",
         back={ name="Brigantia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     }
-
-    sets.Moving = {right_ring="Shneddick Ring"}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Engaged Sets ------------------------------------------

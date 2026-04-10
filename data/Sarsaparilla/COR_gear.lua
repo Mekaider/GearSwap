@@ -16,16 +16,16 @@ end
 function init_gear_sets()
     sets.weapons['SavageBlade'] = { main = "Naegling", sub = "Gleti's Knife", ranged = "Ataktos" }
     sets.weapons['Evisceration'] = { main = "Tauret", sub = "Gleti's Knife", ranged = "Ataktos" }
-    sets.weapons['AeolianEdge'] = { main = "Tauret", sub = "Naegling", ranged = "Ataktos" }
+    sets.weapons['AeolianEdge'] = {main={name="Rostam", augments={'Path: B'}}, sub = "Tauret", ranged = "Ataktos" }
     sets.weapons['Leaden(M)'] = {
         main = { name = "Rostam", augments = { 'Path: B' }},
         sub = "Tauret",
-        ranged = "Molybdosis"
+        ranged = "Death Penalty"
     }
     sets.weapons['Leaden(R)'] = {
         main = { name = "Rostam", augments = { 'Path: B' }},
         sub = "Kustawi +1",
-        ranged = "Molybdosis",
+        ranged = "Death Penalty"
     }
     sets.weapons['LastStand(M)'] = {
         main = { name = "Rostam", augments = { 'Path: B' }},
@@ -51,8 +51,8 @@ function init_gear_sets()
 
     ammo.bullet.RA = "Chrono Bullet"
     ammo.bullet.WS = "Chrono Bullet"
-    ammo.bullet.MAB = "Chrono Bullet"
-    ammo.bullet.QD = "Chrono Bullet"
+    ammo.bullet.MAB = "Living Bullet"
+    ammo.bullet.QD = "Living Bullet"
 
     sets.idle = {
         ammo = ammo.bullet.RA,
@@ -65,7 +65,7 @@ function init_gear_sets()
         waist="Flume Belt +1",
         left_ear="Infused Earring",
         right_ear="Etiolation Earring",
-        left_ring="Defending Ring",
+        left_ring="Murky Ring",
         right_ring="Warden's Ring",
         back={ name="Camulus's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     }
@@ -81,8 +81,8 @@ function init_gear_sets()
 		waist="sailfi belt +1",
 		left_ear="Telos Earring",
         right_ear="Crep. Earring",
-		left_ring="Rajas Ring",
-		right_ring="Petrov Ring",
+		left_ring="Petrov Ring",
+		right_ring="Epona's Ring",
 		back="Null Shawl"
 	}
 
@@ -92,7 +92,7 @@ function init_gear_sets()
         hands="Malignance Gloves",  -- 5/5
         legs="Chas. Culottes +3", --12/12
         feet="Malignance Boots",    -- 4/4
-        left_ring="Defending Ring", -- 10/10
+        left_ring="Murky Ring", -- 10/10
     })
 
     -- doubles as MaxDW set
@@ -259,12 +259,10 @@ function init_gear_sets()
         back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
-
-
     sets.WS['Last Stand'] = {
         ammo=ammo.bullet.WS,
         head={ name="Nyame Helm", augments={'Path: B',}},
-        body={ name="Nyame Mail", augments={'Path: B',}},
+        body="Laksa. Frac +4",
         hands="Chasseur's Gants +3",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Lanun Bottes +4", augments={'Enhances "Wild Card" effect',}},
@@ -280,7 +278,7 @@ function init_gear_sets()
     sets.WS['Wildfire'] = {
         ammo = ammo.bullet.MAB,
         head={ name="Nyame Helm", augments={'Path: B',}},
-        body={ name="Nyame Mail", augments={'Path: B',}},
+        body="Lanun Frac +4",
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Lanun Bottes +4", augments={'Enhances "Wild Card" effect',}},
@@ -307,4 +305,7 @@ function init_gear_sets()
     sets.WS['Red Lotus Blade'] = set_combine(sets.WS['Wildfire'])
 
     -- sets.Obi = { waist = "Hachirin-no-Obi" }
+
+    sets.JA['Wild Card'] = {feet={ name="Lanun Bottes +4", augments={'Enhances "Wild Card" effect',}}}
+    sets.JA['Random Deal'] = {body="Lanun Frac +4"}
 end

@@ -6,14 +6,16 @@ function init_gear_sets()
     sets.weapons['SavageBlade'] = {main="Naegling", sub="Machaera +2"}
     sets.weapons['SeraphBlade'] = {main={ name="Crocea Mors", augments={'Path: C',}}, sub="Daybreak"}
     sets.weapons['BlackHalo'] = {main="Maxentius", sub="Machaera +2"}
-    sets.weapons['Evisceration'] = {main="Tauret", sub="Gleti's Knife"}
-    sets.weapons['AeolianEdge'] = {main="Tauret", sub="Machaera +2"}
+    sets.weapons['Evisceration'] = {main="Kaja Knife", sub="Gleti's Knife"}
+    sets.weapons['AeolianEdge'] = {main="Kaja Knife", sub="Machaera +2"}
 
     sets.weapons.Shield = {sub="Sacro Bulwark"}
 
     sets.Moving = {right_ring="Shneddick Ring"}
 
     sets.idle = {
+        main="Caliburnus",
+        sub="Sacro Bulwark",
         ammo={ name="Coiste Bodhar", augments={'Path: A',}},
         head={ name="Viti. Chapeau +4", augments={'Enfeebling Magic duration','Magic Accuracy',}},
         body="Lethargy Sayon +3",
@@ -54,7 +56,7 @@ function init_gear_sets()
     })
 
     -- 0 DW
-    sets.engaged.DualWield.NoDW = sets.engaged
+    sets.engaged.DualWield.NoDW = set_combine(sets.engaged)
 
     -- 11 DW
     sets.engaged.DualWield.LowDW = set_combine(sets.engaged, {

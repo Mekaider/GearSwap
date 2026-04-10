@@ -21,20 +21,18 @@ function init_gear_sets()
     sets.idle = {
         ammo="Staunch Tathlum +1",
         head={ name="Sakpata's Helm", augments={'Path: A',}},
-        body={ name="Sakpata's Plate", augments={'Path: A',}},
+        body="Sacro Breastplate",
         hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
         legs="Sakpata's Cuisses",
         feet="Sakpata's Leggings",
         neck="Elite Royal Collar",
         waist="Null Belt",
-        left_ear="Infused Earring",
-        right_ear="Etiolation Earring",
-        left_ring={name="Chirich Ring +1", bag="wardrobe1"},
+        left_ear="Arete Del Luna +1",
+        right_ear="Alabaster Earring",
+        left_ring="Murky Ring",
         right_ring={name="Chirich Ring +1", bag="wardrobe2"},
         back="Null Shawl"
     }
-
-    sets.Moving = {right_ring="Shneddick Ring"}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Engaged Sets ------------------------------------------
@@ -46,11 +44,11 @@ function init_gear_sets()
         body={ name="Sakpata's Plate", augments={'Path: A',}},
         hands={ name="Sakpata's Gauntlets", augments={'Path: A',}},
         legs="Sakpata's Cuisses",
-        feet="Sakpata's Leggings",
+        feet="Pumm. Calligae +2",
         neck="War. Beads +2",
         waist="Sailfi Belt +1",
-        left_ear={ name="Schere Earring", augments={'Path: A',}},
-        right_ear={ name="Boii Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+12','Mag. Acc.+12','Crit.hit rate+4',}},
+        left_ear="Schere Earring",
+        right_ear="Boii Earring +1",
         left_ring={name="Chirich Ring +1", bag="wardrobe1"},
         right_ring={name="Chirich Ring +1", bag="wardrobe2"},
         back="Null Shawl",
@@ -138,7 +136,7 @@ function init_gear_sets()
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-        left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        left_ear="Moonshade Earring",
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
         right_ring="Regal Ring",
@@ -154,7 +152,7 @@ function init_gear_sets()
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-        left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        left_ear="Moonshade Earring",
         right_ear="Thrud Earring",
         left_ring="Cornelia's ring",
         right_ring="Regal Ring",
@@ -172,7 +170,7 @@ function init_gear_sets()
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-        left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        left_ear="Moonshade Earring",
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
         right_ring="Cornelia's Ring",
@@ -192,7 +190,7 @@ function init_gear_sets()
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-        left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        left_ear="Moonshade Earring",
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
         right_ring="Cornelia's ring",
@@ -216,7 +214,7 @@ function init_gear_sets()
         feet="Pumm. Calligae +3",
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist="Thunder Belt",
-        left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        left_ear="Moonshade Earring",
         right_ear={ name="Boii Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+7','Mag. Acc.+7',}},
         left_ring="Niqmaddu Ring",
         right_ring="Regal Ring",
@@ -227,18 +225,18 @@ function init_gear_sets()
 
     sets.WS['Savage Blade'] = {
         ammo="Knobkierrie",
-        head="Agoge Mask +3",
-        body={ name="Nyame Mail", augments={'Path: B',}},
-        hands="Boii Mufflers +3",
-        legs={ name="Nyame Flanchard", augments={'Path: B',}},
-        feet={ name="Nyame Sollerets", augments={'Path: B',}},
-        neck={ name="War. Beads +2", augments={'Path: A',}},
-        waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-        left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        head="Nyame Helm",
+        body="Nyame Mail",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Rep. Plat. Medal",
+        waist="Sailfi Belt +1",
+        left_ear="Moonshade Earring",
         right_ear="Thrud Earring",
-        left_ring="Cornelia's ring",
-        right_ring="Regal Ring",
-        back={ name="Cichol's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+        left_ring="Chirich Ring +1",
+        right_ring="Chirich Ring +1",
+        back="Null Shawl",
     }
 
 
@@ -257,8 +255,8 @@ function init_gear_sets()
         feet="Boii Calligae +3",
     })
 
-    sets.WS['Judgment'] = sets.WS['Savage Blade']
-    sets.WS['Judgment'].PDL = sets.WS['Savage Blade'].PDL
+    sets.WS['Judgment'] = set_combine(sets.WS['Savage Blade'])
+    sets.WS['Judgment'].PDL = set_combine(sets.WS['Savage Blade'].PDL)
 
     sets.WS['Impulse Drive'] = {
         ammo="Knobkierrie",
@@ -269,7 +267,7 @@ function init_gear_sets()
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-        left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        left_ear="Moonshade Earring",
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
         right_ring="Regal Ring",
@@ -287,7 +285,7 @@ function init_gear_sets()
         feet="Boii Calligae +3",
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-        left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        left_ear="Moonshade Earring",
         right_ear="Thrud Earring",
         left_ring="Niqmaddu Ring",
         right_ring="Regal Ring",
@@ -313,8 +311,8 @@ function init_gear_sets()
         back="Reiki Cloak",
     }
     sets.JA['Mighty Strikes'] = {hands="Agoge Mufflers"}
-    sets.JA['Berserk'] = {feet="Agoge Calligae"}
-    sets.JA['Aggressor'] = {body="Agoge Lorica"}
+    sets.JA['Berserk'] = {body="Pumm. Lorica +1", feet="Agoge Calligae"}
+    sets.JA['Aggressor'] = {head="Pumm. Mask +1", body="Agoge Lorica"}
     sets.JA['Warcry'] = {head="Agoge Mask +3"}
     sets.JA['Restraint'] = {hands="Boii Mufflers +3"}
     sets.JA['Tomahawk'] = {ammo="Thr. Tomahawk", feet="Agoge Calligae"}

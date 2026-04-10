@@ -177,6 +177,7 @@ function init_include()
     state.SongMode = M{['description']='Song Mode', 'Potency', 'Dummy', 'MiracleCheer'}
 
     -- Other Modes
+    state.TreasureHunterMode = M{['description'] = 'Treasure Hunter Mode', 'None', 'Tag', 'Full'}
     state.RangedMode = M{['description'] = 'Ranged Mode', 'Normal', 'PDL', 'Crit' }
     state.QuickDrawMode = M{['description'] = 'Quick Draw Mode', 'Normal', 'Enhance', 'StoreTP' }
 
@@ -677,6 +678,10 @@ function status_change(new, old)
     equip(select_set())
 end
 
+function pet_status_change(new, old)
+    equip(select_set())
+end
+
 function select_idle_set()
     equipSet = {}
     equipSet = sets.idle
@@ -687,6 +692,11 @@ function select_idle_set()
     if pet.isvalid and equipSet.Pet then
         equipSet = equipSet.Pet
         message = 'sets.idle (pet)'
+    end
+
+    if pet.status == 'Engaged' and equipSet.Engaged then
+        equipSet = equipSet.Engaged
+        message = 'sets.idle (pet engaged)'
     end
 
     if equipSet[state.MeleeMode.value] then
@@ -1140,6 +1150,10 @@ function update_melee_groups()
         state.CustomMeleeGroups:append('Footwork')
     end
 
+    if buffactive['Climactic Flourish'] then
+        state.CustomMeleeGroups:append('Climactic')
+    end
+
     -- not too sure where to put the boundaries for DW sets, but 11 and 21 (/NIN and /DNC) seem the most important for now
 
     -- /DNC with capped magic haste and haste samba from dnc main OR /NIN with capped magic haste and any haste samba
@@ -1283,7 +1297,7 @@ function buff_change(name, gain, buff_details)
         end
     end
 
-    -- todo: move this to a buff_change_custom function in WHM.lua
+    -- todo: move this to a job_buff_change function in WHM.lua
     if name == 'Sleep' then
         if gain then
             disable('main', 'sub')
@@ -1299,8 +1313,8 @@ function buff_change(name, gain, buff_details)
         end
     end
 
-    if buff_change_custom then
-        buff_change_custom(name, gain, buff_details)
+    if job_buff_change then
+        job_buff_change(name, gain, buff_details)
     end
 end
 

@@ -16,7 +16,7 @@
     Contributors: Xilkk, Byrne, Blackhalo714
 
     ASCII Art Generator: http://www.network-science.de/ascii/
-    
+
 ]]
 
 -- Initialization function for this job file.
@@ -33,7 +33,7 @@ function user_setup()
 
     --[[
         F9 - Cycle Offense Mode (the offensive half of all 'hybrid' melee modes).
-        
+
         These are for when you are fighting with or without Pet
         When you are IDLE and Pet is ENGAGED that is handled by the Idle Sets
     ]]
@@ -41,7 +41,7 @@ function user_setup()
 
     --[[
         Ctrl-F9 - Cycle Hybrid Mode (the defensive half of all 'hybrid' melee modes).
-        
+
         Used when you are Engaged with Pet
         Used when you are Idle and Pet is Engaged
     ]]
@@ -50,7 +50,7 @@ function user_setup()
 
     --[[
         Alt-F12 - Turns off any emergency mode
-        
+
         Ctrl-F10 - Cycle type of Physical Defense Mode in use.
         F10 - Activate emergency Physical Defense Mode. Replaces Magical Defense Mode, if that was active.
     ]]
@@ -67,7 +67,7 @@ function user_setup()
 
         F12 - Update currently equipped gear, and report current status.
         Ctrl-F12 - Cycle Idle Mode.
-        
+
         Will automatically set IdleMode to Idle when Pet becomes Engaged and you are Idle
     ]]
     state.IdleMode:options("Idle", "MasterDT")
@@ -137,7 +137,7 @@ function user_setup()
     --[[
         This will toggle the HUB lite mode
         //gs c hub lite
-    ]]  
+    ]]
     state.useLightMode = M(false, "Toggles Lite mode")
 
     --[[
@@ -146,12 +146,12 @@ function user_setup()
     ]]
     state.Keybinds = M(false, "Hide Keybinds")
 
-    --[[ 
-        This will toggle the CP Mode 
-        //gs c toggle CP 
-    ]] 
-    state.CP = M(false, "CP") 
-    CP_CAPE = "Aptitude Mantle +1" 
+    --[[
+        This will toggle the CP Mode
+        //gs c toggle CP
+    ]]
+    state.CP = M(false, "CP")
+    CP_CAPE = "Aptitude Mantle +1"
 
     --[[
         Enter the slots you would lock based on a custom set up.
@@ -176,7 +176,7 @@ function user_setup()
     -- send_command("bind home gs c toggle setftp")
     -- send_command("bind PAGEUP gs c toggle autodeploy")
     -- send_command("bind PAGEDOWN gs c hide keybinds")
-    -- send_command("bind end gs c toggle CP") 
+    -- send_command("bind end gs c toggle CP")
     -- send_command("bind = gs c clear")
     send_command('bind F9 gs c cycle OffenseMode')
     send_command("bind F10 gs c cycle HybridMode")
@@ -188,7 +188,7 @@ function user_setup()
     pos_x = 0
     pos_y = 0
     setupTextWindow(pos_x, pos_y)
-    
+
 end
 
 function file_unload()
@@ -204,7 +204,7 @@ function file_unload()
     -- send_command("unbind ^`")
     -- send_command("unbind home")
     -- send_command("unbind PAGEUP")
-    -- send_command("unbind PAGEDOWN")       
+    -- send_command("unbind PAGEDOWN")
     -- send_command("unbind end")
     -- send_command("unbind =")
 end
@@ -306,21 +306,21 @@ function init_gear_sets()
         right_ear="Infused Earring",
         left_ring = "Defending Ring",
 		right_ring = "Shneddick Ring",
-        neck = "Loricate Torque +1",
+		neck="Elite Royal Collar",
         waist="Moonbow Belt +1",
         back={ name="Visucius's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+5','Crit.hit rate+10','Phys. dmg. taken-10%',}},
     }
 
     -------------------------------------Fastcast
     sets.precast.FC = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     -------------------------------------Midcast
     sets.midcast = {} --Can be left empty
 
     sets.midcast.FastRecast = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     -------------------------------------Kiting
@@ -365,7 +365,7 @@ function init_gear_sets()
 
     --Waltz set (chr and vit)
     sets.precast.Waltz = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     sets.precast.Waltz["Healing Waltz"] = {}
@@ -410,7 +410,7 @@ function init_gear_sets()
         Idle Mode = MasterDT
     ]]
     sets.idle.MasterDT = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     -------------------------------------Engaged
@@ -439,7 +439,7 @@ function init_gear_sets()
         Hybrid Mode = Acc
     ]]
     sets.engaged.Master.Acc = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     -------------------------------------TP
@@ -507,7 +507,7 @@ function init_gear_sets()
         Hybrid Mode = Acc
     ]]
     sets.engaged.MasterPet.Acc = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     -------------------------------------TP
@@ -516,7 +516,7 @@ function init_gear_sets()
         Hybrid Mode = TP
     ]]
     sets.engaged.MasterPet.TP = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     -------------------------------------DT
@@ -545,7 +545,7 @@ function init_gear_sets()
         Hybrid Mode = Regen
     ]]
     sets.engaged.MasterPet.Regen = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     ----------------------------------------------------------------
@@ -561,40 +561,40 @@ function init_gear_sets()
 
     -------------------------------------Magic Midcast
     sets.midcast.Pet = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     sets.midcast.Pet.Cure = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     sets.midcast.Pet["Healing Magic"] = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     sets.midcast.Pet["Elemental Magic"] = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     sets.midcast.Pet["Enfeebling Magic"] = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     sets.midcast.Pet["Dark Magic"] = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     sets.midcast.Pet["Divine Magic"] = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     sets.midcast.Pet["Enhancing Magic"] = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     -------------------------------------Idle
     --[[
-        This set will become default Idle Set when the Pet is Active 
+        This set will become default Idle Set when the Pet is Active
         and sets.idle will be ignored
         Player = Idle and not fighting
         Pet = Idle and not fighting
@@ -613,7 +613,7 @@ function init_gear_sets()
         Idle Mode = MasterDT
     ]]
     sets.idle.Pet.MasterDT = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     -------------------------------------Enmity
@@ -621,7 +621,7 @@ function init_gear_sets()
 
     --Equipped automatically
     sets.pet.Enmity = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     --[[
@@ -629,13 +629,13 @@ function init_gear_sets()
         F10 if Physical Defense Mode = PetDT
     ]]
     sets.pet.EmergencyDT = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     -------------------------------------Engaged for Pet Only
     --[[
       For Technical Users - This is layout of below
-      sets.idle[idleScope][state.IdleMode][ Pet[Engaged] ][CustomIdleGroups] 
+      sets.idle[idleScope][state.IdleMode][ Pet[Engaged] ][CustomIdleGroups]
 
       For Non-Technical Users:
       If you the player is not fighting and your pet is fighting the first set that will activate is sets.idle.Pet.Engaged
@@ -665,7 +665,7 @@ function init_gear_sets()
         Hybrid Mode = Acc
     ]]
     sets.idle.Pet.Engaged.Acc = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     --[[
@@ -692,7 +692,7 @@ function init_gear_sets()
         Hybrid Mode = DT
     ]]
     sets.idle.Pet.Engaged.DT = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     --[[
@@ -700,7 +700,7 @@ function init_gear_sets()
         Hybrid Mode = Regen
     ]]
     sets.idle.Pet.Engaged.Regen = {
-       -- Add your set here 
+       -- Add your set here
     }
 
     --[[

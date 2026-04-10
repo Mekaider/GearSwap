@@ -1,1 +1,1 @@
-send_command('gs c display off')
+-- send_command('gs c display off')

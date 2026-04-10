@@ -1,4 +1,6 @@
 function job_setup()
+    state.MagicMode:options('Normal', 'MagicAcc')
+    state.ExtraMagicModes:options('None', 'Immunobreak')
     state.RegenMode = M{['description']='Regen Mode', 'Potency', 'Duration'} -- not currently used
 
     state.Buff['Light Arts'] = buffactive['Light Arts'] or false

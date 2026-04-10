@@ -1,14 +1,13 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
+function user_setup()
+    state.WeaponMode:options('Aettir', 'Lycurgos', 'Unlocked')
+    state.WeaponMode:set('Aettir')
+    state.MeleeMode:options('TP', 'Hybrid', 'Parry', 'Meva', 'AoE')
+    state.MeleeMode:set('Hybrid')
+    state.MagicMode:options('Normal', 'SIRD')
+    state.MagicMode:set('Normal')
+end
 
-state.WeaponMode:options('Aettir', 'Lycurgos', 'Unlocked')
-state.WeaponMode:set('Aettir')
-state.MeleeMode:options('TP', 'Hybrid', 'Parry', 'Meva', 'AoE')
-state.MeleeMode:set('Hybrid')
-state.MagicMode:options('Normal', 'SIRD')
-state.MagicMode:set('Normal')
-
-function get_sets()
+function init_gear_sets()
 
     sets.weapons["Aettir"] = {main={ name="Aettir", augments={'Accuracy+70','Mag. Evasion+50','Weapon skill damage +10%',}}}
     sets.weapons["Lycurgos"] = {main="Lycurgos"}

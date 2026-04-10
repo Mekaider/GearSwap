@@ -13,7 +13,7 @@ function init_gear_sets()
         neck="Sibyl Scarf",
         waist="Null Belt",
         left_ear="Etiolation Earring",
-        right_ear={ name="Moonshade Earring", augments={'MP+25','Latent effect: "Refresh"+1',}},
+        right_ear="Alabaster Earring",
         left_ring="Gurebu's Ring",
         right_ring=gear.right_stikini_ring,
         back={ name="Lugh's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},

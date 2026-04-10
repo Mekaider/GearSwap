@@ -40,7 +40,7 @@ function init_gear_sets()
         head="Flam. Zucchetto +2",
         body="Hjarrandi Breast.",
         hands="Sakpata's Gauntlets",
-        legs="Pumm. Cuisses +3",
+        legs="Pumm. Cuisses +4",
         feet="Flam. Gambieras +2",
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist="Sailfi Belt +1",

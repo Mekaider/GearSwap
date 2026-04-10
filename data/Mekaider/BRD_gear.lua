@@ -1,0 +1,219 @@
+function user_setup()
+    state.WeaponMode:options('Naegling', 'Carnwenhan')
+    state.MeleeMode:options('Normal', 'Acc')
+    state.WeaponLock:set(true)
+end
+
+function init_gear_sets()
+    sets.instruments.Potency = {range="Blurred Harp"}
+    sets.instruments.ExtraSongs = {range="Blurred Harp"}
+    sets.instruments.LullabyHarp = {range="Blurred Harp"}
+    sets.instruments.MiracleCheer = {range="Miracle Cheer"}
+
+    sets.weapons.Songs = {main="Kali"}
+
+    sets.weapons.Naegling = {main="Naegling", sub="Centovente"}
+    sets.weapons.Carnwenhan = {main="Carnwenhan", sub="Gleti's Knife"}
+    sets.weapons.Shield = {sub="Genmei Shield"}
+
+    sets.idle = {
+        -- range={ name="Linos", augments={'Accuracy+20','"Store TP"+4','Quadruple Attack +3',}},
+        head="Null Masque",
+        body="Ashera Harness",
+        hands="Nyame Gauntlets",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Elite Royal Collar",
+        waist="Carrier's Sash",
+        left_ear="Alabaster Earring",
+        right_ear={ name="Fili Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Damage taken-3%',}},
+        left_ring="Murky Ring",
+        right_ring="Warden's Ring",
+    }
+
+    sets.engaged = {
+        range={ name="Linos", augments={'Accuracy+20','"Store TP"+4','Quadruple Attack +3',}},
+        head="Aya. Zucchetto +2",
+        body="Ashera Harness",
+        hands="Bunzi's Gloves",
+        legs="Volte Tights",
+        feet={ name="Nyame Sollerets", augments={'Path: B',}},
+        neck={ name="Bard's Charm +2", augments={'Path: A',}},
+        waist="Sailfi Belt +1",
+        left_ear="Crep. Earring",
+        right_ear="Telos Earring",
+        left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
+        right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
+        back="Null Shawl",
+    }
+
+    -- acts as fallback set, if DW required > 21
+    sets.engaged.DualWield = set_combine(sets.engaged, {
+        -- hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- needed to cap gear haste, ideally wouldn't need these here
+        -- waist="Reiki Yotai",
+        -- left_ear="Eabani Earring",
+        -- right_ear="Suppanomimi",
+        -- back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+    }) -- 26DW
+
+    sets.engaged.DualWield.Acc = set_combine(sets.engaged.DualWield, {
+        -- hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- used for acc with TP bonus offhand
+    })
+
+    sets.engaged.DualWield.NoDW = set_combine(sets.engaged)
+    sets.engaged.DualWield.Acc.NoDW = set_combine(sets.engaged.DualWield.NoDW, {
+        -- hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- used for acc with TP bonus offhand
+        -- right_ear="Telos Earring",
+    })
+
+    sets.engaged.DualWield.MinDW = set_combine(sets.engaged, {
+        -- left_ear="Eabani Earring",
+        -- right_ear="Suppanomimi",
+    }) -- 9 DW required
+
+    sets.engaged.DualWield.Acc.MinDW = set_combine(sets.engaged.DualWield.MinDW, {
+        -- hands={ name="Gazu Bracelets +1", augments={'Path: A'}}
+    })
+
+    sets.engaged.DualWield.LowDW = set_combine(sets.engaged, {
+        -- waist="Reiki Yotai",
+        -- left_ear="Eabani Earring",
+        -- right_ear="Alabaster Earring"
+    }) -- 11 DW required
+
+    sets.engaged.DualWield.Acc.LowDW = set_combine(sets.engaged.DualWield.LowDW, {
+        -- hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- used for acc with TP bonus offhand
+        -- right_ear="Telos Earring",
+    })
+
+    sets.engaged.DualWield.MidDW = set_combine(sets.engaged, {
+        -- waist="Reiki Yotai",
+        -- left_ear="Eabani Earring",
+        -- right_ear="Alabaster Earring",
+        -- back={ name="Intarabus's Cape", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dual Wield"+10','Phys. dmg. taken-10%',}},
+    }) -- 21 DW required
+
+    sets.engaged.DualWield.Acc.MidDW = set_combine(sets.engaged.DualWield.MidDW, {
+        -- hands={ name="Gazu Bracelets +1", augments={'Path: A'}}, -- used for acc with TP bonus offhand
+        -- right_ear="Telos Earring",
+    })
+
+    sets.WS = {
+        -- range={ name="Linos", augments={'Attack+15','Weapon skill damage +3%','STR+6 DEX+6',}},
+        -- head={ name="Nyame Helm", augments={'Path: B',}},
+        -- body={ name="Bihu Just. +4", augments={'Enhances "Troubadour" effect',}},
+        -- hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+        -- legs={ name="Nyame Flanchard", augments={'Path: B',}},
+        -- feet={ name="Nyame Sollerets", augments={'Path: B',}},
+        -- neck={ name="Bard's Charm +2", augments={'Path: A',}},
+        -- waist="Sailfi Belt +1",
+        -- left_ear="Ishvara Earring",
+        -- right_ear={ name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},
+        -- left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
+        -- right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
+        -- back={ name="Intarabus's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+    }
+
+    sets.WS['Savage Blade'] = {
+        -- range={ name="Linos", augments={'Attack+15','Weapon skill damage +3%','STR+6 DEX+6',}},
+        -- head={ name="Nyame Helm", augments={'Path: B',}},
+        -- body={ name="Bihu Just. +4", augments={'Enhances "Troubadour" effect',}},
+        -- hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+        -- legs={ name="Nyame Flanchard", augments={'Path: B',}},
+        -- feet={ name="Nyame Sollerets", augments={'Path: B',}},
+        -- neck="Rep. Plat. Medal",
+        -- waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+        -- left_ear="Ishvara Earring",
+        -- right_ear={ name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},
+        -- left_ring="Moonlight Ring",
+        -- right_ring="Cornelia's Ring",
+        -- back={ name="Intarabus's Cape", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+    }
+
+    sets.JA = {}
+    sets.JA['Nightingale'] = {feet="Bihu Slippers +1"}
+    sets.JA['Troubadour'] = {body={ name="Bihu Just. +4", augments={'Enhances "Troubadour" effect',}}}
+
+    sets.precast.FastCast = {
+        head="Bunzi's Hat",
+        body="Zendik Robe",
+        hands={ name="Leyline Gloves", augments={'Accuracy+15','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+3',}},
+        legs={ name="Lengo Pants", augments={'INT+7','Mag. Acc.+7','"Mag.Atk.Bns."+3','"Refresh"+1',}},
+        neck="Voltsurge Torque",
+        waist="Embla Sash",
+        left_ring="Kishar Ring",
+        right_ring="Prolix Ring",
+    }
+
+    sets.precast.FastCast['BardSong'] = set_combine(sets.precast.FastCast, {})
+
+    sets.midcast.Songs.Potency = {
+        -- head="Fili Calot +3",
+        -- body="Fili Hongreline +3",
+        -- hands="Fili Manchettes",
+        -- legs="Inyanga Shalwar +2",
+        -- feet="Brioso Slippers +4",
+        -- neck="Mnbw. Whistle +1",
+        -- waist="Flume Belt +1",
+        -- -- left_ear={ name="Odnowa Earring +1", augments={'Path: A',}, priority=3},
+        -- left_ear={ name="Etiolation Earring", priority=1}, -- 1
+        -- left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
+        -- right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
+        -- back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},
+    }
+
+    sets.midcast.Songs.Enfeebling = {
+        -- head="Fili Calot +3",
+        -- body="Fili Hongreline +3",
+        -- hands="Fili Manchettes",
+        -- legs="Inyanga Shalwar +2",
+        -- feet="Brioso Slippers +4",
+        -- neck="Mnbw. Whistle +1",
+        -- waist="Flume Belt +1",
+        -- left_ear="Regal Earring",
+        -- right_ear={ name="Fili Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},      left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
+        -- right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
+        -- back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},
+    }
+
+    sets.midcast['Horde Lullaby II'] = {
+        -- head="Fili Calot +3",
+        -- body="Fili Hongreline +3",
+        -- hands="Inyan. Dastanas +2",
+        -- legs="Inyanga Shalwar +2",
+        -- feet="Brioso Slippers +4",
+        -- neck="Mnbw. Whistle +1",
+        -- left_ear={ name="Etiolation Earring", priority=1}, -- 1
+        -- right_ear={ name="Fili Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},      left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
+        -- right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
+        -- back={ name="Intarabus's Cape", augments={'HP+60','Eva.+20 /Mag. Eva.+20','"Fast Cast"+10','Damage taken-5%',}},
+      }
+
+    sets.midcast.Carol = {hands="Mousai Gages +1"}
+    sets.midcast.Etude = {head="Mousai Turban +1"}
+    sets.midcast.Lullaby = {body="Fili Hongreline +3"}
+    sets.midcast.Madrigal = {head="Fili Calot +3", feet="Bunzi's Sabots"} -- feet="Fili Cothurnes +1"}
+    sets.midcast.Mambo = {feet="Mou. Crackows +1"}
+    sets.midcast.March = {hands="Fili Manchettes"}
+    sets.midcast.Minne = {legs="Mou. Seraweels +1"}
+    sets.midcast.Minuet = {body="Fili Hongreline +3"}
+    sets.midcast.Paeon = {} -- {head="Brioso Roundlet +3"}
+    sets.midcast.Prelude = {feet="Fili Cothurnes +1"}
+    sets.midcast.Threnody = {body="Mou. Manteel +1"}
+    -- sets.midcast['Adventurer\'s Dirge'] = {} -- {range="Marsyas", hands="Bihu Cuffs +3"}
+    -- sets.midcast['Foe Sirvente'] = {} -- {head="Bihu Roundlet +3"}
+    -- sets.midcast['Magic Finale'] = {} -- {legs="Fili Rhingrave +1"}
+    -- sets.midcast["Sentinel's Scherzo"] = {} -- {feet="Fili Cothurnes +1"}
+    -- sets.midcast["Chocobo Mazurka"] = {} -- {range="Marsyas"}
+
+    sets.midcast['Enhancing Magic'] = {
+        head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +10',}},
+        body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +8',}},
+        hands={ name="Telchine Gloves", augments={'Enh. Mag. eff. dur. +10',}},
+        legs={ name="Telchine Braconi", augments={'Enh. Mag. eff. dur. +10',}},
+        feet={ name="Telchine Pigaches", augments={'Enh. Mag. eff. dur. +10',}},
+        waist="Embla Sash",
+        left_ring=gear.left_stikini_ring,
+        right_ring=gear.right_stikini_ring,
+    }
+end

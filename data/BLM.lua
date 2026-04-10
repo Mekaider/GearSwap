@@ -365,6 +365,10 @@ function job_post_midcast(spell, action, spellMap, eventArgs)
             equip(sets.Obi)
         end
     end
+
+    if spell.skill == 'Elemental Magic' and player.mpp < 35 then
+        equip({body='Spae. Coat +1'})
+    end
     if buffactive['Mana Wall'] then
         equip(sets.precast.JA['Mana Wall'])
     end

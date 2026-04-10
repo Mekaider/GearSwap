@@ -1,7 +1,7 @@
 
 function user_setup()
     state.WeaponMode:options('Burtgang', 'Moralltach', 'Naegling')
-    state.ShieldMode:options('Priwen', 'Duban', 'Srivatsa', 'Aegis', 'Blurred Shield +1')
+    state.ShieldMode:options('Duban', 'Srivatsa', 'Aegis', 'Blurred Shield +1')
 end
 
 function init_gear_sets()
@@ -110,7 +110,7 @@ function init_gear_sets()
         body={ name="Souv. Cuirass +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
         hands={ name="Souv. Handsch. +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
         legs={ name="Souv. Diechlings +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
-        feet="Chev. Sabatons +2",
+        feet="Chev. Sabatons +3",
         neck="Moonlight Necklace",
         waist="Creed Baudrier",
         left_ear="Tuisto Earring",
@@ -145,7 +145,7 @@ function init_gear_sets()
 	sets.JA['Cover'] = set_combine( sets.Enmity, { feet={ name="Cab. Leggings", augments={'Enhances "Guardian" effect',}} })
 	sets.JA['Provoke'] = set_combine( sets.Enmity, {})
 	sets.JA['Rampart'] = set_combine( sets.Enmity, { head={ name="Cab. Coronet", augments={'Enhances "Iron Will" effect',}} })
-	sets.JA['Divine Emblem'] = set_combine( sets.Enmity, {feet="Chev. Sabatons +2"})
+	sets.JA['Divine Emblem'] = set_combine( sets.Enmity, {feet="Chev. Sabatons +3"})
 	sets.JA['Sepulcher'] = set_combine( sets.Enmity, {})
 	sets.JA['Palisade'] = set_combine( sets.Enmity, {})
 	sets.JA['Intervene'] = set_combine( sets.Enmity, {})
@@ -159,11 +159,27 @@ function init_gear_sets()
         body="Sacro Breastplate",
         hands={ name="Leyline Gloves", augments={'Accuracy+15','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+3',}},
         legs="Sakpata's Cuisses",
-        feet="Chev. Sabatons +2",
+        feet="Chev. Sabatons +3",
         neck="Voltsurge Torque",
         waist="Plat. Mog. Belt",
         left_ear="Tuisto Earring",
         right_ear={ name="Odnowa Earring +1", augments={'Path: A',}},
+        left_ring="Kishar Ring",
+        right_ring="Prolix Ring",
+        back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+    }
+
+    sets.precast.FastCast.CureCheat = {
+        ammo="Sapience Orb",
+        head="Carmine Mask +1",
+        body="Sacro Breastplate",
+        hands={ name="Leyline Gloves", augments={'Accuracy+15','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+3',}},
+        legs="Enif Cosciales",
+        feet="Chev. Sabatons +3",
+        neck="Voltsurge Torque",
+        waist="Flume Belt +1",
+        left_ear="Infused Earring",
+        right_ear="Arete del Luna +1",
         left_ring="Kishar Ring",
         right_ring="Prolix Ring",
         back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
@@ -200,6 +216,22 @@ function init_gear_sets()
     sets.midcast['Healing Magic'] = sets.midcast.Cure
 
     sets.midcast.Cure.SIRD = set_combine(sets.midcast.Cure, sets.midcast.SIRD)
+
+    sets.midcast.Cure.CureCheat = {
+        ammo="Sapience Orb",
+        head="Loess Barbuta +1",
+        body={ name="Souv. Cuirass +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
+        hands="Macabre Gaunt. +1",
+        legs={ name="Souv. Diechlings +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},
+        feet={ name="Odyssean Greaves", augments={'Mag. Acc.+8 "Mag.Atk.Bns."+8','"Fast Cast"+6','STR+8','Mag. Acc.+1',}},
+        neck="Unmoving Collar +1",
+        waist="Plat. Mog. Belt",
+        left_ear="Tuisto Earring",
+        right_ear={ name="Chev. Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+8','Mag. Acc.+8',}},
+        left_ring="Moonlight Ring",
+        right_ring="Moonlight Ring",
+        back={ name="Rudianos's Mantle", augments={'HP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Enmity+10','Chance of successful block +5',}},
+    }
 
     -- 3007 HP, no shield
     sets.midcast['Enhancing Magic'] = {
@@ -276,13 +308,13 @@ function init_gear_sets()
     }
 
     sets.midcast.Flash = set_combine(sets.Enmity, {
-        feet="Chev. Sabatons +2",
+        feet="Chev. Sabatons +3",
     })
 
     sets.midcast.Flash.SIRD = set_combine(sets.midcast.Flash, sets.midcast.SIRD)
 
     sets.midcast.Foil = set_combine(sets.Enmity, {
-        feet="Chev. Sabatons +2",
+        feet="Chev. Sabatons +3",
     })
 
     sets.midcast.Foil.SIRD = set_combine(sets.midcast.Foil, sets.midcast.SIRD)

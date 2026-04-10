@@ -1,5 +1,5 @@
 function user_setup()
-    state.WeaponMode:options('Naegling', 'Carnwenhan')
+    state.WeaponMode:options('Naegling', 'Carnwenhan', 'RudrasStorm')
     state.MeleeMode:options('Normal', 'Acc')
     state.WeaponLock:set(true)
 end
@@ -14,6 +14,7 @@ function init_gear_sets()
 
     sets.weapons.Naegling = {main="Naegling", sub="Centovente"}
     sets.weapons.Carnwenhan = {main="Carnwenhan", sub="Gleti's Knife"}
+    sets.weapons.RudrasStorm = {main="Aeneas", sub="Centovente"}
     sets.weapons.Shield = {sub="Ammurapi Shield"}
 
     sets.Moving = {right_ring="Shneddick Ring"}
@@ -39,7 +40,7 @@ function init_gear_sets()
         head="Aya. Zucchetto +2",
         body="Ashera Harness",
         hands="Bunzi's Gloves",
-        legs={ name="Nyame Flanchard", augments={'Path: B',}},
+        legs="Revelation Brais",
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="Bard's Charm +2", augments={'Path: A',}},
         waist="Sailfi Belt +1",
@@ -49,6 +50,8 @@ function init_gear_sets()
         right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},
         back="Null Shawl",
     }
+
+    sets.engaged.Acc = set_combine(sets.engaged, {})
 
     -- acts as fallback set, if DW required > 21
     sets.engaged.DualWield = set_combine(sets.engaged, {

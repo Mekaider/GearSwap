@@ -91,8 +91,9 @@ function init_gear_sets()
         hands={ name="Leyline Gloves", augments={'Accuracy+15','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+3',}},
         legs={ name="Lengo Pants", augments={'INT+7','Mag. Acc.+7','"Mag.Atk.Bns."+3','"Refresh"+1',}},
         neck="Voltsurge Torque",
+        waist="Embla Sash",
         left_ear="Malignance Earring",
-        right_ear={ name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','"Dbl.Atk."+3',}},
+        right_ear="Leth. Earring +1",
         left_ring="Kishar Ring",
         right_ring="Prolix Ring",
     }

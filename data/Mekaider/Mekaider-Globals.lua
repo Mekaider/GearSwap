@@ -16,9 +16,9 @@ function define_user_global_sets()
     gear.sch_relic_legs = "Pedagogy Pants"
     gear.sch_relic_feet = "Peda. Loafers"
 
-    gear.sch_emp_head = "Arbatel Bonnet +2"
+    gear.sch_emp_head = "Arbatel Bonnet +3"
     gear.sch_emp_body = "Arbatel Gown +3"
-    gear.sch_emp_hands = "Arbatel Bracers +2"
+    gear.sch_emp_hands = "Arbatel Bracers +3"
     gear.sch_emp_legs = "Arbatel Pants +3"
     gear.sch_emp_feet = "Arbatel Loafers +3"
 end
@@ -31,11 +31,13 @@ function user_state_change(state, new_state_value, old_state_value)
                 send_command('xb bar Sword')
             elseif new_state_value == 'Club' then
                 send_command('xb bar Club')
+            elseif new_state_value == 'Axe' then
+                send_command('xb bar Axe')
             elseif new_state_value == 'Chango' then
                 send_command('xb bar GreatAxe')
             elseif new_state_value == 'ShiningOne' then
                 send_command('xb bar Polearm')
-            elseif new_state_value == 'Montante' then
+            elseif new_state_value == 'GreatSword' then
                 send_command('xb bar GreatSword')
             end
         elseif player.main_job == 'SAM' then
@@ -47,3 +49,12 @@ function user_state_change(state, new_state_value, old_state_value)
         end
     end
 end
+
+windower.raw_register_event('zone change', function()
+    -- reset bars as LA/DA are removed by zoning and get left in the wrong bar
+    if not player then return end
+
+    if player.main_job == 'SCH' then
+        send_command('xb bar Basic')
+    end
+end)

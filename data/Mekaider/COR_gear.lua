@@ -68,7 +68,7 @@ function init_gear_sets()
         waist = "Carrier's Sash",
         left_ear = "Odnowa Earring +1",
         right_ear = "Infused Earring",
-        left_ring = "Defending Ring",
+        left_ring = "Murky Ring",
         right_ring = "Purity Ring",
         back = { name = "Camulus's Mantle", augments = { 'DEX+20', 'Accuracy+20 Attack+20', '"Dbl.Atk."+10', 'Phys. dmg. taken-10%', } },
     }
@@ -95,7 +95,7 @@ function init_gear_sets()
         hands = "Malignance Gloves",  -- 5/5
         legs = "Malignance Tights",   -- 7/7
         feet = "Malignance Boots",    -- 4/4
-        left_ring = "Defending Ring", -- 10/10
+        left_ring = "Murky Ring", -- 10/10
         -- legs="Chas. Culottes +3", --12/12
     })
 
@@ -123,6 +123,11 @@ function init_gear_sets()
     sets.engaged.DualWield.LowDW = set_combine(sets.engaged, {
         body = { name = "Adhemar Jacket +1", augments = { 'DEX+12', 'AGI+12', 'Accuracy+20', } }, -- 6
         left_ear = "Suppanomimi",                                                      -- 5
+    })
+
+    sets.engaged.DualWield.DT.MinDW = set_combine(sets.engaged.DT, {
+        left_ear="Eabani Earring",
+        right_ear="Suppanomimi",                                                                                           -- 5
     })
 
     sets.engaged.DualWield.DT.LowDW = set_combine(sets.engaged.DT, {

@@ -1,6 +1,6 @@
 function job_setup()
     state.MeleeMode:options('PDT', 'AoE', 'Meva', 'TP')
-    state.MagicMode:options('Normal', 'SIRD')
+    state.MagicMode:options('Normal', 'SIRD', 'CureCheat')
 end
 
 function get_sets()

@@ -1,5 +1,5 @@
 function user_setup()
-    state.WeaponMode:options('Naegling', 'Club', 'Chango', 'ShiningOne', 'Montante')
+    state.WeaponMode:options('Naegling', 'Club', 'Axe', 'Chango', 'ShiningOne', 'GreatSword')
 
     state.MeleeMode:options('TP', 'DT')
 
@@ -17,9 +17,10 @@ function init_gear_sets()
 
     sets.weapons.Naegling = {main="Naegling", sub="Blurred Shield +1"}
     sets.weapons.Club = {main={name="Loxotic Mace +1", augments={'Path: A',}}, sub="Blurred Shield +1"}
+    sets.weapons.Axe = {main="Ikenga's Axe", sub="Blurred Shield +1"}
     sets.weapons.Chango = {main={ name="Chango", augments={'Path: A',}}, sub="Utu Grip"}
     sets.weapons.ShiningOne = {main="Shining One", sub="Utu Grip"}
-    sets.weapons.Montante = {main="Montante +1", sub="Utu Grip"}
+    sets.weapons.GreatSword = {main="Agwu's Claymore", sub="Utu Grip"}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Idle Sets ---------------------------------------------
@@ -53,11 +54,11 @@ function init_gear_sets()
         body="Hjarrandi Breast.",
         hands="Sakpata's Gauntlets",
         legs="Boii Cuisses +3",
-        feet="Pumm. Calligae +3",
+        feet="Pumm. Calligae +4",
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear="Schere Earring",
-        right_ear={ name="Boii Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+7','Mag. Acc.+7',}},
+        right_ear="Boii Earring +1",
         left_ring="Niqmaddu Ring",
         right_ring=gear.right_moonlight_ring,
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
@@ -79,11 +80,11 @@ function init_gear_sets()
         body="Hjarrandi Breast.",
         hands="Sakpata's Gauntlets",
         legs="Boii Cuisses +3",
-        feet="Pumm. Calligae +3",
+        feet="Pumm. Calligae +4",
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear="Schere Earring",
-        right_ear={ name="Boii Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+7','Mag. Acc.+7',}},
+        right_ear="Boii Earring +1",
         left_ring="Niqmaddu Ring",
         right_ring=gear.right_moonlight_ring,
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
@@ -100,6 +101,8 @@ function init_gear_sets()
     })
 
     sets.engaged.TwoHand = set_combine(sets.engaged, {
+        head="Hjarrandi Helm",
+        legs="Pumm. Cuisses +4",
         body="Boii Lorica +3",
     })
 
@@ -220,11 +223,11 @@ function init_gear_sets()
         body="Sakpata's Plate",
         hands="Sakpata's Gauntlets",
         legs="Boii Cuisses +3",
-        feet="Pumm. Calligae +3",
+        feet="Pumm. Calligae +4",
         neck={ name="War. Beads +2", augments={'Path: A',}},
         waist="Thunder Belt",
         left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-        right_ear={ name="Boii Earring", augments={'System: 1 ID: 1676 Val: 0','Accuracy+7','Mag. Acc.+7',}},
+        right_ear="Boii Earring +1",
         left_ring="Niqmaddu Ring",
         right_ring="Regal Ring",
         back={ name="Cichol's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},

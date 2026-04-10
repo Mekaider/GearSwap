@@ -5,4 +5,4 @@ function define_user_global_sets()
     gear.right_stikini_ring = {name="Stikini Ring +1", bag="wardrobe2"}
 end
 
-send_command('gs c display off')
+-- send_command('gs c display off')

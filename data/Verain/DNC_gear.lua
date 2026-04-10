@@ -1,13 +1,12 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
+function user_setup()
+    state.WeaponMode:options('Aeneas', 'Tauret', 'MpuGandring')
+    state.MeleeMode:options('TP', 'DT')
+end
 
-state.WeaponMode:options('Aeneas', 'Tauret')
-state.MeleeMode:options('TP', 'DT')
-
-function get_sets()
-    
+function init_gear_sets()
     sets.weapons['Aeneas'] = {main="Aeneas", sub="Centovente"}
     sets.weapons['Tauret'] = {main="Tauret", sub="Crepuscular Knife"}
+    sets.weapons['MpuGandring'] = {main="Mpu Gandring", sub="Centovente"}
 
     sets.idle = {
         ammo="Staunch Tathlum",
@@ -24,7 +23,7 @@ function get_sets()
         right_ring="Warden's Ring",
         back="Null Shawl",
     }
-    
+
     sets.Moving = {right_ring="Shneddick Ring"}
 
     sets.engaged = {
@@ -39,13 +38,13 @@ function get_sets()
         left_ear="Sherida Earring",
         right_ear="Telos Earring",
         left_ring="Gere Ring",
-        right_ring="Chirich Ring +1",
+        right_ring="Epona's Ring",
         back="Null Shawl",
     }
 
     sets.engaged.DualWield = {
         ammo={ name="Coiste Bodhar", augments={'Path: A',}},
-        head="Malignance Chapeau",
+        head="Maculele Tiara +3",
         body="Malignance Tabard",
         hands="Malignance Gloves",
         legs="Malignance Tights",
@@ -55,7 +54,7 @@ function get_sets()
         left_ear="Sherida Earring",
         right_ear="Telos Earring",
         left_ring="Gere Ring",
-        right_ring="Chirich Ring +1",
+        right_ring="Epona's Ring",
         back="Null Shawl",
     }
 
@@ -65,7 +64,7 @@ function get_sets()
         ammo={ name="Coiste Bodhar", augments={'Path: A',}},
         head="Maculele Tiara +3",
         body={ name="Nyame Mail", augments={'Path: B',}},
-        hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+        hands="Maxixi Bangles +4",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="Etoile Gorget +2", augments={'Path: A',}},
@@ -81,7 +80,7 @@ function get_sets()
         ammo="Oshasha's Treatise",
         head="Maculele Tiara +3",
         body={ name="Nyame Mail", augments={'Path: B',}},
-        hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+        hands="Maxixi Bangles +4",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck={ name="Etoile Gorget +2", augments={'Path: A',}},
@@ -93,13 +92,16 @@ function get_sets()
         back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
+    sets.WS["Rudra's Storm"].Climactic = set_combine(sets.WS["Rudra's Storm"], {ammo="Charis Feather"})
+
     -- sets.WS["Rudra's Storm"].PDL = set_combine(sets.WS["Rudra's Storm"], {})
+    -- sets.WS["Rudra's Storm"].PDL.Climactic = set_combine(sets.WS["Rudra's Storm"].PDL, {ammo="Charis Feather"})
 
     sets.WS["Shark Bite"] = {
         ammo="Oshasha's Treatise",
         head="Maculele Tiara +3",
         body={ name="Nyame Mail", augments={'Path: B',}},
-        hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+        hands="Maxixi Bangles +4",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck="Caro Necklace",
@@ -111,11 +113,43 @@ function get_sets()
         back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
+    sets.WS["Ruthless Stroke"] = {
+        ammo="Oshasha's Treatise",
+        head="Maculele Tiara +3",
+        body={ name="Nyame Mail", augments={'Path: B',}},
+        hands="Maxixi Bangles +4",
+        legs={ name="Nyame Flanchard", augments={'Path: B',}},
+        feet={ name="Nyame Sollerets", augments={'Path: B',}},
+        neck={ name="Etoile Gorget +2", augments={'Path: A',}},
+        waist={ name="Kentarch Belt +1", augments={'Path: A',}},
+        left_ear="Sherida Earring",
+        right_ear={ name="Moonshade Earring", augments={'Attack+4','TP Bonus +250',}},
+        left_ring="Ephramad's Ring",
+        right_ring="Epaminondas's Ring",
+        back={ name="Senuna's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','DEX+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
+    }
+
+    sets.WS["Ruthless Stroke"].Climactic = set_combine(sets.WS["Ruthless Stroke"], {ammo="Charis Feather"})
+
     sets.Waltz = {feet="Maxixi Toe Shoes +1"}
     sets.Waltz['Healing Waltz'] = {}
     sets.Jig = {feet="Maxixi Toe Shoes +1"}
     sets.Samba = {head="Maxixi Tiara +1"}
-    sets.Step = {}
+    sets.Step = {
+        ammo="Yamarang",
+        head="Maculele Tiara +3",
+        body="Malignance Tabard",
+        hands="Maxixi Bangles +4",
+        legs="Malignance Tights",
+        feet="Macu. Toe Sh. +3",
+        neck={ name="Etoile Gorget +2", augments={'Path: A',}},
+        waist="Null Belt",
+        left_ear="Crep. Earring",
+        right_ear="Telos Earring",
+        left_ring="Ephramad's Ring",
+        right_ring="Chirich Ring +1",
+        back="Null Shawl",
+    }
     sets.Flourish = {}
     sets.JA = {}
 

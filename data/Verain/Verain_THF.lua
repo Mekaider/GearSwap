@@ -113,11 +113,8 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
 
     sets.TreasureHunter = {
-        -- head=gear.Herc_TH_head, --2
-        hands="Plun. Armlets +1", --4
-        -- feet="Skulk. Poulaines +1", --3
-        -- waist="Chaac Belt", --1
-        }
+        feet="Skulk. Poulaines +3", --3
+    }
 
     sets.buff['Sneak Attack'] = {}
     sets.buff['Trick Attack'] = {}
@@ -310,10 +307,10 @@ function init_gear_sets()
 
     sets.idle = {
         ammo="Yamarang",
-        head="Gleti's Mask",
+        head="Malignance Chapeau",
         body="Malignance Tabard",
-        hands="Gleti's Gauntlets",
-        legs="Gleti's Breeches",
+        hands="Malignance Gloves",
+        legs="Malignance Tights",
         feet="Gleti's Boots",
         neck="Loricate Torque +1",
         left_ear="Sherida Earring",
@@ -349,9 +346,6 @@ function init_gear_sets()
 
     sets.defense.PDT = sets.idle.DT
     sets.defense.MDT = sets.idle.DT
-
-    sets.Moving = {right_ring="Shneddick Ring"}
-
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Engaged Sets ------------------------------------------
     ------------------------------------------------------------------------------------------------
@@ -363,10 +357,10 @@ function init_gear_sets()
 
     sets.engaged = {
         ammo="Coiste Bodhar",
-        head="Gleti's Mask",
+        head="Malignance Chapeau",
         body="Malignance Tabard",
-        hands="Gleti's Gauntlets",
-        legs="Gleti's Breeches",
+        hands="Malignance Gloves",
+        legs="Malignance Tights",
         feet="Gleti's Boots",
         neck="Anu Torque",
         waist="Sailfi Belt +1",
