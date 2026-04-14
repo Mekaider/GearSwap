@@ -71,8 +71,8 @@ enhancing_magic_skill_spells = S{"Enfire", "Enblizzard", "Enaero", "Enstone", "E
     "Temper", "Temper II",
     'Boost-STR','Boost-DEX','Boost-VIT','Boost-AGI','Boost-INT','Boost-MND','Boost-CHR'}
 
-enfeebling_magic_potency_spells = S{'Paralyze','Paralyze II','Slow','Slow II','Addle','Addle II','Distract','Distract II','Distract III','Frazzle III','Blind','Blind II'}
-enfeebling_magic_duration_spells = S{'Sleep','Sleep II','Sleepga','Sleepga II','Diaga','Dia','Dia II','Dia III','Bio','Bio II','Bio III','Silence','Gravity','Gravity II','Inundation','Break','Breakaga','Bind','Bind II'}
+enfeebling_magic_potency_spells = S{'Paralyze','Paralyze II','Slow','Slow II','Addle','Addle II','Distract','Distract II','Distract III','Frazzle III','Blind','Blind II','Gravity','Gravity II'}
+enfeebling_magic_duration_spells = S{'Sleep','Sleep II','Sleepga','Sleepga II','Diaga','Dia','Dia II','Dia III','Bio','Bio II','Bio III','Silence','Inundation','Break','Breakaga','Bind','Bind II'}
 
 elements = {}
 elements.weak_to = {

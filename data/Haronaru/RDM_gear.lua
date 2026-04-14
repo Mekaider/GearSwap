@@ -1,5 +1,5 @@
 function user_setup()
-    state.WeaponLock:set(true)
+    -- state.WeaponLock:set(true)
 end
 
 function init_gear_sets()
@@ -141,9 +141,11 @@ function init_gear_sets()
 
     sets.JA = {}
 
+    sets.JA.Chainspell = {body={ name="Viti. Tabard +3", augments={'Enhances "Chainspell" effect',}}}
+
     sets.precast.FastCast = {
-        head="Atro. Chapeau +2",
-        body={ name="Viti. Tabard +1", augments={'Enhances "Chainspell" effect',}},
+        head="Atro. Chapeau +4",
+        body={ name="Viti. Tabard +3", augments={'Enhances "Chainspell" effect',}},
         neck="Voltsurge Torque",
         waist="Embla Sash",
         left_ear="Malignance Earring",
@@ -177,10 +179,10 @@ function init_gear_sets()
     -- sets.midcast.Cursna = {}
 
     sets.midcast['Enhancing Magic'] = {
-        -- main=gear.Colada_ENH,
+        main={ name="Colada", augments={'Enh. Mag. eff. dur. +4','MND+1','"Mag.Atk.Bns."+14','DMG:+6',}},
         sub="Ammurapi Shield",
 		-- ammo="Staunch Tathlum",
-		body={ name="Viti. Tabard +1", augments={'Enhances "Chainspell" effect',}},
+		body={ name="Viti. Tabard +3", augments={'Enhances "Chainspell" effect',}},
         hands="Atrophy Gloves +2",
         feet="Leth. Houseaux +3",
 		neck="Dls. Torque +2", --25
@@ -192,7 +194,7 @@ function init_gear_sets()
     }
 
     sets.midcast['Enhancing Magic'].Skill = set_combine(sets.midcast['Enhancing Magic'], {
-        body="Viti. Tabard +1",
+        body="Viti. Tabard +3",
         -- hands="Viti. Gloves +3",
         legs="Atrophy Tights",
         feet="Leth. Houseaux +3",
@@ -206,11 +208,31 @@ function init_gear_sets()
         feet="Leth. Houseaux +3",
     })
 
-    sets.midcast.Refresh = {
-        -- head="Amalric Coif +1", -- +1
-        body="Atrophy Tabard +2", -- +3
+    sets.midcast.Aquaveil = set_combine(sets.midcast['Enhancing Magic'], {
+        head="Amalric Coif +1",
+    })
+
+    sets.midcast.Aquaveil.Composure = set_combine(sets.midcast['Enhancing Magic'].Composure, {
+        head="Amalric Coif +1",
+    })
+
+    sets.midcast.Refresh = set_combine(sets.midcast['Enhancing Magic'], {
+        head="Amalric Coif +1", -- +1
+        body="Atrophy Tabard +3", -- +3
         legs="Leth. Fuseau +3", -- +3
-    }
+    })
+
+    sets.midcast.Refresh.Composure = set_combine(sets.midcast['Enhancing Magic'].Composure, {
+        head="Amalric Coif +1", -- +1
+        body="Atrophy Tabard +3", -- +3
+        legs="Leth. Fuseau +3", -- +3
+    })
+
+    sets.midcast.Refresh.Composure.Others = set_combine(sets.midcast['Enhancing Magic'].Composure.Others, {
+        head="Amalric Coif +1", -- +1
+        body="Atrophy Tabard +3", -- +3
+        legs="Leth. Fuseau +3", -- +3
+    })
 
     -- sets.midcast.BarElement = {}
 
@@ -220,7 +242,7 @@ function init_gear_sets()
         sub="Ammurapi Shield",
         ammo="Regal Gem",
         head={ name="Viti. Chapeau +4", augments={'Enfeebling Magic duration','Magic Accuracy',}},
-        body="Lethargy Sayon +3",
+        body="Atrophy Tabard +3",
         hands="Leth. Ganth. +3",
         legs="Leth. Fuseau +3",
         feet="Viti. Boots +4",
@@ -228,7 +250,6 @@ function init_gear_sets()
         waist="Obstin. Sash",
         left_ear="Malignance Earring",
         right_ear="Snotra Earring",
-        -- right_ear={ name="Leth. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','"Dbl.Atk."+4',}},
         left_ring={name="Stikini Ring +1", bag="wardrobe1"},
         right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
         back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
@@ -239,7 +260,23 @@ function init_gear_sets()
     })
 
     -- Potency set
-    sets.midcast['Enfeebling Magic'].Potency = set_combine(sets.midcast['Enfeebling Magic'], {})
+    sets.midcast['Enfeebling Magic'].Potency = {
+        main="Bunzi's Rod",
+        sub="Ammurapi Shield",
+        ammo="Regal Gem",
+        head="Viti. Chapeau +4",
+        body="Lethargy Sayon +3",
+        hands="Leth. Ganth. +3",
+        legs="Leth. Fuseau +3",
+        feet="Viti. Boots +4",
+        neck={ name="Dls. Torque +2", augments={'Path: A',}},
+        waist="Obstin. Sash",
+        left_ear="Malignance Earring",
+        right_ear="Snotra Earring",
+        left_ring={name="Stikini Ring +1", bag="wardrobe1"},
+        right_ring={ name="Metamor. Ring +1", augments={'Path: A',}},
+        back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
+    }
 
     sets.midcast['Enfeebling Magic'].Potency.Immunobreak = set_combine(sets.midcast['Enfeebling Magic'].Potency, {
         legs={ name="Chironic Hose", augments={'MND+8','Mag. Acc.+23','"Store TP"+6',}},
@@ -280,7 +317,15 @@ function init_gear_sets()
         back={ name="Sucellos's Cape", augments={'MND+20','Mag. Acc+20 /Mag. Dmg.+20','Mag. Acc.+10','"Fast Cast"+10','Phys. dmg. taken-10%',}},
     }
 
-    sets.midcast['Frazzle III'] = sets.midcast['Distract III']
+    sets.midcast['Distract III'].Immunobreak = set_combine(sets.midcast['Distract III'], {
+        legs={ name="Chironic Hose", augments={'MND+8','Mag. Acc.+23','"Store TP"+6',}},
+    })
+
+    sets.midcast['Frazzle III'] = set_combine(sets.midcast['Distract III'])
+
+    sets.midcast['Frazzle III'].Immunobreak = set_combine(sets.midcast['Frazzle III'], {
+        legs={ name="Chironic Hose", augments={'MND+8','Mag. Acc.+23','"Store TP"+6',}},
+    })
 
     sets.midcast['Elemental Magic'] = {
         main="Bunzi's Rod",
