@@ -1,4 +1,5 @@
 include('Modes')
+include('CastStill')
 
 function file_unload()
     if global_on_unload() then
