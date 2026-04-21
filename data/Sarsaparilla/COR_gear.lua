@@ -239,7 +239,7 @@ function init_gear_sets()
         left_ear="Ishvara Earring",
         right_ear="Telos Earring",
         left_ring="Cornelia's Ring",
-        right_ring="Vehemence Ring",
+        right_ring="Regal Ring",
         back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
@@ -255,7 +255,7 @@ function init_gear_sets()
         left_ear="Ishvara Earring",
         right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
         left_ring="Cornelia's Ring",
-        right_ring="Vehemence Ring",
+        right_ring="Regal Ring",
         back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
@@ -271,7 +271,7 @@ function init_gear_sets()
         left_ear="Ishvara Earring",
         right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
         left_ring="Cornelia's Ring",
-        right_ring="Dingir Ring",
+        right_ring="Regal Ring",
         back={ name="Camulus's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 

@@ -218,6 +218,8 @@ function init_gear_sets()
     sets.midcast.Cure.SIRD = set_combine(sets.midcast.Cure, sets.midcast.SIRD)
 
     sets.midcast.Cure.CureCheat = {
+        main={ name="Moralltach", augments={'Path: C',}},
+        sub="Srivatsa",
         ammo="Sapience Orb",
         head="Loess Barbuta +1",
         body={ name="Souv. Cuirass +1", augments={'HP+105','Enmity+9','Potency of "Cure" effect received +15%',}},

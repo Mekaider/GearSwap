@@ -279,7 +279,7 @@ function init_gear_sets()
     }
 
     sets.midcast['Enfeebling Magic'].Potency.Immunobreak = set_combine(sets.midcast['Enfeebling Magic'].Potency, {
-        legs={ name="Chironic Hose", augments={'MND+8','Mag. Acc.+23','"Store TP"+6',}},
+        legs={ name="Chironic Hose", augments={'Mag. Acc.+30','"Conserve MP"+1','"Mag.Atk.Bns."+1',}},
     })
 
     sets.midcast['Enfeebling Magic'].Duration = set_combine(sets.midcast['Enfeebling Magic'], {
@@ -296,7 +296,7 @@ function init_gear_sets()
     })
 
     sets.midcast['Enfeebling Magic'].Duration.Immunobreak = set_combine(sets.midcast['Enfeebling Magic'].Duration, {
-        legs={ name="Chironic Hose", augments={'MND+8','Mag. Acc.+23','"Store TP"+6',}},
+        legs={ name="Chironic Hose", augments={'Mag. Acc.+30','"Conserve MP"+1','"Mag.Atk.Bns."+1',}},
     })
 
     sets.midcast['Distract III'] = {
@@ -318,13 +318,13 @@ function init_gear_sets()
     }
 
     sets.midcast['Distract III'].Immunobreak = set_combine(sets.midcast['Distract III'], {
-        legs={ name="Chironic Hose", augments={'MND+8','Mag. Acc.+23','"Store TP"+6',}},
+        legs={ name="Chironic Hose", augments={'Mag. Acc.+30','"Conserve MP"+1','"Mag.Atk.Bns."+1',}},
     })
 
     sets.midcast['Frazzle III'] = set_combine(sets.midcast['Distract III'])
 
     sets.midcast['Frazzle III'].Immunobreak = set_combine(sets.midcast['Frazzle III'], {
-        legs={ name="Chironic Hose", augments={'MND+8','Mag. Acc.+23','"Store TP"+6',}},
+        legs={ name="Chironic Hose", augments={'Mag. Acc.+30','"Conserve MP"+1','"Mag.Atk.Bns."+1',}},
     })
 
     sets.midcast['Elemental Magic'] = {
