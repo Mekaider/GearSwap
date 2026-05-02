@@ -3,6 +3,7 @@ function job_setup()
 
     state.Buff['Sneak Attack'] = buffactive['Sneak Attack'] or false
     state.Buff['Trick Attack'] = buffactive['Trick Attack'] or false
+    state.Buff['Feint'] = buffactive['Feint'] or false
 end
 
 function get_sets()
