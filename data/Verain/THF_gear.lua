@@ -1,5 +1,6 @@
 function user_setup()
     state.WeaponMode:options("Aeneas", "MpuGandring")
+end
 
 function init_gear_sets()
     sets.weapons["Aeneas"] = {main="Aeneas", sub="Centovente"}
