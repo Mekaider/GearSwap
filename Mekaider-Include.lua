@@ -178,7 +178,20 @@ function init_include()
     state.SongMode = M{['description']='Song Mode', 'Potency', 'Dummy', 'MiracleCheer'}
 
     -- Other Modes
-    state.TreasureHunterMode = M{['description'] = 'Treasure Hunter Mode', 'None', 'Tag', 'Full'}
+    state.TreasureHunterMode = M{['description'] = 'Treasure Hunter Mode', 'None', 'Tag', 'SATA', 'Fulltime'}
+
+    -- TH bookkeeping
+    -- tagged_mobs: id -> last-action-time. Mob is "TH'd."
+    -- pending_tags: id -> precast-time. We equipped TH for an action targeting
+    --   this mob and are waiting for the action packet to confirm tagging.
+    -- blocked_tags: id -> precast-time. We did NOT equip TH for an action
+    --   targeting this mob (e.g. Bio in SATA mode without SA/TA active);
+    --   suppress tagging when the action packet arrives.
+    th = {}
+    th.tagged_mobs  = T{}
+    th.pending_tags = T{}
+    th.blocked_tags = T{}
+    th.frame_counter = 0
     state.RangedMode = M{['description'] = 'Ranged Mode', 'Normal', 'PDL', 'Crit' }
     state.QuickDrawMode = M{['description'] = 'Quick Draw Mode', 'Normal', 'Enhance', 'StoreTP' }
 
@@ -314,6 +327,362 @@ end
 
 init_include()
 
+-- =========================================================================
+-- Treasure Hunter (ported from shastaxc/silver-libs SilverLibs.lua)
+-- =========================================================================
+
+-- Action category map (1=melee, 2=ranged, 3=WS, 4=spell, 6=JA, 14=unblinkable JA)
+th_action_categories = {
+    [1]  = {category=1,  resource=nil,            th_aoe_category=nil},
+    [2]  = {category=2,  resource=nil,            th_aoe_category=nil},
+    [3]  = {category=3,  resource='weapon_skills', th_aoe_category='weaponskills'},
+    [4]  = {category=4,  resource='spells',        th_aoe_category='spells'},
+    [6]  = {category=6,  resource='job_abilities', th_aoe_category='abilities'},
+    [14] = {category=14, resource='job_abilities', th_aoe_category='abilities'},
+}
+
+th_aoe_actions = {
+    weaponskills = {
+        ['Aeolian Edge']   = {aoe_range=10, aoe_center_self=false},
+        ['Cyclone']        = {aoe_range=10, aoe_center_self=false},
+        ['Shockwave']      = {aoe_range=10, aoe_center_self=false},
+        ['Earth Crusher']  = {aoe_range=5,  aoe_center_self=false},
+        ['Cataclysm']      = {aoe_range=10, aoe_center_self=false},
+    },
+    spells = {
+        ['Diaga']           = {aoe_range=10, aoe_center_self=false, has_cast_time=true},
+        ['Banishga']        = {aoe_range=10, aoe_center_self=false, has_cast_time=true},
+        ['Firaga']          = {aoe_range=10, aoe_center_self=false, has_cast_time=true},
+        ['Blizzaga']        = {aoe_range=10, aoe_center_self=false, has_cast_time=true},
+        ['Aeroga']          = {aoe_range=10, aoe_center_self=false, has_cast_time=true},
+        ['Stonega']         = {aoe_range=10, aoe_center_self=false, has_cast_time=true},
+        ['Thundaga']        = {aoe_range=10, aoe_center_self=false, has_cast_time=true},
+        ['Waterga']         = {aoe_range=10, aoe_center_self=false, has_cast_time=true},
+        ['Poisonga']        = {aoe_range=10, aoe_center_self=false, has_cast_time=true},
+        ['Venom Shell']     = {aoe_range=5,  aoe_center_self=true,  has_cast_time=true},
+        ['Mysterious Light']= {aoe_range=5,  aoe_center_self=true,  has_cast_time=true},
+        ['Stinking Gas']    = {aoe_range=5,  aoe_center_self=true,  has_cast_time=true},
+        ['Blood Saber']     = {aoe_range=5,  aoe_center_self=true,  has_cast_time=true},
+        ['Cursed Sphere']   = {aoe_range=5,  aoe_center_self=false, has_cast_time=true},
+        ['Sound Blast']     = {aoe_range=5,  aoe_center_self=true,  has_cast_time=true},
+        ['Sheep Song']      = {aoe_range=4.97, aoe_center_self=true, has_cast_time=true},
+        ['Soporific']       = {aoe_range=4.97, aoe_center_self=true, has_cast_time=true},
+        ['Geist Wall']      = {aoe_range=4.97, aoe_center_self=true, has_cast_time=true},
+        ['Blastbomb']       = {aoe_range=5,  aoe_center_self=false, has_cast_time=true},
+        ['Battle Dance']    = {aoe_range=5,  aoe_center_self=true,  has_cast_time=true},
+        ['Grand Slam']      = {aoe_range=5,  aoe_center_self=true,  has_cast_time=true},
+        ['Bomb Toss']       = {aoe_range=5,  aoe_center_self=false, has_cast_time=true},
+        ['Fira']            = {aoe_range=10, aoe_center_self=true,  has_cast_time=true},
+        ['Blizzara']        = {aoe_range=10, aoe_center_self=true,  has_cast_time=true},
+        ['Aera']            = {aoe_range=10, aoe_center_self=true,  has_cast_time=true},
+        ['Stonera']         = {aoe_range=10, aoe_center_self=true,  has_cast_time=true},
+        ['Thundara']        = {aoe_range=10, aoe_center_self=true,  has_cast_time=true},
+        ['Watera']          = {aoe_range=10, aoe_center_self=true,  has_cast_time=true},
+    },
+    abilities = {},
+}
+
+-- spawn_type 16 == enemy mob
+function th_is_target_enemy(mob)
+    return (mob and mob.spawn_type == 16) or mob == 16
+end
+
+-- Enemies within `range` yalms of the AoE center, accounting for model sizes.
+function th_get_enemies_in_range(range, center)
+    local out = T{}
+    center = center or windower.ffxi.get_mob_by_index(player.index)
+    if not center then return out end
+    local mobs = windower.ffxi.get_mob_array()
+    for _, mob in pairs(mobs) do
+        if mob and mob.spawn_type == 16 then
+            local dx = mob.x - center.x
+            local dy = mob.y - center.y
+            local distance = math.sqrt(dx*dx + dy*dy)
+            if distance <= ((center.model_size or 0) + range + (mob.model_size or 0)) then
+                out:append(mob)
+            end
+        end
+    end
+    return out
+end
+
+-- Combine sets.TreasureHunter (or .RA when ranged is equipped) onto a set.
+function th_apply_set(equipSet)
+    if not sets.TreasureHunter then return equipSet end
+    local using_ranged = player.equipment.range and player.equipment.range ~= 'empty'
+    if using_ranged and sets.TreasureHunter.RA then
+        return set_combine(equipSet, sets.TreasureHunter.RA)
+    end
+    return set_combine(equipSet, sets.TreasureHunter)
+end
+
+-- Mark a target as "TH was equipped during this action's precast/melee."
+-- The action handler reads this to decide whether to record the mob in
+-- tagged_mobs. Active in Tag and SATA modes (Fulltime always tags; None
+-- never tags).
+function th_set_pending(target)
+    local mode = state.TreasureHunterMode.value
+    if mode ~= 'Tag' and mode ~= 'SATA' then return end
+    if not target or not target.id then return end
+    th.pending_tags[target.id] = os.clock()
+    th.blocked_tags[target.id] = nil
+end
+
+-- Mark a target as "TH was NOT equipped during this action's precast" so the
+-- action handler will suppress tagging when the action packet arrives.
+-- If a prior concurrent action (e.g. an engaged-set recompute) already
+-- equipped TH for this mob, defer to its pending entry rather than stomping
+-- it -- otherwise melee tagging gets silently dropped during cast windows.
+function th_block_pending(target)
+    local mode = state.TreasureHunterMode.value
+    if mode ~= 'Tag' and mode ~= 'SATA' then return end
+    if not target or not target.id then return end
+    if th.pending_tags[target.id] then return end
+    th.blocked_tags[target.id] = os.clock()
+end
+
+-- Should TH gear go on for this single-target spell/WS in precast/midcast?
+function th_should_equip_for_spell(spell)
+    if state.TreasureHunterMode.value == 'None' then return false end
+    if spell.action_type == 'Item' then return false end
+
+    local mode = state.TreasureHunterMode.value
+    if mode == 'Fulltime' then return true end
+
+    if mode == 'SATA' then
+        local sata_active = state.Buff['Sneak Attack'] or state.Buff['Trick Attack']
+        if sata_active and spell.type == 'WeaponSkill' and spell.target and spell.target.type == 'MONSTER' then
+            return true
+        end
+        if spell.english == 'Sneak Attack' or spell.english == 'Trick Attack' then
+            return true
+        end
+    end
+
+    -- Tag-style "untagged monster -> equip TH" only fires in Tag mode for spell
+    -- precast/midcast. SilverLibs intentionally does NOT extend this to SATA
+    -- here (see SilverLibs.lua:4084). Engaged-set logic is the asymmetric case.
+    if mode == 'Tag'
+        and spell.target and spell.target.type == 'MONSTER'
+        and spell.target.id and not th.tagged_mobs[spell.target.id]
+    then
+        return true
+    end
+
+    return false
+end
+
+-- AoE-tag check: if AoE action and at least one in-range untagged enemy, equip TH.
+-- Also flags `spell.use_th_midcast` so midcast keeps TH on even after target gets tagged.
+function th_aoe_precast(spell)
+    -- Tag and SATA both get the AoE Tag-style fallback. SATA auto-attacks
+    -- already do this in th_apply_to_melee for untagged engaged targets;
+    -- extending it to AoE WS keeps the precast path symmetric with melee.
+    -- Single-target spell precast in SATA stays strict (no fallback) so
+    -- Bio etc. without SA/TA active still won't equip TH.
+    local mode = state.TreasureHunterMode.value
+    if mode ~= 'Tag' and mode ~= 'SATA' then return false end
+    if not sets.TreasureHunter then return false end
+    local action
+    if spell.type == 'WeaponSkill' then
+        action = th_aoe_actions.weaponskills[spell.english]
+    elseif spell.action_type == 'Magic' then
+        action = th_aoe_actions.spells[spell.english]
+    elseif spell.type == 'JobAbility' then
+        action = th_aoe_actions.abilities[spell.english]
+    end
+    if not action then return false end
+
+    local center
+    if action.aoe_center_self then
+        center = windower.ffxi.get_mob_by_index(player.index)
+    else
+        center = spell.target and spell.target.id and windower.ffxi.get_mob_by_id(spell.target.id) or nil
+    end
+    if not center then return false end
+
+    local enemies = th_get_enemies_in_range(math.ceil(action.aoe_range), center)
+    -- If a self-centered AoE was cast on an enemy outside the radius, that enemy
+    -- still gets hit because it's the target; include it.
+    if action.aoe_center_self and spell.target and spell.target.type == 'MONSTER' and spell.target.id then
+        local present = false
+        for _, e in pairs(enemies) do
+            if e.id == spell.target.id then present = true break end
+        end
+        if not present then
+            local t = windower.ffxi.get_mob_by_id(spell.target.id)
+            if t then enemies:append(t) end
+        end
+    end
+
+    for _, mob in pairs(enemies) do
+        if not th.tagged_mobs[mob.id] and (mob.hpp or 0) > 0 then
+            if action.has_cast_time then
+                spell.use_th_midcast = true
+            end
+            -- Mark every in-range enemy as pending. The action handler's AoE
+            -- branch only needs ONE pending target to know TH was equipped,
+            -- but marking all of them also covers the per-target prev_tagged
+            -- refresh path. spell.target alone isn't enough for self-centered
+            -- AoEs (Sheep Song / Battle Dance), where spell.target is the player.
+            for _, e in pairs(enemies) do
+                if e.id then th_set_pending({id = e.id}) end
+            end
+            return true
+        end
+    end
+    return false
+end
+
+-- Apply TH on the engaged set: equipped each tick while engaged in Tag/SATA/Full
+-- as long as the current target qualifies. Returns the (possibly-augmented) set.
+function th_apply_to_melee(meleeSet)
+    if state.TreasureHunterMode.value == 'None' then return meleeSet end
+    local target = windower.ffxi.get_mob_by_target('t')
+    local target_is_enemy = th_is_target_enemy(target)
+    local mode = state.TreasureHunterMode.value
+
+    local apply = false
+    if mode == 'Fulltime' then
+        apply = true
+    elseif mode == 'SATA' and (state.Buff['Sneak Attack'] or state.Buff['Trick Attack']) and target_is_enemy then
+        apply = true
+    elseif (mode == 'Tag' or mode == 'SATA') and target_is_enemy and target.id and not th.tagged_mobs[target.id] then
+        apply = true
+    end
+
+    if apply then
+        th_set_pending(target)
+        return th_apply_set(meleeSet)
+    elseif (mode == 'Tag' or mode == 'SATA') and target_is_enemy then
+        th_block_pending(target)
+    end
+    return meleeSet
+end
+
+-- Bookkeeping: drop entries that haven't seen any activity in 3+ minutes
+-- (deaggro, player death, etc. where we never see a death packet).
+-- Also sweeps stale pending/blocked SATA markers (30s — they should be cleared
+-- by the next action packet, but interrupted casts may leave them behind).
+function th_cleanup_tagged_mobs()
+    local now = os.clock()
+    for id, last in pairs(th.tagged_mobs) do
+        if now - last > 180 then
+            th.tagged_mobs[id] = nil
+        end
+    end
+    for id, last in pairs(th.pending_tags) do
+        if now - last > 30 then
+            th.pending_tags[id] = nil
+        end
+    end
+    for id, last in pairs(th.blocked_tags) do
+        if now - last > 30 then
+            th.blocked_tags[id] = nil
+        end
+    end
+end
+
+-- Called from the 'action' raw event. Tags single-target hits, AoE hits via the
+-- known-AoE table, and refreshes activity timestamps for already-tagged mobs.
+function th_on_action(action)
+    if state.TreasureHunterMode.value == 'None' then return end
+    if type(action) ~= 'table' then return end
+
+    local cat = th_action_categories[action.category]
+    if not cat then return end
+
+    local mode = state.TreasureHunterMode.value
+    if action.actor_id == player.id then
+        if action.target_count == 1 then
+            local t = action.targets and action.targets[1]
+            local target = t and windower.ffxi.get_mob_by_id(t.id)
+            if th_is_target_enemy(target) then
+                local prev_tagged = th.tagged_mobs[target.id] ~= nil
+                local pending = th.pending_tags[target.id]
+                local blocked = th.blocked_tags[target.id]
+                -- Tag/SATA: only mark if TH was actually equipped (pending set,
+                -- blocked unset) for this action, OR the mob was already tagged
+                -- (refresh). Fulltime: TH is always on, always tag. Without the
+                -- pending check, switching targets in Tag mode without a forced
+                -- recompute would falsely mark the new mob as tagged.
+                local should_tag = mode == 'Fulltime' or prev_tagged or (pending and not blocked)
+                if should_tag then
+                    th.tagged_mobs[target.id] = os.clock()
+                end
+                th.pending_tags[target.id] = nil
+                th.blocked_tags[target.id] = nil
+                -- Nudge the engaged set on first-tag. Melee swings need this
+                -- because they have no aftercast. WS/spell/JA also need it
+                -- because gearswap's 'action' handler is registered before
+                -- ours and fires aftercast synchronously -- aftercast runs
+                -- with tagged_mobs[target.id] still nil, applies TH via the
+                -- Tag-style fallback, then we tag and no further recompute
+                -- fires, so TH stays equipped past the action. The
+                -- `not prev_tagged` guard bounds the update rate: a
+                -- multi-attack round only fires `gs c update` once.
+                if should_tag
+                    and (mode == 'Tag' or mode == 'SATA')
+                    and not prev_tagged
+                then
+                    send_command('gs c update')
+                end
+            end
+        elseif action.target_count and action.target_count > 1 then
+            -- Multi-target action. The static th_aoe_actions table gates
+            -- only the precast-side prediction in th_aoe_precast; the action
+            -- handler relies on pending entries instead so any AoE WS/spell
+            -- (e.g. Spinning Slash, Rampage) tags correctly even if it isn't
+            -- in the table. Mirrors the single-target should_tag logic:
+            -- Fulltime always tags, otherwise only if TH was actually
+            -- equipped (any hit target has pending and not blocked).
+            -- Already-tagged mobs get their timer refreshed regardless.
+            local th_was_equipped = mode == 'Fulltime'
+            if not th_was_equipped then
+                for _, t in pairs(action.targets) do
+                    if th.pending_tags[t.id] and not th.blocked_tags[t.id] then
+                        th_was_equipped = true
+                        break
+                    end
+                end
+            end
+            for _, t in pairs(action.targets) do
+                local target = windower.ffxi.get_mob_by_id(t.id)
+                if th_is_target_enemy(target) then
+                    local prev_tagged = th.tagged_mobs[target.id] ~= nil
+                    if th_was_equipped or prev_tagged then
+                        th.tagged_mobs[target.id] = os.clock()
+                    end
+                end
+                th.pending_tags[t.id] = nil
+                th.blocked_tags[t.id] = nil
+            end
+        end
+    elseif th.tagged_mobs[action.actor_id] then
+        th.tagged_mobs[action.actor_id] = os.clock()
+    else
+        for _, t in pairs(action.targets or {}) do
+            if th.tagged_mobs[t.id] then
+                th.tagged_mobs[t.id] = os.clock()
+            end
+        end
+    end
+end
+
+-- 0x29 incoming chunk: parse target/message ids; drop dead mobs from the table.
+-- Runs regardless of current TH mode so that toggling TH off->on doesn't leave
+-- ghost entries for mobs that died while TH was disabled.
+function th_on_incoming_chunk(id, data)
+    if id ~= 0x29 then return end
+    if not th.tagged_mobs:empty() then
+        local target_id = data:unpack('I', 0x09)
+        local message_id = data:unpack('H', 0x19) % 32768
+        if th.tagged_mobs[target_id] and (message_id == 6 or message_id == 20) then
+            th.tagged_mobs[target_id] = nil
+        end
+    end
+end
+
 function precast(spell)
     if state.Buff[spell.english] ~= nil then
         state.Buff[spell.english] = true
@@ -445,6 +814,22 @@ function precast(spell)
 
     if job_precast then
         equipSet = set_combine(equipSet, job_precast(spell))
+    end
+
+    -- Treasure Hunter (single-target) for spells/WS/JAs targeting an enemy.
+    -- In SATA mode, also record whether TH was actually equipped, so the
+    -- action handler can avoid tagging mobs we didn't TH-hit.
+    if th_should_equip_for_spell(spell) then
+        equipSet = th_apply_set(equipSet)
+        th_set_pending(spell.target)
+        log('TH precast applied')
+    elseif th_aoe_precast(spell) then
+        equipSet = th_apply_set(equipSet)
+        log('TH precast applied (AoE)')
+    elseif (state.TreasureHunterMode.value == 'Tag' or state.TreasureHunterMode.value == 'SATA')
+        and spell.target and spell.target.type == 'MONSTER'
+    then
+        th_block_pending(spell.target)
     end
 
     if message ~= '' then
@@ -659,6 +1044,21 @@ function midcast(spell)
     if job_midcast then
         equipSet = set_combine(equipSet, job_midcast(spell))
     end
+
+    -- Treasure Hunter (midcast). SATA-relevant actions (melee/WS) have no
+    -- midcast, so the Tag-style "untagged monster" path is gated to Tag only.
+    if state.TreasureHunterMode.value ~= 'None' and spell.action_type ~= 'Item' then
+        local mode = state.TreasureHunterMode.value
+        local single_target_tag = mode == 'Tag'
+            and spell.target and spell.target.type == 'MONSTER'
+            and spell.target.id and not th.tagged_mobs[spell.target.id]
+        if mode == 'Fulltime' or single_target_tag or spell.use_th_midcast then
+            equipSet = th_apply_set(equipSet)
+            th_set_pending(spell.target)
+            log('TH midcast applied')
+        end
+    end
+
     equip(equipSet)
 end
 
@@ -790,6 +1190,8 @@ function select_melee_set()
         end
         -- todo: probably something about default shield, e.g. COR, RNG
     end
+
+    equipSet = th_apply_to_melee(equipSet)
 
     log(message)
     gs_display_update()
@@ -997,6 +1399,10 @@ function gs_display_update()
         display_data[#display_data + 1] = { description = 'SongMode', value = state.SongMode.value }
     end
 
+    if state.TreasureHunterMode.value ~= 'None' then
+        display_data[#display_data + 1] = { description = 'TH', value = state.TreasureHunterMode.value }
+    end
+
     lines = T {}
     for k, v in next, display_data do
         lines:insert(v.description .. ': ' .. string.format('%s', tostring(v.value)) .. '    ')
@@ -1022,17 +1428,25 @@ if state.Display.value then
     gs_display:show()
 end
 
--- hides display during zone change
-windower.raw_register_event('incoming chunk', function(id)
+-- hides display during zone change; also drops dead tagged mobs from the TH table
+windower.raw_register_event('incoming chunk', function(id, data)
     -- 0x0B is the packet ID for zone initiation
     if id == 0x0B then
         if gs_display then
             gs_display:hide()
         end
+        -- zoning: drop everything we'd been tracking
+        if th then
+            if th.tagged_mobs  then th.tagged_mobs:clear()  end
+            if th.pending_tags then th.pending_tags:clear() end
+            if th.blocked_tags then th.blocked_tags:clear() end
+        end
     elseif id == 0x0A then
         if gs_display then
             gs_display:show()
         end
+    elseif id == 0x29 then
+        th_on_incoming_chunk(id, data)
     end
 end)
 
@@ -1068,6 +1482,21 @@ end
 windower.raw_register_event('prerender', function()
     -- Increment counter each frame
     mov.counter = mov.counter + 1
+
+    -- TH stale-mob cleanup. Piggyback on the existing frame counter rather than
+    -- reading os.clock() every frame. ~60fps * 1200 frames ≈ 20s. Runs whenever
+    -- ANY of the three tables has entries -- pending/blocked can accrue from
+    -- interrupted casts even when tagged_mobs is empty.
+    th.frame_counter = (th.frame_counter or 0) + 1
+    if th.frame_counter >= 1200 then
+        th.frame_counter = 0
+        if not th.tagged_mobs:empty()
+            or not th.pending_tags:empty()
+            or not th.blocked_tags:empty()
+        then
+            th_cleanup_tagged_mobs()
+        end
+    end
 
     -- Only check position every check_frequency frames
     if mov.counter > check_frequency then
@@ -1298,6 +1727,16 @@ function buff_change(name, gain, buff_details)
         end
     end
 
+    -- SATA mode keys off SA/TA buffs to decide whether TH gear is on. The
+    -- engaged set isn't recomputed automatically when these buffs gain or
+    -- drop (no sets.buff entry exists for them), so force a refresh.
+    if (name == 'Sneak Attack' or name == 'Trick Attack')
+        and state.TreasureHunterMode.value == 'SATA'
+        and not midaction()
+    then
+        send_command('gs c update')
+    end
+
     -- todo: move this to a job_buff_change function in WHM.lua
     if name == 'Sleep' then
         if gain then
@@ -1422,9 +1861,11 @@ function sub_job_change(new, old)
     equip(select_set())
 end
 
--- Update Flurry state based on action
+-- Update Flurry state and TH tagging based on action
 windower.raw_register_event('action',
     function(act)
+        th_on_action(act)
+
         if ranged_jobs:contains(player.main_job) then
             --check if you are a target of spell
             local actionTargets = act.targets
@@ -1447,3 +1888,15 @@ windower.raw_register_event('action',
             end
         end
     end)
+
+-- Trigger an engaged-set recompute when the lock target changes in Tag/SATA
+-- modes. Without this, switching to a new untagged enemy mid-fight wouldn't
+-- pick up TH because no other event fires until the next action.
+windower.raw_register_event('target change', function(new_id)
+    if (state.TreasureHunterMode.value == 'Tag' or state.TreasureHunterMode.value == 'SATA')
+        and player.status == 'Engaged'
+        and not midaction()
+    then
+        send_command('gs c update')
+    end
+end)
