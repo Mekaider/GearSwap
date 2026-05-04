@@ -1,16 +1,11 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
+function user_setup()
+    state.WeaponMode:options('Tauret', 'T/C', 'Karambit', 'Unlocked')
+    state.WeaponMode:set('Tauret')
+    state.MeleeMode:options('TP', 'DT', 'PDL')
+    state.MeleeMode:set('TP')
+end
 
-lockstyleset = 20
-send_command('wait 5; input /lockstyleset '..lockstyleset)
-
-state.WeaponMode:options('Tauret', 'T/C', 'Karambit', 'Unlocked')
-state.WeaponMode:set('Tauret')
-state.MeleeMode:options('TP', 'DT', 'PDL')
-state.MeleeMode:set('TP')
-
-function get_sets()
-    
+function init_gear_sets()
     sets.weapons['Tauret'] = {main="Tauret", sub="Gleti's Knife"}
     sets.weapons['T/C'] = {main="Tauret", sub="Centovente"}
     sets.weapons['Karambit'] = {main="Karambit"}

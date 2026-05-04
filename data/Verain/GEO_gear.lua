@@ -1,13 +1,8 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
+function user_setup()
+    state.WeaponMode:options('Unlocked')
+end
 
-state.WeaponMode:options('Unlocked')
-state.MeleeMode:options('DT')
-
-send_command('gs c display')
-
-function get_sets() 
-
+function init_gear_sets()
     sets.Moving = {right_ring="Shneddick Ring"}
     
     sets.idle = {

@@ -1,11 +1,7 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
-
-state.WeaponMode:options('Verethragna', 'Godhands', 'Unlocked')
-state.WeaponMode:set('Verethragna')
-
-state.MeleeMode:options('TP', 'Acc', 'DT')
-state.MeleeMode:set('TP')
+function user_setup()
+    state.WeaponMode:options('Verethragna', 'Godhands', 'Unlocked')
+    state.MeleeMode:options('TP', 'DT')
+end
 
 function get_sets()
     ------------------------------------------------------------------------------------------------
@@ -35,7 +31,6 @@ function get_sets()
         right_ring="Purity Ring",
     	back={ name="Segomo's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+8','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},  
     }
-
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Engaged Sets ------------------------------------------

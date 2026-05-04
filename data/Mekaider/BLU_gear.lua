@@ -1,18 +1,14 @@
--- Load and initialize the include file.
-include('Mekaider-Include')
-send_command('gs c update')
+function user_setup()
+    state.WeaponMode:options(
+        'SavageBlade',
+        'BlackHalo',
+        'Magical',
+        'Learning'
+    )
+    state.MeleeMode:options('TP', 'DT', 'Learning')
+end
 
--- state.DebugMode:set(true)
-
-state.WeaponMode:options(
-    'SavageBlade',
-    'BlackHalo',
-    'Magical',
-    'Learning'
-)
-state.MeleeMode:options('TP', 'DT', 'Learning')
-
-function get_sets()
+function init_gear_sets()
     sets.weapons['SavageBlade'] = {main="Naegling", sub="Thibron"}
     sets.weapons['BlackHalo'] = {main="Maxentius", sub="Thibron"}
     sets.weapons['Magical'] = {main="Maxentius", sub="Bunzi's Rod"}
