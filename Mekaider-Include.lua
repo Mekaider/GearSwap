@@ -209,6 +209,7 @@ function init_include()
     sets.instruments.Potency = {}
     sets.instruments.ExtraSongs = {}
     sets.instruments.LullabyHarp = {}
+    sets.instruments.MiracleCheer = {}
 
     -- Idle sets
     sets.idle = {}
@@ -977,7 +978,7 @@ function midcast(spell)
                 message = 'dummy songs set'
             end
 
-            if state.SongMode.value == 'MiracleCheer' then
+            if state.SongMode.value == 'MiracleCheer' or (sets.instruments.MiracleCheer and state.Buff['Pianissimo'] and spell.english:contains('Ballad')) then
                 equipSet = set_combine(equipSet, sets.instruments.MiracleCheer)
                 message = message .. ' (Miracle Cheer)'
             end

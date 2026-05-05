@@ -1,4 +1,5 @@
 function job_setup()
+    state.Buff['Pianissimo'] = buffactive['Pianissimo'] or false
     state.Buff['Troubadour'] = buffactive['Troubadour'] or false
 end
 
