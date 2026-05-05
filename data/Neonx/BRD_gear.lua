@@ -15,7 +15,7 @@ function init_gear_sets()
     sets.weapons.Naegling = {main="Naegling", sub="Centovente"}
     sets.weapons.Carnwenhan = {main="Carnwenhan", sub="Gleti's Knife"}
     sets.weapons.RudrasStorm = {main="Aeneas", sub="Centovente"}
-    sets.weapons.Shield = {sub="Ammurapi Shield"}
+    sets.weapons.Shield = {sub="Genmei Shield"}
 
     sets.Moving = {right_ring="Shneddick Ring"}
 
