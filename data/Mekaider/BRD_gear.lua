@@ -8,7 +8,7 @@ function init_gear_sets()
     sets.instruments.Potency = {range="Blurred Harp"}
     sets.instruments.ExtraSongs = {range="Blurred Harp"}
     sets.instruments.LullabyHarp = {range="Blurred Harp"}
-    sets.instruments.MiracleCheer = {range="Miracle Cheer"}
+    -- sets.instruments.MiracleCheer = {range="Miracle Cheer"}
 
     sets.weapons.Songs = {main="Kali"}
 

@@ -209,7 +209,7 @@ function init_include()
     sets.instruments.Potency = {}
     sets.instruments.ExtraSongs = {}
     sets.instruments.LullabyHarp = {}
-    sets.instruments.MiracleCheer = {}
+    -- sets.instruments.MiracleCheer = {}
 
     -- Idle sets
     sets.idle = {}
