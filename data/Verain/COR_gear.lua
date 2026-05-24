@@ -46,7 +46,9 @@ function init_gear_sets()
 
     -- sets.engaged.DualWield = {}
 
-    -- sets.PhantomRoll = {}
+    sets.PhantomRoll = {
+        left_ring="Barataria Ring"
+    }
 
     sets.WS = {
         ammo=ammo.bullet.RA,

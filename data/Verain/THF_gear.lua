@@ -6,7 +6,10 @@ function init_gear_sets()
     sets.weapons["Aeneas"] = {main="Aeneas", sub="Centovente"}
     sets.weapons["MpuGandring"] = {main="Mpu Gandring", sub="Centovente"}
 
-    sets.TreasureHunter = {feet="Skulk. Poulaines +3"}
+    sets.TreasureHunter = {
+        feet="Skulk. Poulaines +3",
+        right_ring="Hoxne Ring"
+    }
 
     sets.idle = {
         ammo="Yamarang",
