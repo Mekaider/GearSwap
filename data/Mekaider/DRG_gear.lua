@@ -24,7 +24,7 @@ function init_gear_sets()
     sets.idle = {
         ammo="Staunch Tathlum +1",
         head={ name="Nyame Helm", augments={'Path: B',}},
-        body={ name="Nyame Mail", augments={'Path: B',}},
+        body="Sacro Breastplate",
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
@@ -46,7 +46,7 @@ function init_gear_sets()
     sets.engaged = {
         ammo="Coiste Bodhar",
         head="Flam. Zucchetto +2",
-        body="Pelt. Plackart +2",
+        body="Pelt. Plackart +3",
         hands={ name="Acro Gauntlets", augments={'Accuracy+25','"Store TP"+6','Crit. hit damage +3%',}},
         legs={ name="Ptero. Brais +3", augments={'Enhances "Strafe" effect',}},
         feet="Flam. Gambieras +2",
@@ -131,7 +131,15 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
 
     -- Fast cast sets for spells
-    sets.FC = {}
+    sets.precast.FastCast = {
+        ammo="Sapience Orb",
+        head={ name="Carmine Mask +1", augments={'Accuracy+20','Mag. Acc.+12','"Fast Cast"+4',}},
+        body="Sacro Breastplate",
+        hands={ name="Leyline Gloves", augments={'Accuracy+15','Mag. Acc.+15','"Mag.Atk.Bns."+15','"Fast Cast"+3',}},
+        legs="Enif Cosciales",
+        neck="Voltsurge Torque",
+        left_ring="Prolix Ring",
+    }
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Magic Midcast Sets ------------------------------------
