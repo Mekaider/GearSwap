@@ -55,6 +55,7 @@ function init_gear_sets()
     sets.JA['Afflatus Misery'] = {legs="Piety Pantaln. +1"}
 
     sets.precast.FastCast = {
+        main="C. Palug Hammer",
         ammo="Incantor Stone",
         head="Ebers Cap +3",
         body="Inyanga Jubbah +2",
