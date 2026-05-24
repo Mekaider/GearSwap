@@ -32,11 +32,9 @@
 - [ ] Finish job luas
 - [ ] Aftermath handling
 - [ ] Ammo checks, don't shoot special ammo, etc.
-- [ ] Treasure hunter modes/gear/etc.
 - [ ] Crafting gear set override?
 - [ ] Review job_{pre,mid}cast and how that's hooked in (I'm not sure I like the current set_combine logic)
 - [ ] TP bonus (moonshade, etc.) handling and accounting for 3k tp
-- [ ] Char-Globals
 - [ ] Ranged extra modes (triple shot, etc.)
 - [ ] Add gear tables for things like AF and add to job files
 
