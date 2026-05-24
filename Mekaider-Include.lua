@@ -178,7 +178,7 @@ function init_include()
     state.SongMode = M{['description']='Song Mode', 'Potency', 'Dummy', 'MiracleCheer'}
 
     -- Other Modes
-    state.TreasureHunterMode = M{['description'] = 'Treasure Hunter Mode', 'None', 'Tag', 'SATA', 'Fulltime'}
+    state.TreasureHunterMode = M{['description'] = 'Treasure Hunter Mode', 'None', 'Tag', 'Fulltime'}
 
     -- TH bookkeeping
     -- tagged_mobs: id -> last-action-time. Mob is "TH'd."

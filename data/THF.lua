@@ -1,4 +1,5 @@
 function job_setup()
+    state.TreasureHunterMode:options('None', 'Tag', 'SATA', 'Fulltime')
     state.TreasureHunterMode:set('Tag')
 
     state.Buff['Sneak Attack'] = buffactive['Sneak Attack'] or false

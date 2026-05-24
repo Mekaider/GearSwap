@@ -1,4 +1,10 @@
 function define_user_global_sets()
+    sets.TreasureHunter = {
+        -- TH+4 (cap for non-THF)
+        head="Volte Cap", -- 1
+        body="Volte Jupon", -- 2
+        hands="Volte Bracers" -- 1
+    }
     gear.left_moonlight_ring = {name="Moonlight Ring", bag="wardrobe2", priority=1}
     gear.right_moonlight_ring = {name="Moonlight Ring", bag="wardrobe4", priority=2}
     gear.left_stikini_ring = {name="Stikini Ring +1", bag="wardrobe3"}
