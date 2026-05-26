@@ -59,7 +59,7 @@ function init_gear_sets()
 
     sets.precast.FastCast = {
         main="Mpaca's Staff",
-        sub="Kaja Grip",
+        sub="Khonsu",
         range="Dunna",
         head={ name="Vanya Hood", augments={'MP+50','"Fast Cast"+10','Haste+2%',}},
         body="Agwu's Robe",

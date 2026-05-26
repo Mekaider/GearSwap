@@ -1,5 +1,5 @@
 function user_setup()
-    state.MeleeMode:options('TP', 'DT')
+    state.MeleeMode:options('TP', 'Hybrid', 'DT')
     state.WeaponMode = M{['description']='Weapon', 'Trishula', 'Naegling'}
 
     send_command('lua l pettp')
@@ -23,7 +23,7 @@ function init_gear_sets()
 
     sets.idle = {
         ammo="Staunch Tathlum +1",
-        head={ name="Nyame Helm", augments={'Path: B',}},
+        head="Peltast's Mezail +3",
         body="Sacro Breastplate",
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -47,19 +47,21 @@ function init_gear_sets()
         ammo="Coiste Bodhar",
         head="Flam. Zucchetto +2",
         body="Pelt. Plackart +3",
-        hands={ name="Acro Gauntlets", augments={'Accuracy+25','"Store TP"+6','Crit. hit damage +3%',}},
+        hands="Pel. Vambraces +3",
         legs={ name="Ptero. Brais +3", augments={'Enhances "Strafe" effect',}},
         feet="Flam. Gambieras +2",
-        neck="Anu Torque",
+        neck="Vim Torque +1",
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear="Sherida Earring",
         right_ear="Telos Earring",
         left_ring="Niqmaddu Ring",
-        right_ring="Moonlight Ring",
+        right_ring="Chirich Ring +1",
         back="Null Shawl",
     }
 
-    sets.engaged.DT = set_combine(sets.engaged, {
+    -- sets.engaged.Pet = {}
+
+    sets.engaged.Hybrid = set_combine(sets.engaged, {
         head="Hjarrandi Helm",
         neck="Loricate Torque +1",
         body="Hjarrandi Breast.",
@@ -67,13 +69,19 @@ function init_gear_sets()
         right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
     })
 
+    -- sets.engaged.Hybrid.Pet
+
+    -- sets.engaged.DT = {}
+
+    -- sets.engaged.DT.Pet = {}
+
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Weaponskill Sets --------------------------------------
     ------------------------------------------------------------------------------------------------
 
     sets.WS = {
         ammo="Knobkierrie",
-        head="Flam. Zucchetto +2",
+        head="Peltast's Mezail +3",
         body="Dagon Breast.",
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -91,7 +99,7 @@ function init_gear_sets()
 
     sets.WS['Savage Blade'] = {
         ammo="Knobkierrie",
-        head={ name="Nyame Helm", augments={'Path: B',}},
+        head="Peltast's Mezail +3",
         body={ name="Nyame Mail", augments={'Path: B',}},
         hands={ name="Nyame Gauntlets", augments={'Path: B',}},
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
@@ -109,22 +117,24 @@ function init_gear_sets()
     ---------------------------------------- JA Sets -----------------------------------------------
     ------------------------------------------------------------------------------------------------
 
-    sets.JA['Spirit Surge'] = {body="Ptero. Mail +3"}
-    sets.JA['Call Wyvern'] = {body="Ptero. Mail +3"}
-    sets.JA['Ancient Circle'] = {legs="Vishap Brais +3"}
-
-    sets.JA['Spirit Link'] = {}
-
+    sets.JA['Spirit Surge'] = {} -- {body="Ptero. Mail +3"}
+    sets.JA['Call Wyvern'] = {} -- {body="Ptero. Mail +3"}
+    sets.JA['Ancient Circle'] = {legs="Vishap Brais +2"}
+    sets.JA['Spirit Link'] = {hands="Pel. Vambraces +3"}
     sets.JA['Steady Wing'] = {}
-
-    sets.JA['Jump'] = {}
-
-    sets.JA['High Jump'] = sets.JA['Jump']
-    sets.JA['Spirit Jump'] = sets.JA['Jump']
-    sets.JA['Soul Jump'] = set_combine(sets.JA['Jump'], {body="Vishap Mail +3", hands="Emi. Gauntlets +1", legs=gear.Valo_STP_legs})
+    sets.JA['Jump'] = set_combine(sets.engaged, {
+        body="Vishap Mail +2",
+        hands="Vis. Fng. Gaunt. +2",
+        legs="Ptero. Brais +3",
+    })
+    sets.JA['High Jump'] = set_combine(sets.JA['Jump'])
+    sets.JA['Soul Jump'] = set_combine(sets.JA['Jump'])
+    sets.JA['Spirit Jump'] = set_combine(sets.JA['Jump'], {feet="Pelt. Schyn. +3"})
     sets.JA['Super Jump'] = {}
-
-    sets.JA['Angon'] = {ammo="Angon", hands="Ptero. Fin. G. +3"}
+    sets.JA['Angon'] = {
+        ammo="Angon",
+        -- hands="Ptero. Fin. G. +3"
+    }
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Magic Precast Sets ------------------------------------

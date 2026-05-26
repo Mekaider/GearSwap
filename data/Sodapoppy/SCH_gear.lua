@@ -3,7 +3,7 @@ function user_setup() end
 function init_gear_sets()
     sets.idle = {
         main="Mpaca's Staff",
-        sub="Kaja Grip",
+        sub="Khonsu",
         ammo="Staunch Tathlum +1",
         head="Null Masque",
         body="Shamash Robe",
@@ -61,7 +61,7 @@ function init_gear_sets()
         --    /RDM --15
 		ammo="Incantor Stone",
 		main={ name="Musa", augments={'Path: C',}}, -- 10
-        sub="Kaja Grip",
+        sub="Khonsu",
         head={ name="Vanya Hood", augments={'MP+50','"Fast Cast"+10','Haste+2%',}},
 		body="Agwu's Robe",
 		hands="Acad. Bracers +2",
@@ -81,7 +81,7 @@ function init_gear_sets()
 
     sets.midcast.Cure = {
         main={ name="Musa", augments={'Path: C',}},
-        sub="Kaja Grip",
+        sub="Khonsu",
         ammo="Pemphredo Tathlum",
         head="Kaykaus Mitra +1",
         body={ name="Peda. Gown +2", augments={'Enhances "Enlightenment" effect',}},
@@ -99,7 +99,7 @@ function init_gear_sets()
 
     sets.midcast.Cure.Weather = set_combine(sets.midcast.Cure, {
         main="Chatoyant Staff",
-        sub="Kaja Grip",
+        sub="Khonsu",
         waist="Hachirin-no-Obi"
     })
 
@@ -118,7 +118,7 @@ function init_gear_sets()
 
     sets.midcast['Enhancing Magic'] = {
         main={ name="Musa", augments={'Path: C',}},
-        sub="Kaja Grip",
+        sub="Khonsu",
         head={ name="Telchine Cap", augments={'Enh. Mag. eff. dur. +10',}},
         -- body="Peda. Gown +2",
         body={ name="Telchine Chas.", augments={'Enh. Mag. eff. dur. +10',}},
@@ -217,7 +217,7 @@ function init_gear_sets()
 
     sets.midcast.Stun = {
         main="Mpaca's Staff",
-        sub="Kaja Grip",
+        sub="Khonsu",
         ammo="Pemphredo Tathlum",
         head="Acad. Mortar. +2",
         body="Arbatel Gown +2",
@@ -235,7 +235,7 @@ function init_gear_sets()
 
     sets.midcast.Stun['Dark Arts'] = set_combine(sets.midcast.Stun, {
         main="Mpaca's Staff",
-        sub="Kaja Grip",
+        sub="Khonsu",
         ammo="Pemphredo Tathlum",
         head="Acad. Mortar. +2",
         body="Arbatel Gown +2",
@@ -277,7 +277,7 @@ function init_gear_sets()
 
     sets.midcast['Elemental Magic'].Immanence = {
         main="Malignance Pole",
-        sub="Kaja Grip",
+        sub="Khonsu",
         ammo="Staunch Tathlum +1",
         head={ name="Vanya Hood", augments={'MP+50','"Fast Cast"+10','Haste+2%',}},
         body={ name="Vanya Robe", augments={'MP+50','"Cure" potency +7%','Enmity-6',}},
