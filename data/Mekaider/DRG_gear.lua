@@ -15,7 +15,7 @@ function init_gear_sets()
     ------------------------------------------------------------------------------------------------
 
     sets.weapons.Trishula = {main="Trishula", sub="Utu Grip"}
-    sets.weapons.Naegling = {main="Naegling"}
+    sets.weapons.Naegling = {main="Naegling", sub="Diamond Buckler"}
 
     ------------------------------------------------------------------------------------------------
     ---------------------------------------- Idle Sets ---------------------------------------------
@@ -83,7 +83,7 @@ function init_gear_sets()
         ammo="Knobkierrie",
         head="Peltast's Mezail +3",
         body="Dagon Breast.",
-        hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+        hands="Ptero. Fin. G. +4",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet="Sulev. Leggings +2",
         neck="Anu Torque",
@@ -101,7 +101,7 @@ function init_gear_sets()
         ammo="Knobkierrie",
         head="Peltast's Mezail +3",
         body={ name="Nyame Mail", augments={'Path: B',}},
-        hands={ name="Nyame Gauntlets", augments={'Path: B',}},
+        hands="Ptero. Fin. G. +4",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
         neck="Anu Torque",
@@ -131,9 +131,11 @@ function init_gear_sets()
     sets.JA['Soul Jump'] = set_combine(sets.JA['Jump'])
     sets.JA['Spirit Jump'] = set_combine(sets.JA['Jump'], {feet="Pelt. Schyn. +3"})
     sets.JA['Super Jump'] = {}
-    sets.JA['Angon'] = {
-        ammo="Angon",
-        -- hands="Ptero. Fin. G. +3"
+    sets.JA['Angon'] = {ammo="Angon", hands="Ptero. Fin. G. +4"}
+
+    sets['Healing Breath'] = {
+        head="Ptero. Armet +1",
+        legs="Vishap Brais +2"
     }
 
     ------------------------------------------------------------------------------------------------

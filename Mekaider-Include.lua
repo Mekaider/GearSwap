@@ -1063,6 +1063,15 @@ function midcast(spell)
     equip(equipSet)
 end
 
+function pet_midcast(spell)
+    local equipSet = {}
+    if job_pet_midcast then
+        equipSet = set_combine(equipSet, job_pet_midcast(spell))
+    end
+
+    equip(equipSet)
+end
+
 function aftercast(spell)
     if state.Buff[spell.english] ~= nil then
         state.Buff[spell.english] = not spell.interrupted or buffactive[spell.english] or false
@@ -1074,6 +1083,10 @@ function aftercast(spell)
     else
         equip(select_set())
     end
+end
+
+function pet_aftercast(spell)
+    equip(select_set())
 end
 
 function status_change(new, old)
