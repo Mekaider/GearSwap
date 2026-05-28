@@ -52,8 +52,8 @@ function init_gear_sets()
         feet="Flam. Gambieras +2",
         neck="Vim Torque +1",
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
-        left_ear="Sherida Earring",
-        right_ear="Telos Earring",
+        left_ear="Telos Earring",
+        right_ear="Sherida Earring",
         left_ring="Niqmaddu Ring",
         right_ring="Chirich Ring +1",
         back="Null Shawl",
@@ -82,20 +82,54 @@ function init_gear_sets()
     sets.WS = {
         ammo="Knobkierrie",
         head="Peltast's Mezail +3",
-        body="Dagon Breast.",
+        body={ name="Nyame Mail", augments={'Path: B',}},
         hands="Ptero. Fin. G. +4",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
-        feet="Sulev. Leggings +2",
-        neck="Anu Torque",
-        waist="Soil Belt",
-        left_ear="Sherida Earring",
-        right_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
-        left_ring="Niqmaddu Ring",
+        feet={ name="Nyame Sollerets", augments={'Path: B',}},
+        neck="Rep. Plat. Medal",
+        waist={ name="Sailfi Belt +1", augments={'Path: A',}},
+        left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
+        right_ear="Thrud Earring",
+        left_ring="Epaminondas's Ring",
         right_ring="Regal Ring",
-        back={ name="Brigantia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
+        back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
-    -- sets.WS['Stardiver'] = {}
+    sets.WS['Stardiver'] = {
+        main="Trishula",
+        sub="Utu Grip",
+        ammo="Coiste Bodhar",
+        head="Ptero. Armet +3",
+        body="Nyame Mail",
+        hands="Pel. Vambraces +3",
+        legs="Nyame Flanchard",
+        feet="Nyame Sollerets",
+        neck="Rep. Plat. Medal",
+        waist="Soil Belt",
+        left_ear="Moonshade Earring",
+        right_ear="Sherida Earring",
+        left_ring="Niqmaddu Ring",
+        right_ring="Sroda Ring",
+        back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
+    }
+
+    sets.WS['Leg Sweep'] = {
+        ammo="Pemphredo Tathlum",
+        head="Peltast's Mezail +3",
+        body="Pelt. Plackart +3",
+        hands="Pel. Vambraces +3",
+        legs="Pelt. Cuissots +3",
+        feet="Pelt. Schyn. +3",
+        neck="Null Loop",
+        waist="Null Belt",
+        left_ear="Moonshade Earring",
+        right_ear={ name="Pel. Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+11','Mag. Acc.+11','Crit.hit rate+3',}},
+        left_ring="Niqmaddu Ring",
+        right_ring="Regal Ring",
+        back="Null Shawl",
+    }
+
+    sets.WS['Flat Blade'] = set_combine(sets.WS['Leg Sweep'])
 
     sets.WS['Savage Blade'] = {
         ammo="Knobkierrie",
@@ -104,13 +138,13 @@ function init_gear_sets()
         hands="Ptero. Fin. G. +4",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet={ name="Nyame Sollerets", augments={'Path: B',}},
-        neck="Anu Torque",
+        neck="Rep. Plat. Medal",
         waist={ name="Sailfi Belt +1", augments={'Path: A',}},
         left_ear={ name="Moonshade Earring", augments={'"Mag.Atk.Bns."+4','TP Bonus +250',}},
         right_ear="Thrud Earring",
         left_ring="Epaminondas's Ring",
         right_ring="Regal Ring",
-        back={ name="Brigantia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
+        back={ name="Brigantia's Mantle", augments={'STR+20','Accuracy+20 Attack+20','STR+10','Weapon skill damage +10%','Phys. dmg. taken-10%',}},
     }
 
     ------------------------------------------------------------------------------------------------
@@ -134,7 +168,7 @@ function init_gear_sets()
     sets.JA['Angon'] = {ammo="Angon", hands="Ptero. Fin. G. +4"}
 
     sets['Healing Breath'] = {
-        head="Ptero. Armet +1",
+        head="Ptero. Armet +3",
         legs="Vishap Brais +2"
     }
 
