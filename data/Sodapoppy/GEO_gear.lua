@@ -13,7 +13,7 @@ function init_gear_sets()
         range="Dunna",
         head="Null Masque",
         body="Shamash Robe",
-        hands="Bagua Mitaines +3",
+        hands="Bagua Mitaines +4",
         legs={ name="Nyame Flanchard", augments={'Path: B',}},
         feet="Azimuth Gaiters +3",
         neck="Sibyl Scarf",
@@ -52,7 +52,7 @@ function init_gear_sets()
     sets.WS = {}
 
     sets.JA['Bolster'] = {body="Bagua Tunic +3"}
-    sets.JA['Full Circle'] = {head="Azimuth Hood +3", hands="Bagua Mitaines +3"}
+    sets.JA['Full Circle'] = {head="Azimuth Hood +3", hands="Bagua Mitaines +4"}
     sets.JA['Life Cycle'] = {
         back={ name="Nantosuelta's Cape", augments={'MP+60','Eva.+20 /Mag. Eva.+20','Mag. Evasion+10','Pet: "Regen"+10','Pet: Damage taken -5%',}},
     }
@@ -89,7 +89,7 @@ function init_gear_sets()
 
     sets.midcast.Geomancy.Indi = set_combine(sets.midcast.Geomancy, {
         back={ name="Lifestream Cape", augments={'Geomancy Skill +10','Indi. eff. dur. +19','Pet: Damage taken -3%',}},
-        legs={ name="Bagua Pants +3", augments={'Enhances "Mending Halation" effect',}},
+        legs={ name="Bagua Pants +4", augments={'Enhances "Mending Halation" effect',}},
         feet="Azimuth Gaiters +3",
     })
 

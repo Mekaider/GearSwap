@@ -153,7 +153,7 @@ function init_gear_sets()
         -- hands="Fili Manchettes",
         -- legs="Inyanga Shalwar +2",
         -- feet="Brioso Slippers +4",
-        -- neck="Mnbw. Whistle +1",
+        neck="Mnbw. Whistle +1",
         -- waist="Flume Belt +1",
         -- -- left_ear={ name="Odnowa Earring +1", augments={'Path: A',}, priority=3},
         -- left_ear={ name="Etiolation Earring", priority=1}, -- 1
@@ -168,7 +168,7 @@ function init_gear_sets()
         -- hands="Fili Manchettes",
         -- legs="Inyanga Shalwar +2",
         -- feet="Brioso Slippers +4",
-        -- neck="Mnbw. Whistle +1",
+        neck="Mnbw. Whistle +1",
         -- waist="Flume Belt +1",
         -- left_ear="Regal Earring",
         -- right_ear={ name="Fili Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},      left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
@@ -182,7 +182,7 @@ function init_gear_sets()
         -- hands="Inyan. Dastanas +2",
         -- legs="Inyanga Shalwar +2",
         -- feet="Brioso Slippers +4",
-        -- neck="Mnbw. Whistle +1",
+        neck="Mnbw. Whistle +1",
         -- left_ear={ name="Etiolation Earring", priority=1}, -- 1
         -- right_ear={ name="Fili Earring +1", augments={'System: 1 ID: 1676 Val: 0','Accuracy+13','Mag. Acc.+13','Damage taken-4%',}},      left_ring={name="Moonlight Ring", bag="wardrobe1", priority=1},
         -- right_ring={name="Moonlight Ring", bag="wardrobe2", priority=2},

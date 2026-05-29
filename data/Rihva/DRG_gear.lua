@@ -100,7 +100,7 @@ function init_gear_sets()
         main="Trishula",
         sub="Utu Grip",
         ammo="Coiste Bodhar",
-        head="Ptero. Armet +3",
+        head="Ptero. Armet +4",
         body="Nyame Mail",
         hands="Pel. Vambraces +3",
         legs="Nyame Flanchard",
@@ -169,8 +169,9 @@ function init_gear_sets()
     sets.JA['Angon'] = {ammo="Angon", hands="Ptero. Fin. G. +4"}
 
     sets['Healing Breath'] = {
-        head="Ptero. Armet +3",
-        legs="Vishap Brais +2"
+        head="Ptero. Armet +4",
+        legs="Vishap Brais +2",
+        left_ring="Dreki Ring"
     }
 
     ------------------------------------------------------------------------------------------------
