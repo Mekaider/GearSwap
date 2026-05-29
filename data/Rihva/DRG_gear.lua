@@ -63,10 +63,11 @@ function init_gear_sets()
 
     sets.engaged.Hybrid = set_combine(sets.engaged, {
         head="Hjarrandi Helm",
-        neck="Loricate Torque +1",
+        -- neck="Loricate Torque +1",
         body="Hjarrandi Breast.",
-        left_ring={name="Moonlight Ring", bag="wardrobe2", priority=1},
-        right_ring={name="Moonlight Ring", bag="wardrobe4", priority=2},
+        left_ring=gear.left_moonlight_ring,
+        right_ring=gear.right_moonlight_ring,
+        back={ name="Brigantia's Mantle", augments={'DEX+20','Accuracy+20 Attack+20','Accuracy+10','"Dbl.Atk."+10','Phys. dmg. taken-10%',}},
     })
 
     -- sets.engaged.Hybrid.Pet
