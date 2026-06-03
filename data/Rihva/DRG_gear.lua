@@ -171,7 +171,9 @@ function init_gear_sets()
     sets['Healing Breath'] = {
         head="Ptero. Armet +4",
         legs="Vishap Brais +2",
-        left_ring="Dreki Ring"
+        left_ring="Dreki Ring",
+        right_ear="Peltast's Earring +1",
+        back={ name="Updraft Mantle", augments={'STR+3','Pet: Breath+10','Pet: Damage taken -1%','Weapon skill damage +1%',}},
     }
 
     ------------------------------------------------------------------------------------------------
