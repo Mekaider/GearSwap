@@ -71,7 +71,7 @@ function init_gear_sets()
         neck="Shulmanu Collar",
         waist="Moonbow Belt +1",
         left_ear="Schere Earring",
-        right_ear="Dedition Earring",
+        right_ear="Kara. Earring +1",
         left_ring="Niqmaddu Ring",
         right_ring="Epona's Ring",
         back="Null Shawl"
@@ -86,7 +86,7 @@ function init_gear_sets()
         neck="Loricate Torque +1",
         waist="Moonbow Belt +1",
         left_ear="Schere Earring",
-        right_ear="Dedition Earring",
+        right_ear="Kara. Earring +1",
         left_ring = "Murky Ring",
         right_ring="Niqmaddu Ring",
         back="Null Shawl"

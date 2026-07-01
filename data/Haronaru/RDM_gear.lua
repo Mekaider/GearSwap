@@ -141,11 +141,11 @@ function init_gear_sets()
 
     sets.JA = {}
 
-    sets.JA.Chainspell = {body={ name="Viti. Tabard +3", augments={'Enhances "Chainspell" effect',}}}
+    sets.JA.Chainspell = {body={ name="Viti. Tabard +4", augments={'Enhances "Chainspell" effect',}}}
 
     sets.precast.FastCast = {
         head="Atro. Chapeau +4",
-        body={ name="Viti. Tabard +3", augments={'Enhances "Chainspell" effect',}},
+        body={ name="Viti. Tabard +4", augments={'Enhances "Chainspell" effect',}},
         neck="Voltsurge Torque",
         waist="Embla Sash",
         left_ear="Malignance Earring",
@@ -182,7 +182,7 @@ function init_gear_sets()
         main={ name="Colada", augments={'Enh. Mag. eff. dur. +4','MND+1','"Mag.Atk.Bns."+14','DMG:+6',}},
         sub="Ammurapi Shield",
 		-- ammo="Staunch Tathlum",
-		body={ name="Viti. Tabard +3", augments={'Enhances "Chainspell" effect',}},
+		body={ name="Viti. Tabard +4", augments={'Enhances "Chainspell" effect',}},
         hands="Atrophy Gloves +2",
         feet="Leth. Houseaux +3",
 		neck="Dls. Torque +2", --25
@@ -194,7 +194,7 @@ function init_gear_sets()
     }
 
     sets.midcast['Enhancing Magic'].Skill = set_combine(sets.midcast['Enhancing Magic'], {
-        body="Viti. Tabard +3",
+        body="Viti. Tabard +4",
         -- hands="Viti. Gloves +3",
         legs="Atrophy Tights",
         feet="Leth. Houseaux +3",
@@ -218,19 +218,19 @@ function init_gear_sets()
 
     sets.midcast.Refresh = set_combine(sets.midcast['Enhancing Magic'], {
         head="Amalric Coif +1", -- +1
-        body="Atrophy Tabard +3", -- +3
+        body="Atrophy Tabard +4", -- +3
         legs="Leth. Fuseau +3", -- +3
     })
 
     sets.midcast.Refresh.Composure = set_combine(sets.midcast['Enhancing Magic'].Composure, {
         head="Amalric Coif +1", -- +1
-        body="Atrophy Tabard +3", -- +3
+        body="Atrophy Tabard +4", -- +3
         legs="Leth. Fuseau +3", -- +3
     })
 
     sets.midcast.Refresh.Composure.Others = set_combine(sets.midcast['Enhancing Magic'].Composure.Others, {
         head="Amalric Coif +1", -- +1
-        body="Atrophy Tabard +3", -- +3
+        body="Atrophy Tabard +4", -- +3
         legs="Leth. Fuseau +3", -- +3
     })
 
@@ -242,7 +242,7 @@ function init_gear_sets()
         sub="Ammurapi Shield",
         ammo="Regal Gem",
         head={ name="Viti. Chapeau +4", augments={'Enfeebling Magic duration','Magic Accuracy',}},
-        body="Atrophy Tabard +3",
+        body="Atrophy Tabard +4",
         hands="Leth. Ganth. +3",
         legs="Leth. Fuseau +3",
         feet="Viti. Boots +4",
