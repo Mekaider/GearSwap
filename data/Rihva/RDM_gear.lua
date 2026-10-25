@@ -120,15 +120,52 @@ function init_gear_sets()
 
     -- sets.midcast.Cursna = {}
 
-    sets.midcast['Enhancing Magic'] = {}
+    sets.midcast['Enhancing Magic'] = {
+        main={ name="Colada", augments={'Enh. Mag. eff. dur. +4','MND+1',}},
+        sub="Ammurapi Shield",
+        neck="Dls. Torque +2",
+    }
 
-    sets.midcast['Enhancing Magic'].Skill = set_combine(sets.midcast['Enhancing Magic'], {})
+    sets.midcast['Enhancing Magic'].Skill = set_combine(sets.midcast['Enhancing Magic'], {
+        body="Viti. Tabard +4",
+        -- hands="Viti. Gloves +3",
+        legs="Atrophy Tights",
+        feet="Leth. Houseaux +3",
+    })
 
-    sets.midcast['Enhancing Magic'].Composure = sets.midcast['Enhancing Magic']
+    sets.midcast['Enhancing Magic'].Composure = set_combine(sets.midcast['Enhancing Magic'], {})
+    sets.midcast['Enhancing Magic'].Composure.Others = set_combine(sets.midcast['Enhancing Magic'], {
+        head="Leth. Chappel +3",
+        body="Lethargy Sayon +3",
+        legs="Leth. Fuseau +3",
+        feet="Leth. Houseaux +3",
+    })
 
-    sets.midcast['Enhancing Magic'].Composure.Others = set_combine(sets.midcast['Enhancing Magic'], {})
+    sets.midcast.Aquaveil = set_combine(sets.midcast['Enhancing Magic'], {
+        head="Amalric Coif +1",
+    })
 
-    sets.midcast.Refresh = {}
+    sets.midcast.Aquaveil.Composure = set_combine(sets.midcast['Enhancing Magic'].Composure, {
+        head="Amalric Coif +1",
+    })
+
+    sets.midcast.Refresh = set_combine(sets.midcast['Enhancing Magic'], {
+        head="Amalric Coif +1", -- +1
+        body="Atrophy Tabard +4", -- +3
+        legs="Leth. Fuseau +3", -- +3
+    })
+
+    sets.midcast.Refresh.Composure = set_combine(sets.midcast['Enhancing Magic'].Composure, {
+        head="Amalric Coif +1", -- +1
+        body="Atrophy Tabard +4", -- +3
+        legs="Leth. Fuseau +3", -- +3
+    })
+
+    sets.midcast.Refresh.Composure.Others = set_combine(sets.midcast['Enhancing Magic'].Composure.Others, {
+        head="Amalric Coif +1", -- +1
+        body="Atrophy Tabard +4", -- +3
+        legs="Leth. Fuseau +3", -- +3
+    })
 
     -- sets.midcast.BarElement = {}
 
