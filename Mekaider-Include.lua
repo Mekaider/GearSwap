@@ -810,7 +810,7 @@ function precast(spell)
 
     -- enforce WeaponMode, even over gear sets, if WeaponLock is true
     if state.WeaponLock.value then
-        equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
+        equipSet = set_combine(equipSet, get_weapon_set())
     end
 
     if job_precast then
@@ -1032,7 +1032,7 @@ function midcast(spell)
 
     -- enforce WeaponMode, even over gear sets, if WeaponLock is true
     if state.WeaponLock.value and not state.Buff['Troubadour'] then
-        equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
+        equipSet = set_combine(equipSet, get_weapon_set())
     end
 
     log(message)
@@ -1102,8 +1102,6 @@ function select_idle_set()
     equipSet = sets.idle
     message = 'sets.idle'
 
-    local weapon_set = state.WeaponMode.value ~= 'Unlocked' and sets.weapons[state.WeaponMode.value] or {}
-
     if pet.isvalid and equipSet.Pet then
         equipSet = equipSet.Pet
         message = 'sets.idle (pet)'
@@ -1132,21 +1130,7 @@ function select_idle_set()
         equipSet = set_combine(equipSet, sets.buff['Sublimation: Activated'])
     end
 
-    if state.WeaponMode.value ~= 'Unlocked' then
-        equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
-        check_stance(equipSet)
-
-        -- PLD specific handling for multiple shield options
-        if state.ShieldMode.value ~= 'off' then
-            equip({ sub = state.ShieldMode.value })
-        end
-
-        -- equip a default shield if defined and not DualWield or TwoHand
-        if sets.weapons.Shield and state.Stance.value ~= 'DualWield' and state.Stance.value ~= 'TwoHand' then
-            equipSet = set_combine(equipSet, sets.weapons.Shield)
-        end
-        -- add_to_chat(123, state.Stance.value)
-    end
+    equipSet = set_combine(equipSet, get_weapon_set())
 
     log(message)
     gs_display_update()
@@ -1190,20 +1174,8 @@ function select_melee_set()
         end
     end
 
-    if state.WeaponMode.value ~= 'Unlocked' then
-        equipSet = set_combine(equipSet, sets.weapons[state.WeaponMode.value])
-
-        -- PLD specific handling for multiple shield options
-        if state.ShieldMode.value ~= 'off' then
-            equipSet = set_combine(equipSet, { sub = state.ShieldMode.value })
-        end
-
-        -- equip a default shield if defined and not DualWield or TwoHand
-        if sets.weapons.Shield and state.Stance.value ~= 'DualWield' and state.Stance.value ~= 'TwoHand' then
-            equipSet = set_combine(equipSet, sets.weapons.Shield)
-        end
-        -- todo: probably something about default shield, e.g. COR, RNG
-    end
+    -- todo: probably something about default shield, e.g. COR, RNG
+    equipSet = set_combine(equipSet, get_weapon_set())
 
     equipSet = th_apply_to_melee(equipSet)
 
@@ -1857,6 +1829,27 @@ function check_stance(set)
         state.Stance:set('DualWield')
     end
     log('stance: ' .. state.Stance.value)
+end
+
+function get_weapon_set()
+    if state.WeaponMode.value == 'Unlocked' then
+        return {}
+    end
+
+    local weapon_set = sets.weapons[state.WeaponMode.value] or {}
+    check_stance(weapon_set)
+
+    -- PLD specific handling for multiple shield options
+    if state.ShieldMode.value ~= 'off' then
+        weapon_set = set_combine(weapon_set, { sub = state.ShieldMode.value })
+    end
+
+    -- equip a default shield if defined and not DualWield or TwoHand
+    if sets.weapons.Shield and state.Stance.value ~= 'DualWield' and state.Stance.value ~= 'TwoHand' then
+        weapon_set = set_combine(weapon_set, sets.weapons.Shield)
+    end
+
+    return weapon_set
 end
 
 function sub_job_change(new, old)
